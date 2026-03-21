@@ -1,0 +1,40 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+
+# Next.js
+frontend/.next/
+frontend/out/
+
+# Environment
+.env
+.env.local
+.env*.local
+frontend/.env.local
+
+# Build
+frontend/.vercel
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Misc
+*.zip
+*.pdf
+*.pptx
+*.pdf.txt
+
+# WordPress uploads (managed in production)
+wordpress/uploads/
+
+# Claude
+.claude/

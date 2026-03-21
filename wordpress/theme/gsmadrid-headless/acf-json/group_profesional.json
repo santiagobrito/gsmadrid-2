@@ -1,0 +1,364 @@
+[
+    {
+        "key": "group_profesional",
+        "title": "Profesional",
+        "fields": [
+            {
+                "key": "field_profesional_numero_colegiado",
+                "label": "N\u00famero de colegiado",
+                "name": "numero_colegiado",
+                "aria-label": "",
+                "type": "text",
+                "instructions": "N\u00famero de colegiaci\u00f3n del profesional",
+                "required": 1,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "show_in_graphql": 1,
+                "default_value": "",
+                "maxlength": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": ""
+            },
+            {
+                "key": "field_profesional_nombre_completo",
+                "label": "Nombre completo",
+                "name": "nombre_completo",
+                "aria-label": "",
+                "type": "text",
+                "instructions": "Nombre y apellidos del profesional",
+                "required": 1,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "show_in_graphql": 1,
+                "default_value": "",
+                "maxlength": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": ""
+            },
+            {
+                "key": "field_profesional_foto",
+                "label": "Foto",
+                "name": "foto",
+                "aria-label": "",
+                "type": "image",
+                "instructions": "Foto del profesional",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "show_in_graphql": 1,
+                "return_format": "array",
+                "library": "all",
+                "min_width": "",
+                "min_height": "",
+                "min_size": "",
+                "max_width": "",
+                "max_height": "",
+                "max_size": "",
+                "mime_types": "jpg,jpeg,png,webp",
+                "preview_size": "medium"
+            },
+            {
+                "key": "field_profesional_despacho",
+                "label": "Despacho",
+                "name": "despacho",
+                "aria-label": "",
+                "type": "text",
+                "instructions": "Nombre del despacho profesional",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "show_in_graphql": 1,
+                "default_value": "",
+                "maxlength": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": ""
+            },
+            {
+                "key": "field_profesional_direccion",
+                "label": "Direcci\u00f3n",
+                "name": "direccion",
+                "aria-label": "",
+                "type": "text",
+                "instructions": "Direcci\u00f3n postal del despacho",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "70",
+                    "class": "",
+                    "id": ""
+                },
+                "show_in_graphql": 1,
+                "default_value": "",
+                "maxlength": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": ""
+            },
+            {
+                "key": "field_profesional_codigo_postal",
+                "label": "C\u00f3digo postal",
+                "name": "codigo_postal",
+                "aria-label": "",
+                "type": "text",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "30",
+                    "class": "",
+                    "id": ""
+                },
+                "show_in_graphql": 1,
+                "default_value": "",
+                "maxlength": 10,
+                "placeholder": "",
+                "prepend": "",
+                "append": ""
+            },
+            {
+                "key": "field_profesional_telefono",
+                "label": "Tel\u00e9fono",
+                "name": "telefono",
+                "aria-label": "",
+                "type": "text",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "33",
+                    "class": "",
+                    "id": ""
+                },
+                "show_in_graphql": 1,
+                "default_value": "",
+                "maxlength": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": ""
+            },
+            {
+                "key": "field_profesional_email",
+                "label": "Email",
+                "name": "email",
+                "aria-label": "",
+                "type": "email",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "33",
+                    "class": "",
+                    "id": ""
+                },
+                "show_in_graphql": 1,
+                "default_value": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": ""
+            },
+            {
+                "key": "field_profesional_web",
+                "label": "Web",
+                "name": "web",
+                "aria-label": "",
+                "type": "url",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "33",
+                    "class": "",
+                    "id": ""
+                },
+                "show_in_graphql": 1,
+                "default_value": "",
+                "placeholder": "https://"
+            },
+            {
+                "key": "field_profesional_linkedin",
+                "label": "LinkedIn",
+                "name": "linkedin",
+                "aria-label": "",
+                "type": "url",
+                "instructions": "URL del perfil de LinkedIn",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "show_in_graphql": 1,
+                "default_value": "",
+                "placeholder": "https://linkedin.com/in/"
+            },
+            {
+                "key": "field_profesional_bio",
+                "label": "Biograf\u00eda",
+                "name": "bio",
+                "aria-label": "",
+                "type": "wysiwyg",
+                "instructions": "Biograf\u00eda profesional",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "show_in_graphql": 1,
+                "default_value": "",
+                "tabs": "all",
+                "toolbar": "full",
+                "media_upload": 0,
+                "delay": 0
+            },
+            {
+                "key": "field_profesional_ejerciente",
+                "label": "Ejerciente",
+                "name": "ejerciente",
+                "aria-label": "",
+                "type": "true_false",
+                "instructions": "Indica si el profesional est\u00e1 en ejercicio",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "25",
+                    "class": "",
+                    "id": ""
+                },
+                "show_in_graphql": 1,
+                "default_value": 0,
+                "message": "",
+                "ui": 1,
+                "ui_on_text": "S\u00ed",
+                "ui_off_text": "No"
+            },
+            {
+                "key": "field_profesional_idiomas",
+                "label": "Idiomas",
+                "name": "idiomas",
+                "aria-label": "",
+                "type": "text",
+                "instructions": "Idiomas que maneja (separados por coma)",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "25",
+                    "class": "",
+                    "id": ""
+                },
+                "show_in_graphql": 1,
+                "default_value": "",
+                "maxlength": "",
+                "placeholder": "Espa\u00f1ol, Ingl\u00e9s",
+                "prepend": "",
+                "append": ""
+            },
+            {
+                "key": "field_profesional_acepta_turno_oficio",
+                "label": "Acepta turno de oficio",
+                "name": "acepta_turno_oficio",
+                "aria-label": "",
+                "type": "true_false",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "25",
+                    "class": "",
+                    "id": ""
+                },
+                "show_in_graphql": 1,
+                "default_value": 0,
+                "message": "",
+                "ui": 1,
+                "ui_on_text": "S\u00ed",
+                "ui_off_text": "No"
+            },
+            {
+                "key": "field_profesional_mediador_registrado",
+                "label": "Mediador registrado",
+                "name": "mediador_registrado",
+                "aria-label": "",
+                "type": "true_false",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "25",
+                    "class": "",
+                    "id": ""
+                },
+                "show_in_graphql": 1,
+                "default_value": 0,
+                "message": "",
+                "ui": 1,
+                "ui_on_text": "S\u00ed",
+                "ui_off_text": "No"
+            },
+            {
+                "key": "field_profesional_visible_directorio",
+                "label": "Visible en directorio",
+                "name": "visible_directorio",
+                "aria-label": "",
+                "type": "true_false",
+                "instructions": "Si est\u00e1 activo, el profesional aparece en el directorio p\u00fablico",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "25",
+                    "class": "",
+                    "id": ""
+                },
+                "show_in_graphql": 1,
+                "default_value": 1,
+                "message": "",
+                "ui": 1,
+                "ui_on_text": "S\u00ed",
+                "ui_off_text": "No"
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "profesional"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": true,
+        "description": "Campos personalizados para el CPT Profesional (directorio de colegiados)",
+        "show_in_rest": 1,
+        "show_in_graphql": 1,
+        "graphql_field_name": "profesionalFields",
+        "map_graphql_types_from_location_rules": 1,
+        "modified": 1711000000
+    }
+]

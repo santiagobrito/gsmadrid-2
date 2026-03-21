@@ -1,0 +1,111 @@
+[
+    {
+        "key": "group_post_extra",
+        "title": "Campos extra del post",
+        "fields": [
+            {
+                "key": "field_post_extra_subtitulo",
+                "label": "Subt\u00edtulo",
+                "name": "subtitulo",
+                "aria-label": "",
+                "type": "text",
+                "instructions": "Subt\u00edtulo o entradilla del post",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "show_in_graphql": 1,
+                "default_value": "",
+                "maxlength": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": ""
+            },
+            {
+                "key": "field_post_extra_documento_adjunto",
+                "label": "Documento adjunto",
+                "name": "documento_adjunto",
+                "aria-label": "",
+                "type": "file",
+                "instructions": "Documento adjunto al post (PDF, DOC, etc.)",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "show_in_graphql": 1,
+                "return_format": "array",
+                "library": "all",
+                "min_size": "",
+                "max_size": "",
+                "mime_types": "pdf,doc,docx,xls,xlsx"
+            },
+            {
+                "key": "field_post_extra_fuente_externa",
+                "label": "Fuente externa",
+                "name": "fuente_externa",
+                "aria-label": "",
+                "type": "url",
+                "instructions": "URL de la fuente original si es una noticia externa",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "show_in_graphql": 1,
+                "default_value": "",
+                "placeholder": "https://"
+            },
+            {
+                "key": "field_post_extra_es_destacada",
+                "label": "Es destacada",
+                "name": "es_destacada",
+                "aria-label": "",
+                "type": "true_false",
+                "instructions": "Marcar para destacar este post en la portada",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "show_in_graphql": 1,
+                "default_value": 0,
+                "message": "",
+                "ui": 1,
+                "ui_on_text": "S\u00ed",
+                "ui_off_text": "No"
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "post"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": true,
+        "description": "Campos adicionales para los posts est\u00e1ndar de WordPress",
+        "show_in_rest": 1,
+        "show_in_graphql": 1,
+        "graphql_field_name": "postExtraFields",
+        "map_graphql_types_from_location_rules": 1,
+        "modified": 1711000000
+    }
+]

@@ -1,0 +1,1319 @@
+[
+  {
+    "id": "sec-hero",
+    "elType": "container",
+    "settings": {
+      "content_width": "full",
+      "flex_direction": "column",
+      "flex_justify_content": "center",
+      "min_height": {"unit": "vh", "size": 88},
+      "padding": {"unit": "px", "top": "120", "right": "64", "bottom": "96", "left": "64", "isLinked": false},
+      "padding_mobile": {"unit": "px", "top": "80", "right": "20", "bottom": "48", "left": "20", "isLinked": false},
+      "background_background": "gradient",
+      "background_color": "#FFFFFF",
+      "background_color_b": "#F0F4F8",
+      "background_gradient_angle": {"unit": "deg", "size": 135},
+      "background_gradient_type": "linear",
+      "border_border": "solid",
+      "border_width": {"unit": "px", "top": "0", "right": "0", "bottom": "1", "left": "0", "isLinked": false},
+      "border_color": "#E2E8F0"
+    },
+    "elements": [
+      {
+        "id": "hero-breadcrumb",
+        "elType": "widget",
+        "widgetType": "text-editor",
+        "settings": {
+          "editor": "<p class=\"breadcrumb\" style=\"font-size:12px;font-weight:600;color:#6B7280;letter-spacing:0.08em;margin-bottom:20px;\"><a href=\"/\" style=\"color:#6B7280;text-decoration:none;\">Inicio</a> <span style=\"margin:0 6px;\">›</span> <a href=\"/servicios-ciudadano/\" style=\"color:#6B7280;text-decoration:none;\">Servicios Ciudadano</a> <span style=\"margin:0 6px;\">›</span> <span style=\"color:#2563EB;\">Clínica Jurídica</span></p>"
+        }
+      },
+      {
+        "id": "hero-badge",
+        "elType": "widget",
+        "widgetType": "text-editor",
+        "settings": {
+          "editor": "<span style=\"display:inline-block;background:rgba(37,99,235,0.10);color:#2563EB;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:5px 14px;border-radius:999px;margin-bottom:24px;\">Servicios Ciudadano</span>"
+        }
+      },
+      {
+        "id": "hero-h1",
+        "elType": "widget",
+        "widgetType": "heading",
+        "settings": {
+          "title": "Clínica Jurídica Gratuita",
+          "header_size": "h1",
+          "typography_typography": "custom",
+          "typography_font_family": "Plus Jakarta Sans",
+          "typography_font_size": {"unit": "px", "size": 36},
+          "typography_font_weight": "800",
+          "typography_letter_spacing": {"unit": "em", "size": -0.02},
+          "typography_line_height": {"unit": "em", "size": 1.15},
+          "title_color": "#0F172A",
+          "max_width": {"unit": "px", "size": 620},
+          "_margin": {"unit": "px", "top": "0", "right": "0", "bottom": "16", "left": "0", "isLinked": false}
+        }
+      },
+      {
+        "id": "hero-accent-line",
+        "elType": "widget",
+        "widgetType": "divider",
+        "settings": {
+          "style": "solid",
+          "weight": {"unit": "px", "size": 3},
+          "width": {"unit": "px", "size": 60},
+          "align": "left",
+          "color": "#2563EB",
+          "gap": {"unit": "px", "size": 24},
+          "_custom_css": "selector .elementor-divider-separator { background: linear-gradient(90deg, #2F5BEA 0%, #18B7B0 100%) !important; border: none !important; height: 3px !important; }"
+        }
+      },
+      {
+        "id": "hero-intro",
+        "elType": "widget",
+        "widgetType": "text-editor",
+        "settings": {
+          "editor": "<p style=\"font-size:16px;font-weight:300;color:#475569;max-width:520px;line-height:1.6;margin:0;\">Asesoramiento jurídico laboral gratuito para personas y colectivos en situación de vulnerabilidad. Un compromiso del Colegio con la sociedad, en colaboración con las principales universidades de Madrid.</p>",
+          "_margin": {"unit": "px", "top": "0", "right": "0", "bottom": "0", "left": "0", "isLinked": false}
+        }
+      }
+    ]
+  },
+
+  {
+    "id": "sec-que-es",
+    "elType": "container",
+    "settings": {
+      "content_width": "boxed",
+      "content_width_default": {"unit": "px", "size": 1200},
+      "flex_direction": "column",
+      "padding": {"unit": "px", "top": "72", "right": "64", "bottom": "72", "left": "64", "isLinked": false},
+      "padding_tablet": {"unit": "px", "top": "56", "right": "32", "bottom": "56", "left": "32", "isLinked": false},
+      "padding_mobile": {"unit": "px", "top": "48", "right": "20", "bottom": "48", "left": "20", "isLinked": false},
+      "background_background": "classic",
+      "background_color": "#FFFFFF"
+    },
+    "elements": [
+      {
+        "id": "que-es-h2",
+        "elType": "widget",
+        "widgetType": "heading",
+        "settings": {
+          "title": "Derecho laboral al alcance de quien más lo necesita",
+          "header_size": "h2",
+          "typography_typography": "custom",
+          "typography_font_family": "Plus Jakarta Sans",
+          "typography_font_size": {"unit": "px", "size": 28},
+          "typography_font_weight": "700",
+          "typography_line_height": {"unit": "em", "size": 1.25},
+          "title_color": "#0F172A",
+          "max_width": {"unit": "px", "size": 780},
+          "_margin": {"unit": "px", "top": "0", "right": "0", "bottom": "24", "left": "0", "isLinked": false}
+        }
+      },
+      {
+        "id": "que-es-p1",
+        "elType": "widget",
+        "widgetType": "text-editor",
+        "settings": {
+          "editor": "<p style=\"font-size:16px;font-weight:300;color:#475569;max-width:780px;line-height:1.6;margin:0 0 16px;\">La Clínica Jurídica del Colegio Oficial de Graduados Sociales de Madrid es un servicio gratuito de asesoramiento en materia laboral y de Seguridad Social, dirigido a personas en situación de vulnerabilidad o en riesgo de exclusión social.</p><p style=\"font-size:16px;font-weight:300;color:#475569;max-width:780px;line-height:1.6;margin:0 0 32px;\">El servicio nace del compromiso social de la profesión de Graduado Social y funciona en colaboración con las universidades madrileñas, combinando la formación práctica de los estudiantes con la orientación real a ciudadanos que no pueden acceder a asesoramiento privado.</p>"
+        }
+      },
+      {
+        "id": "que-es-highlight-card",
+        "elType": "container",
+        "settings": {
+          "content_width": "full",
+          "flex_direction": "row",
+          "padding": {"unit": "px", "top": "24", "right": "24", "bottom": "24", "left": "24", "isLinked": false},
+          "background_background": "classic",
+          "background_color": "#F7F8FA",
+          "border_border": "solid",
+          "border_width": {"unit": "px", "top": "0", "right": "0", "bottom": "0", "left": "3", "isLinked": false},
+          "border_color": "#2563EB",
+          "border_radius": {"unit": "px", "top": "12", "right": "12", "bottom": "12", "left": "12", "isLinked": true},
+          "max_width": {"unit": "px", "size": 780}
+        },
+        "elements": [
+          {
+            "id": "highlight-text",
+            "elType": "widget",
+            "widgetType": "text-editor",
+            "settings": {
+              "editor": "<p style=\"font-size:15px;font-weight:400;color:#0F172A;line-height:1.6;margin:0;\">La Clínica Jurídica opera desde 2015 bajo un Protocolo de Actuación formal. Los casos se coordinan mediante convenios con universidades y se supervisan por graduados sociales colegiados ejercientes.</p>"
+            }
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "id": "sec-a-quien",
+    "elType": "container",
+    "settings": {
+      "content_width": "boxed",
+      "content_width_default": {"unit": "px", "size": 1200},
+      "flex_direction": "column",
+      "padding": {"unit": "px", "top": "72", "right": "64", "bottom": "72", "left": "64", "isLinked": false},
+      "padding_tablet": {"unit": "px", "top": "56", "right": "32", "bottom": "56", "left": "32", "isLinked": false},
+      "padding_mobile": {"unit": "px", "top": "48", "right": "20", "bottom": "48", "left": "20", "isLinked": false},
+      "background_background": "classic",
+      "background_color": "#F7F8FA"
+    },
+    "elements": [
+      {
+        "id": "a-quien-h2",
+        "elType": "widget",
+        "widgetType": "heading",
+        "settings": {
+          "title": "¿A quién va dirigida?",
+          "header_size": "h2",
+          "typography_typography": "custom",
+          "typography_font_family": "Plus Jakarta Sans",
+          "typography_font_size": {"unit": "px", "size": 28},
+          "typography_font_weight": "700",
+          "typography_line_height": {"unit": "em", "size": 1.25},
+          "title_color": "#0F172A",
+          "_margin": {"unit": "px", "top": "0", "right": "0", "bottom": "12", "left": "0", "isLinked": false}
+        }
+      },
+      {
+        "id": "a-quien-intro",
+        "elType": "widget",
+        "widgetType": "text-editor",
+        "settings": {
+          "editor": "<p style=\"font-size:16px;font-weight:300;color:#475569;max-width:780px;line-height:1.6;margin:0 0 48px;\">La Clínica Jurídica atiende a personas y colectivos que necesitan orientación laboral y no tienen acceso a asesoramiento profesional privado.</p>"
+        }
+      },
+      {
+        "id": "a-quien-cards-row",
+        "elType": "container",
+        "settings": {
+          "content_width": "full",
+          "flex_direction": "row",
+          "flex_wrap": "wrap",
+          "gap": {"unit": "px", "size": 32, "column": "32", "row": "32"}
+        },
+        "elements": [
+          {
+            "id": "card-vulnerabilidad",
+            "elType": "container",
+            "settings": {
+              "content_width": "full",
+              "flex_direction": "column",
+              "flex_basis_desktop": "calc(33.333% - 22px)",
+              "min_width": {"unit": "px", "size": 260},
+              "padding": {"unit": "px", "top": "28", "right": "28", "bottom": "28", "left": "28", "isLinked": true},
+              "background_background": "classic",
+              "background_color": "#FFFFFF",
+              "border_border": "solid",
+              "border_width": {"unit": "px", "top": "1", "right": "1", "bottom": "1", "left": "1", "isLinked": true},
+              "border_color": "#E2E8F0",
+              "border_radius": {"unit": "px", "top": "16", "right": "16", "bottom": "16", "left": "16", "isLinked": true},
+              "box_shadow_box_shadow_type": "yes",
+              "box_shadow_box_shadow": {"horizontal": 0, "vertical": 1, "blur": 2, "spread": 0, "color": "rgba(14,17,27,0.04)"},
+              "_custom_css": "selector { transition: all 0.4s ease; } selector:hover { transform: translateY(-6px); box-shadow: 0 12px 32px rgba(15,23,42,0.08) !important; }"
+            },
+            "elements": [
+              {
+                "id": "card1-icon-wrap",
+                "elType": "container",
+                "settings": {
+                  "content_width": "full",
+                  "flex_direction": "row",
+                  "flex_justify_content": "flex-start",
+                  "flex_align_items": "center",
+                  "width": {"unit": "px", "size": 44},
+                  "height": {"unit": "px", "size": 44},
+                  "background_background": "classic",
+                  "background_color": "rgba(37,99,235,0.10)",
+                  "border_radius": {"unit": "px", "top": "10", "right": "10", "bottom": "10", "left": "10", "isLinked": true},
+                  "_margin": {"unit": "px", "top": "0", "right": "0", "bottom": "20", "left": "0", "isLinked": false}
+                },
+                "elements": [
+                  {
+                    "id": "card1-icon",
+                    "elType": "widget",
+                    "widgetType": "icon",
+                    "settings": {
+                      "selected_icon": {"value": "fas fa-shield-alt", "library": "fa-solid"},
+                      "primary_color": "#2563EB",
+                      "size": {"unit": "px", "size": 22}
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "card1-h3",
+                "elType": "widget",
+                "widgetType": "heading",
+                "settings": {
+                  "title": "Personas en situación de vulnerabilidad",
+                  "header_size": "h3",
+                  "typography_typography": "custom",
+                  "typography_font_family": "Plus Jakarta Sans",
+                  "typography_font_size": {"unit": "px", "size": 17},
+                  "typography_font_weight": "700",
+                  "typography_line_height": {"unit": "em", "size": 1.3},
+                  "title_color": "#0F172A",
+                  "_margin": {"unit": "px", "top": "0", "right": "0", "bottom": "12", "left": "0", "isLinked": false}
+                }
+              },
+              {
+                "id": "card1-text",
+                "elType": "widget",
+                "widgetType": "text-editor",
+                "settings": {
+                  "editor": "<p style=\"font-size:13px;font-weight:300;color:#475569;line-height:1.6;margin:0;\">Trabajadores y trabajadoras que enfrentan situaciones de desigualdad, discriminación laboral o dificultad de acceso a servicios públicos esenciales.</p>"
+                }
+              }
+            ]
+          },
+          {
+            "id": "card-exclusion",
+            "elType": "container",
+            "settings": {
+              "content_width": "full",
+              "flex_direction": "column",
+              "flex_basis_desktop": "calc(33.333% - 22px)",
+              "min_width": {"unit": "px", "size": 260},
+              "padding": {"unit": "px", "top": "28", "right": "28", "bottom": "28", "left": "28", "isLinked": true},
+              "background_background": "classic",
+              "background_color": "#FFFFFF",
+              "border_border": "solid",
+              "border_width": {"unit": "px", "top": "1", "right": "1", "bottom": "1", "left": "1", "isLinked": true},
+              "border_color": "#E2E8F0",
+              "border_radius": {"unit": "px", "top": "16", "right": "16", "bottom": "16", "left": "16", "isLinked": true},
+              "box_shadow_box_shadow_type": "yes",
+              "box_shadow_box_shadow": {"horizontal": 0, "vertical": 1, "blur": 2, "spread": 0, "color": "rgba(14,17,27,0.04)"},
+              "_custom_css": "selector { transition: all 0.4s ease; } selector:hover { transform: translateY(-6px); box-shadow: 0 12px 32px rgba(15,23,42,0.08) !important; }"
+            },
+            "elements": [
+              {
+                "id": "card2-icon-wrap",
+                "elType": "container",
+                "settings": {
+                  "content_width": "full",
+                  "flex_direction": "row",
+                  "flex_justify_content": "center",
+                  "flex_align_items": "center",
+                  "width": {"unit": "px", "size": 44},
+                  "height": {"unit": "px", "size": 44},
+                  "background_background": "classic",
+                  "background_color": "rgba(43,212,199,0.10)",
+                  "border_radius": {"unit": "px", "top": "10", "right": "10", "bottom": "10", "left": "10", "isLinked": true},
+                  "_margin": {"unit": "px", "top": "0", "right": "0", "bottom": "20", "left": "0", "isLinked": false}
+                },
+                "elements": [
+                  {
+                    "id": "card2-icon",
+                    "elType": "widget",
+                    "widgetType": "icon",
+                    "settings": {
+                      "selected_icon": {"value": "fas fa-users", "library": "fa-solid"},
+                      "primary_color": "#2BD4C7",
+                      "size": {"unit": "px", "size": 22}
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "card2-h3",
+                "elType": "widget",
+                "widgetType": "heading",
+                "settings": {
+                  "title": "Colectivos en riesgo de exclusión",
+                  "header_size": "h3",
+                  "typography_typography": "custom",
+                  "typography_font_family": "Plus Jakarta Sans",
+                  "typography_font_size": {"unit": "px", "size": 17},
+                  "typography_font_weight": "700",
+                  "typography_line_height": {"unit": "em", "size": 1.3},
+                  "title_color": "#0F172A",
+                  "_margin": {"unit": "px", "top": "0", "right": "0", "bottom": "12", "left": "0", "isLinked": false}
+                }
+              },
+              {
+                "id": "card2-text",
+                "elType": "widget",
+                "widgetType": "text-editor",
+                "settings": {
+                  "editor": "<p style=\"font-size:13px;font-weight:300;color:#475569;line-height:1.6;margin:0;\">Personas en riesgo de exclusión social que necesitan orientación sobre sus derechos laborales, prestaciones de Seguridad Social o emprendimiento con responsabilidad social.</p>"
+                }
+              }
+            ]
+          },
+          {
+            "id": "card-sin-acceso",
+            "elType": "container",
+            "settings": {
+              "content_width": "full",
+              "flex_direction": "column",
+              "flex_basis_desktop": "calc(33.333% - 22px)",
+              "min_width": {"unit": "px", "size": 260},
+              "padding": {"unit": "px", "top": "28", "right": "28", "bottom": "28", "left": "28", "isLinked": true},
+              "background_background": "classic",
+              "background_color": "#FFFFFF",
+              "border_border": "solid",
+              "border_width": {"unit": "px", "top": "1", "right": "1", "bottom": "1", "left": "1", "isLinked": true},
+              "border_color": "#E2E8F0",
+              "border_radius": {"unit": "px", "top": "16", "right": "16", "bottom": "16", "left": "16", "isLinked": true},
+              "box_shadow_box_shadow_type": "yes",
+              "box_shadow_box_shadow": {"horizontal": 0, "vertical": 1, "blur": 2, "spread": 0, "color": "rgba(14,17,27,0.04)"},
+              "_custom_css": "selector { transition: all 0.4s ease; } selector:hover { transform: translateY(-6px); box-shadow: 0 12px 32px rgba(15,23,42,0.08) !important; }"
+            },
+            "elements": [
+              {
+                "id": "card3-icon-wrap",
+                "elType": "container",
+                "settings": {
+                  "content_width": "full",
+                  "flex_direction": "row",
+                  "flex_justify_content": "center",
+                  "flex_align_items": "center",
+                  "width": {"unit": "px", "size": 44},
+                  "height": {"unit": "px", "size": 44},
+                  "background_background": "classic",
+                  "background_color": "rgba(21,101,192,0.10)",
+                  "border_radius": {"unit": "px", "top": "10", "right": "10", "bottom": "10", "left": "10", "isLinked": true},
+                  "_margin": {"unit": "px", "top": "0", "right": "0", "bottom": "20", "left": "0", "isLinked": false}
+                },
+                "elements": [
+                  {
+                    "id": "card3-icon",
+                    "elType": "widget",
+                    "widgetType": "icon",
+                    "settings": {
+                      "selected_icon": {"value": "fas fa-compass", "library": "fa-solid"},
+                      "primary_color": "#1565C0",
+                      "size": {"unit": "px", "size": 22}
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "card3-h3",
+                "elType": "widget",
+                "widgetType": "heading",
+                "settings": {
+                  "title": "Ciudadanos sin acceso a asesoramiento",
+                  "header_size": "h3",
+                  "typography_typography": "custom",
+                  "typography_font_family": "Plus Jakarta Sans",
+                  "typography_font_size": {"unit": "px", "size": 17},
+                  "typography_font_weight": "700",
+                  "typography_line_height": {"unit": "em", "size": 1.3},
+                  "title_color": "#0F172A",
+                  "_margin": {"unit": "px", "top": "0", "right": "0", "bottom": "12", "left": "0", "isLinked": false}
+                }
+              },
+              {
+                "id": "card3-text",
+                "elType": "widget",
+                "widgetType": "text-editor",
+                "settings": {
+                  "editor": "<p style=\"font-size:13px;font-weight:300;color:#475569;line-height:1.6;margin:0;\">Cualquier persona que, por su situación económica o social, no pueda acceder a un despacho profesional y necesite orientación en materia laboral o de Seguridad Social.</p>"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "id": "sec-ambitos",
+    "elType": "container",
+    "settings": {
+      "content_width": "boxed",
+      "content_width_default": {"unit": "px", "size": 1200},
+      "flex_direction": "column",
+      "padding": {"unit": "px", "top": "72", "right": "64", "bottom": "72", "left": "64", "isLinked": false},
+      "padding_tablet": {"unit": "px", "top": "56", "right": "32", "bottom": "56", "left": "32", "isLinked": false},
+      "padding_mobile": {"unit": "px", "top": "48", "right": "20", "bottom": "48", "left": "20", "isLinked": false},
+      "background_background": "classic",
+      "background_color": "#FFFFFF"
+    },
+    "elements": [
+      {
+        "id": "ambitos-h2",
+        "elType": "widget",
+        "widgetType": "heading",
+        "settings": {
+          "title": "En qué materias podemos orientarte",
+          "header_size": "h2",
+          "typography_typography": "custom",
+          "typography_font_family": "Plus Jakarta Sans",
+          "typography_font_size": {"unit": "px", "size": 28},
+          "typography_font_weight": "700",
+          "typography_line_height": {"unit": "em", "size": 1.25},
+          "title_color": "#0F172A",
+          "max_width": {"unit": "px", "size": 780},
+          "_margin": {"unit": "px", "top": "0", "right": "0", "bottom": "12", "left": "0", "isLinked": false}
+        }
+      },
+      {
+        "id": "ambitos-intro",
+        "elType": "widget",
+        "widgetType": "text-editor",
+        "settings": {
+          "editor": "<p style=\"font-size:16px;font-weight:300;color:#475569;max-width:780px;line-height:1.6;margin:0 0 48px;\">La Clínica Jurídica interviene en tres grandes áreas del ámbito sociolaboral, siempre bajo la supervisión de graduados sociales colegiados.</p>"
+        }
+      },
+      {
+        "id": "ambitos-icon-row",
+        "elType": "container",
+        "settings": {
+          "content_width": "full",
+          "flex_direction": "row",
+          "flex_wrap": "wrap",
+          "gap": {"unit": "px", "size": 32, "column": "32", "row": "32"}
+        },
+        "elements": [
+          {
+            "id": "ambito-1",
+            "elType": "container",
+            "settings": {
+              "content_width": "full",
+              "flex_direction": "column",
+              "flex_basis_desktop": "calc(33.333% - 22px)",
+              "min_width": {"unit": "px", "size": 260},
+              "padding": {"unit": "px", "top": "28", "right": "28", "bottom": "28", "left": "28", "isLinked": true},
+              "background_background": "classic",
+              "background_color": "#FFFFFF",
+              "border_border": "solid",
+              "border_width": {"unit": "px", "top": "1", "right": "1", "bottom": "1", "left": "1", "isLinked": true},
+              "border_color": "#E2E8F0",
+              "border_radius": {"unit": "px", "top": "16", "right": "16", "bottom": "16", "left": "16", "isLinked": true},
+              "box_shadow_box_shadow_type": "yes",
+              "box_shadow_box_shadow": {"horizontal": 0, "vertical": 1, "blur": 2, "spread": 0, "color": "rgba(14,17,27,0.04)"},
+              "_custom_css": "selector { transition: all 0.4s ease; } selector:hover { transform: translateY(-6px); box-shadow: 0 12px 32px rgba(15,23,42,0.08) !important; }"
+            },
+            "elements": [
+              {
+                "id": "ambito1-icon-wrap",
+                "elType": "container",
+                "settings": {
+                  "content_width": "full",
+                  "flex_direction": "row",
+                  "flex_justify_content": "center",
+                  "flex_align_items": "center",
+                  "width": {"unit": "px", "size": 44},
+                  "height": {"unit": "px", "size": 44},
+                  "background_background": "classic",
+                  "background_color": "rgba(37,99,235,0.10)",
+                  "border_radius": {"unit": "px", "top": "10", "right": "10", "bottom": "10", "left": "10", "isLinked": true},
+                  "_margin": {"unit": "px", "top": "0", "right": "0", "bottom": "20", "left": "0", "isLinked": false}
+                },
+                "elements": [
+                  {
+                    "id": "ambito1-icon",
+                    "elType": "widget",
+                    "widgetType": "icon",
+                    "settings": {
+                      "selected_icon": {"value": "fas fa-balance-scale", "library": "fa-solid"},
+                      "primary_color": "#2563EB",
+                      "size": {"unit": "px", "size": 22}
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "ambito1-h3",
+                "elType": "widget",
+                "widgetType": "heading",
+                "settings": {
+                  "title": "Desigualdad y discriminación laboral",
+                  "header_size": "h3",
+                  "typography_typography": "custom",
+                  "typography_font_family": "Plus Jakarta Sans",
+                  "typography_font_size": {"unit": "px", "size": 17},
+                  "typography_font_weight": "700",
+                  "typography_line_height": {"unit": "em", "size": 1.3},
+                  "title_color": "#0F172A",
+                  "_margin": {"unit": "px", "top": "0", "right": "0", "bottom": "12", "left": "0", "isLinked": false}
+                }
+              },
+              {
+                "id": "ambito1-text",
+                "elType": "widget",
+                "widgetType": "text-editor",
+                "settings": {
+                  "editor": "<p style=\"font-size:13px;font-weight:300;color:#475569;line-height:1.6;margin:0;\">Orientación en casos de discriminación en el trabajo, desigualdad salarial, acoso laboral y vulneración de derechos fundamentales en el entorno profesional.</p>"
+                }
+              }
+            ]
+          },
+          {
+            "id": "ambito-2",
+            "elType": "container",
+            "settings": {
+              "content_width": "full",
+              "flex_direction": "column",
+              "flex_basis_desktop": "calc(33.333% - 22px)",
+              "min_width": {"unit": "px", "size": 260},
+              "padding": {"unit": "px", "top": "28", "right": "28", "bottom": "28", "left": "28", "isLinked": true},
+              "background_background": "classic",
+              "background_color": "#FFFFFF",
+              "border_border": "solid",
+              "border_width": {"unit": "px", "top": "1", "right": "1", "bottom": "1", "left": "1", "isLinked": true},
+              "border_color": "#E2E8F0",
+              "border_radius": {"unit": "px", "top": "16", "right": "16", "bottom": "16", "left": "16", "isLinked": true},
+              "box_shadow_box_shadow_type": "yes",
+              "box_shadow_box_shadow": {"horizontal": 0, "vertical": 1, "blur": 2, "spread": 0, "color": "rgba(14,17,27,0.04)"},
+              "_custom_css": "selector { transition: all 0.4s ease; } selector:hover { transform: translateY(-6px); box-shadow: 0 12px 32px rgba(15,23,42,0.08) !important; }"
+            },
+            "elements": [
+              {
+                "id": "ambito2-icon-wrap",
+                "elType": "container",
+                "settings": {
+                  "content_width": "full",
+                  "flex_direction": "row",
+                  "flex_justify_content": "center",
+                  "flex_align_items": "center",
+                  "width": {"unit": "px", "size": 44},
+                  "height": {"unit": "px", "size": 44},
+                  "background_background": "classic",
+                  "background_color": "rgba(37,99,235,0.10)",
+                  "border_radius": {"unit": "px", "top": "10", "right": "10", "bottom": "10", "left": "10", "isLinked": true},
+                  "_margin": {"unit": "px", "top": "0", "right": "0", "bottom": "20", "left": "0", "isLinked": false}
+                },
+                "elements": [
+                  {
+                    "id": "ambito2-icon",
+                    "elType": "widget",
+                    "widgetType": "icon",
+                    "settings": {
+                      "selected_icon": {"value": "fas fa-landmark", "library": "fa-solid"},
+                      "primary_color": "#2563EB",
+                      "size": {"unit": "px", "size": 22}
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "ambito2-h3",
+                "elType": "widget",
+                "widgetType": "heading",
+                "settings": {
+                  "title": "Acceso a servicios públicos",
+                  "header_size": "h3",
+                  "typography_typography": "custom",
+                  "typography_font_family": "Plus Jakarta Sans",
+                  "typography_font_size": {"unit": "px", "size": 17},
+                  "typography_font_weight": "700",
+                  "typography_line_height": {"unit": "em", "size": 1.3},
+                  "title_color": "#0F172A",
+                  "_margin": {"unit": "px", "top": "0", "right": "0", "bottom": "12", "left": "0", "isLinked": false}
+                }
+              },
+              {
+                "id": "ambito2-text",
+                "elType": "widget",
+                "widgetType": "text-editor",
+                "settings": {
+                  "editor": "<p style=\"font-size:13px;font-weight:300;color:#475569;line-height:1.6;margin:0;\">Asesoramiento sobre prestaciones de Seguridad Social, acceso a servicios públicos de empleo y programas de cohesión social para personas en dificultad.</p>"
+                }
+              }
+            ]
+          },
+          {
+            "id": "ambito-3",
+            "elType": "container",
+            "settings": {
+              "content_width": "full",
+              "flex_direction": "column",
+              "flex_basis_desktop": "calc(33.333% - 22px)",
+              "min_width": {"unit": "px", "size": 260},
+              "padding": {"unit": "px", "top": "28", "right": "28", "bottom": "28", "left": "28", "isLinked": true},
+              "background_background": "classic",
+              "background_color": "#FFFFFF",
+              "border_border": "solid",
+              "border_width": {"unit": "px", "top": "1", "right": "1", "bottom": "1", "left": "1", "isLinked": true},
+              "border_color": "#E2E8F0",
+              "border_radius": {"unit": "px", "top": "16", "right": "16", "bottom": "16", "left": "16", "isLinked": true},
+              "box_shadow_box_shadow_type": "yes",
+              "box_shadow_box_shadow": {"horizontal": 0, "vertical": 1, "blur": 2, "spread": 0, "color": "rgba(14,17,27,0.04)"},
+              "_custom_css": "selector { transition: all 0.4s ease; } selector:hover { transform: translateY(-6px); box-shadow: 0 12px 32px rgba(15,23,42,0.08) !important; }"
+            },
+            "elements": [
+              {
+                "id": "ambito3-icon-wrap",
+                "elType": "container",
+                "settings": {
+                  "content_width": "full",
+                  "flex_direction": "row",
+                  "flex_justify_content": "center",
+                  "flex_align_items": "center",
+                  "width": {"unit": "px", "size": 44},
+                  "height": {"unit": "px", "size": 44},
+                  "background_background": "classic",
+                  "background_color": "rgba(37,99,235,0.10)",
+                  "border_radius": {"unit": "px", "top": "10", "right": "10", "bottom": "10", "left": "10", "isLinked": true},
+                  "_margin": {"unit": "px", "top": "0", "right": "0", "bottom": "20", "left": "0", "isLinked": false}
+                },
+                "elements": [
+                  {
+                    "id": "ambito3-icon",
+                    "elType": "widget",
+                    "widgetType": "icon",
+                    "settings": {
+                      "selected_icon": {"value": "fas fa-rocket", "library": "fa-solid"},
+                      "primary_color": "#2563EB",
+                      "size": {"unit": "px", "size": 22}
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "ambito3-h3",
+                "elType": "widget",
+                "widgetType": "heading",
+                "settings": {
+                  "title": "Emprendimiento responsable",
+                  "header_size": "h3",
+                  "typography_typography": "custom",
+                  "typography_font_family": "Plus Jakarta Sans",
+                  "typography_font_size": {"unit": "px", "size": 17},
+                  "typography_font_weight": "700",
+                  "typography_line_height": {"unit": "em", "size": 1.3},
+                  "title_color": "#0F172A",
+                  "_margin": {"unit": "px", "top": "0", "right": "0", "bottom": "12", "left": "0", "isLinked": false}
+                }
+              },
+              {
+                "id": "ambito3-text",
+                "elType": "widget",
+                "widgetType": "text-editor",
+                "settings": {
+                  "editor": "<p style=\"font-size:13px;font-weight:300;color:#475569;line-height:1.6;margin:0;\">Acompañamiento a personas que quieren iniciar una actividad económica de forma responsable, con especial atención a proyectos de economía social y autoempleo.</p>"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "id": "sec-como-funciona",
+    "elType": "container",
+    "settings": {
+      "content_width": "boxed",
+      "content_width_default": {"unit": "px", "size": 1200},
+      "flex_direction": "column",
+      "padding": {"unit": "px", "top": "72", "right": "64", "bottom": "72", "left": "64", "isLinked": false},
+      "padding_tablet": {"unit": "px", "top": "56", "right": "32", "bottom": "56", "left": "32", "isLinked": false},
+      "padding_mobile": {"unit": "px", "top": "48", "right": "20", "bottom": "48", "left": "20", "isLinked": false},
+      "background_background": "classic",
+      "background_color": "#F7F8FA"
+    },
+    "elements": [
+      {
+        "id": "como-h2",
+        "elType": "widget",
+        "widgetType": "heading",
+        "settings": {
+          "title": "Cómo solicitar asesoramiento",
+          "header_size": "h2",
+          "typography_typography": "custom",
+          "typography_font_family": "Plus Jakarta Sans",
+          "typography_font_size": {"unit": "px", "size": 28},
+          "typography_font_weight": "700",
+          "typography_line_height": {"unit": "em", "size": 1.25},
+          "title_color": "#0F172A",
+          "max_width": {"unit": "px", "size": 780},
+          "_margin": {"unit": "px", "top": "0", "right": "0", "bottom": "12", "left": "0", "isLinked": false}
+        }
+      },
+      {
+        "id": "como-intro",
+        "elType": "widget",
+        "widgetType": "text-editor",
+        "settings": {
+          "editor": "<p style=\"font-size:16px;font-weight:300;color:#475569;max-width:780px;line-height:1.6;margin:0 0 48px;\">El proceso es sencillo y completamente gratuito. Las consultas se canalizan a través del Colegio y se atienden por profesionales colegiados junto con estudiantes universitarios en formación.</p>"
+        }
+      },
+      {
+        "id": "pasos-row",
+        "elType": "container",
+        "settings": {
+          "content_width": "full",
+          "flex_direction": "row",
+          "flex_wrap": "wrap",
+          "gap": {"unit": "px", "size": 32, "column": "32", "row": "32"}
+        },
+        "elements": [
+          {
+            "id": "paso-1",
+            "elType": "container",
+            "settings": {
+              "content_width": "full",
+              "flex_direction": "column",
+              "flex_basis_desktop": "calc(25% - 24px)",
+              "min_width": {"unit": "px", "size": 200},
+              "padding": {"unit": "px", "top": "28", "right": "28", "bottom": "28", "left": "28", "isLinked": true},
+              "background_background": "classic",
+              "background_color": "#FFFFFF",
+              "border_border": "solid",
+              "border_width": {"unit": "px", "top": "1", "right": "1", "bottom": "1", "left": "1", "isLinked": true},
+              "border_color": "#E2E8F0",
+              "border_radius": {"unit": "px", "top": "16", "right": "16", "bottom": "16", "left": "16", "isLinked": true},
+              "box_shadow_box_shadow_type": "yes",
+              "box_shadow_box_shadow": {"horizontal": 0, "vertical": 1, "blur": 2, "spread": 0, "color": "rgba(14,17,27,0.04)"}
+            },
+            "elements": [
+              {
+                "id": "paso1-num",
+                "elType": "widget",
+                "widgetType": "text-editor",
+                "settings": {
+                  "editor": "<span style=\"display:block;font-size:48px;font-weight:800;color:#2563EB;opacity:0.12;line-height:1;margin-bottom:16px;\">01</span>"
+                }
+              },
+              {
+                "id": "paso1-h3",
+                "elType": "widget",
+                "widgetType": "heading",
+                "settings": {
+                  "title": "Contacta con el Colegio",
+                  "header_size": "h3",
+                  "typography_typography": "custom",
+                  "typography_font_family": "Plus Jakarta Sans",
+                  "typography_font_size": {"unit": "px", "size": 17},
+                  "typography_font_weight": "700",
+                  "typography_line_height": {"unit": "em", "size": 1.3},
+                  "title_color": "#0F172A",
+                  "_margin": {"unit": "px", "top": "0", "right": "0", "bottom": "12", "left": "0", "isLinked": false}
+                }
+              },
+              {
+                "id": "paso1-text",
+                "elType": "widget",
+                "widgetType": "text-editor",
+                "settings": {
+                  "editor": "<p style=\"font-size:13px;font-weight:300;color:#475569;line-height:1.6;margin:0;\">Llama al 91 523 08 88 o escribe a admon@graduadosocialmadrid.org explicando brevemente tu situación. También puedes acudir presencialmente a nuestra sede.</p>"
+                }
+              }
+            ]
+          },
+          {
+            "id": "paso-2",
+            "elType": "container",
+            "settings": {
+              "content_width": "full",
+              "flex_direction": "column",
+              "flex_basis_desktop": "calc(25% - 24px)",
+              "min_width": {"unit": "px", "size": 200},
+              "padding": {"unit": "px", "top": "28", "right": "28", "bottom": "28", "left": "28", "isLinked": true},
+              "background_background": "classic",
+              "background_color": "#FFFFFF",
+              "border_border": "solid",
+              "border_width": {"unit": "px", "top": "1", "right": "1", "bottom": "1", "left": "1", "isLinked": true},
+              "border_color": "#E2E8F0",
+              "border_radius": {"unit": "px", "top": "16", "right": "16", "bottom": "16", "left": "16", "isLinked": true},
+              "box_shadow_box_shadow_type": "yes",
+              "box_shadow_box_shadow": {"horizontal": 0, "vertical": 1, "blur": 2, "spread": 0, "color": "rgba(14,17,27,0.04)"}
+            },
+            "elements": [
+              {
+                "id": "paso2-num",
+                "elType": "widget",
+                "widgetType": "text-editor",
+                "settings": {
+                  "editor": "<span style=\"display:block;font-size:48px;font-weight:800;color:#2563EB;opacity:0.12;line-height:1;margin-bottom:16px;\">02</span>"
+                }
+              },
+              {
+                "id": "paso2-h3",
+                "elType": "widget",
+                "widgetType": "heading",
+                "settings": {
+                  "title": "Valoración inicial",
+                  "header_size": "h3",
+                  "typography_typography": "custom",
+                  "typography_font_family": "Plus Jakarta Sans",
+                  "typography_font_size": {"unit": "px", "size": 17},
+                  "typography_font_weight": "700",
+                  "typography_line_height": {"unit": "em", "size": 1.3},
+                  "title_color": "#0F172A",
+                  "_margin": {"unit": "px", "top": "0", "right": "0", "bottom": "12", "left": "0", "isLinked": false}
+                }
+              },
+              {
+                "id": "paso2-text",
+                "elType": "widget",
+                "widgetType": "text-editor",
+                "settings": {
+                  "editor": "<p style=\"font-size:13px;font-weight:300;color:#475569;line-height:1.6;margin:0;\">Un profesional colegiado evaluará tu consulta y determinará si encaja en el ámbito de actuación de la Clínica Jurídica. Te confirmaremos la cita en un plazo máximo de 48 horas laborables.</p>"
+                }
+              }
+            ]
+          },
+          {
+            "id": "paso-3",
+            "elType": "container",
+            "settings": {
+              "content_width": "full",
+              "flex_direction": "column",
+              "flex_basis_desktop": "calc(25% - 24px)",
+              "min_width": {"unit": "px", "size": 200},
+              "padding": {"unit": "px", "top": "28", "right": "28", "bottom": "28", "left": "28", "isLinked": true},
+              "background_background": "classic",
+              "background_color": "#FFFFFF",
+              "border_border": "solid",
+              "border_width": {"unit": "px", "top": "1", "right": "1", "bottom": "1", "left": "1", "isLinked": true},
+              "border_color": "#E2E8F0",
+              "border_radius": {"unit": "px", "top": "16", "right": "16", "bottom": "16", "left": "16", "isLinked": true},
+              "box_shadow_box_shadow_type": "yes",
+              "box_shadow_box_shadow": {"horizontal": 0, "vertical": 1, "blur": 2, "spread": 0, "color": "rgba(14,17,27,0.04)"}
+            },
+            "elements": [
+              {
+                "id": "paso3-num",
+                "elType": "widget",
+                "widgetType": "text-editor",
+                "settings": {
+                  "editor": "<span style=\"display:block;font-size:48px;font-weight:800;color:#2563EB;opacity:0.12;line-height:1;margin-bottom:16px;\">03</span>"
+                }
+              },
+              {
+                "id": "paso3-h3",
+                "elType": "widget",
+                "widgetType": "heading",
+                "settings": {
+                  "title": "Asesoramiento personalizado",
+                  "header_size": "h3",
+                  "typography_typography": "custom",
+                  "typography_font_family": "Plus Jakarta Sans",
+                  "typography_font_size": {"unit": "px", "size": 17},
+                  "typography_font_weight": "700",
+                  "typography_line_height": {"unit": "em", "size": 1.3},
+                  "title_color": "#0F172A",
+                  "_margin": {"unit": "px", "top": "0", "right": "0", "bottom": "12", "left": "0", "isLinked": false}
+                }
+              },
+              {
+                "id": "paso3-text",
+                "elType": "widget",
+                "widgetType": "text-editor",
+                "settings": {
+                  "editor": "<p style=\"font-size:13px;font-weight:300;color:#475569;line-height:1.6;margin:0;\">Un equipo formado por graduados sociales colegiados y estudiantes universitarios en prácticas te atenderá de forma presencial para orientarte sobre tu situación laboral o de Seguridad Social.</p>"
+                }
+              }
+            ]
+          },
+          {
+            "id": "paso-4",
+            "elType": "container",
+            "settings": {
+              "content_width": "full",
+              "flex_direction": "column",
+              "flex_basis_desktop": "calc(25% - 24px)",
+              "min_width": {"unit": "px", "size": 200},
+              "padding": {"unit": "px", "top": "28", "right": "28", "bottom": "28", "left": "28", "isLinked": true},
+              "background_background": "classic",
+              "background_color": "#FFFFFF",
+              "border_border": "solid",
+              "border_width": {"unit": "px", "top": "1", "right": "1", "bottom": "1", "left": "1", "isLinked": true},
+              "border_color": "#E2E8F0",
+              "border_radius": {"unit": "px", "top": "16", "right": "16", "bottom": "16", "left": "16", "isLinked": true},
+              "box_shadow_box_shadow_type": "yes",
+              "box_shadow_box_shadow": {"horizontal": 0, "vertical": 1, "blur": 2, "spread": 0, "color": "rgba(14,17,27,0.04)"}
+            },
+            "elements": [
+              {
+                "id": "paso4-num",
+                "elType": "widget",
+                "widgetType": "text-editor",
+                "settings": {
+                  "editor": "<span style=\"display:block;font-size:48px;font-weight:800;color:#2563EB;opacity:0.12;line-height:1;margin-bottom:16px;\">04</span>"
+                }
+              },
+              {
+                "id": "paso4-h3",
+                "elType": "widget",
+                "widgetType": "heading",
+                "settings": {
+                  "title": "Seguimiento",
+                  "header_size": "h3",
+                  "typography_typography": "custom",
+                  "typography_font_family": "Plus Jakarta Sans",
+                  "typography_font_size": {"unit": "px", "size": 17},
+                  "typography_font_weight": "700",
+                  "typography_line_height": {"unit": "em", "size": 1.3},
+                  "title_color": "#0F172A",
+                  "_margin": {"unit": "px", "top": "0", "right": "0", "bottom": "12", "left": "0", "isLinked": false}
+                }
+              },
+              {
+                "id": "paso4-text",
+                "elType": "widget",
+                "widgetType": "text-editor",
+                "settings": {
+                  "editor": "<p style=\"font-size:13px;font-weight:300;color:#475569;line-height:1.6;margin:0;\">Si tu caso lo requiere, te derivaremos a los servicios públicos correspondientes o te indicaremos los pasos a seguir. La Clínica Jurídica orienta, no sustituye la representación procesal.</p>"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "id": "sec-colaboradores",
+    "elType": "container",
+    "settings": {
+      "content_width": "boxed",
+      "content_width_default": {"unit": "px", "size": 1200},
+      "flex_direction": "column",
+      "padding": {"unit": "px", "top": "72", "right": "64", "bottom": "72", "left": "64", "isLinked": false},
+      "padding_tablet": {"unit": "px", "top": "56", "right": "32", "bottom": "56", "left": "32", "isLinked": false},
+      "padding_mobile": {"unit": "px", "top": "48", "right": "20", "bottom": "48", "left": "20", "isLinked": false},
+      "background_background": "classic",
+      "background_color": "#FFFFFF"
+    },
+    "elements": [
+      {
+        "id": "colab-h2",
+        "elType": "widget",
+        "widgetType": "heading",
+        "settings": {
+          "title": "Con quién colaboramos",
+          "header_size": "h2",
+          "typography_typography": "custom",
+          "typography_font_family": "Plus Jakarta Sans",
+          "typography_font_size": {"unit": "px", "size": 28},
+          "typography_font_weight": "700",
+          "typography_line_height": {"unit": "em", "size": 1.25},
+          "title_color": "#0F172A",
+          "max_width": {"unit": "px", "size": 780},
+          "_margin": {"unit": "px", "top": "0", "right": "0", "bottom": "12", "left": "0", "isLinked": false}
+        }
+      },
+      {
+        "id": "colab-intro",
+        "elType": "widget",
+        "widgetType": "text-editor",
+        "settings": {
+          "editor": "<p style=\"font-size:16px;font-weight:300;color:#475569;max-width:780px;line-height:1.6;margin:0 0 48px;\">La Clínica Jurídica funciona gracias a una red de convenios con universidades, ayuntamientos y entidades sociales. Además, forma parte de redes nacionales e internacionales de clínicas jurídicas universitarias.</p>"
+        }
+      },
+      {
+        "id": "colab-logos-label",
+        "elType": "widget",
+        "widgetType": "text-editor",
+        "settings": {
+          "editor": "<p style=\"font-size:11px;font-weight:600;color:#6B7280;letter-spacing:0.08em;text-transform:uppercase;margin:0 0 24px;\">Colaboradores</p>"
+        }
+      },
+      {
+        "id": "colab-logos-row",
+        "elType": "container",
+        "settings": {
+          "content_width": "full",
+          "flex_direction": "row",
+          "flex_wrap": "wrap",
+          "flex_justify_content": "flex-start",
+          "gap": {"unit": "px", "size": 16, "column": "16", "row": "16"},
+          "_margin": {"unit": "px", "top": "0", "right": "0", "bottom": "40", "left": "0", "isLinked": false}
+        },
+        "elements": [
+          {
+            "id": "logo-ayto-madrid",
+            "elType": "container",
+            "settings": {
+              "content_width": "full",
+              "flex_direction": "column",
+              "flex_justify_content": "center",
+              "flex_align_items": "center",
+              "padding": {"unit": "px", "top": "20", "right": "20", "bottom": "20", "left": "20", "isLinked": true},
+              "background_background": "classic",
+              "background_color": "#FFFFFF",
+              "border_border": "solid",
+              "border_width": {"unit": "px", "top": "1", "right": "1", "bottom": "1", "left": "1", "isLinked": true},
+              "border_color": "#E2E8F0",
+              "border_radius": {"unit": "px", "top": "12", "right": "12", "bottom": "12", "left": "12", "isLinked": true},
+              "width": {"unit": "%", "size": 18},
+              "min_width": {"unit": "px", "size": 160},
+              "_custom_css": "selector { transition: all 0.3s ease; filter: grayscale(100%); } selector:hover { filter: grayscale(0%); box-shadow: 0 4px 16px rgba(15,23,42,0.08); }"
+            },
+            "elements": [
+              {
+                "id": "logo-ayto-text",
+                "elType": "widget",
+                "widgetType": "text-editor",
+                "settings": {
+                  "editor": "<p style=\"font-size:13px;font-weight:600;color:#475569;text-align:center;margin:0;\">Ayuntamiento de Madrid</p>"
+                }
+              }
+            ]
+          },
+          {
+            "id": "logo-mancomunidad",
+            "elType": "container",
+            "settings": {
+              "content_width": "full",
+              "flex_direction": "column",
+              "flex_justify_content": "center",
+              "flex_align_items": "center",
+              "padding": {"unit": "px", "top": "20", "right": "20", "bottom": "20", "left": "20", "isLinked": true},
+              "background_background": "classic",
+              "background_color": "#FFFFFF",
+              "border_border": "solid",
+              "border_width": {"unit": "px", "top": "1", "right": "1", "bottom": "1", "left": "1", "isLinked": true},
+              "border_color": "#E2E8F0",
+              "border_radius": {"unit": "px", "top": "12", "right": "12", "bottom": "12", "left": "12", "isLinked": true},
+              "width": {"unit": "%", "size": 18},
+              "min_width": {"unit": "px", "size": 160},
+              "_custom_css": "selector { transition: all 0.3s ease; filter: grayscale(100%); } selector:hover { filter: grayscale(0%); box-shadow: 0 4px 16px rgba(15,23,42,0.08); }"
+            },
+            "elements": [
+              {
+                "id": "logo-mancomunidad-text",
+                "elType": "widget",
+                "widgetType": "text-editor",
+                "settings": {
+                  "editor": "<p style=\"font-size:13px;font-weight:600;color:#475569;text-align:center;margin:0;\">Mancomunidad Sierra Norte</p>"
+                }
+              }
+            ]
+          },
+          {
+            "id": "logo-microfinanzas",
+            "elType": "container",
+            "settings": {
+              "content_width": "full",
+              "flex_direction": "column",
+              "flex_justify_content": "center",
+              "flex_align_items": "center",
+              "padding": {"unit": "px", "top": "20", "right": "20", "bottom": "20", "left": "20", "isLinked": true},
+              "background_background": "classic",
+              "background_color": "#FFFFFF",
+              "border_border": "solid",
+              "border_width": {"unit": "px", "top": "1", "right": "1", "bottom": "1", "left": "1", "isLinked": true},
+              "border_color": "#E2E8F0",
+              "border_radius": {"unit": "px", "top": "12", "right": "12", "bottom": "12", "left": "12", "isLinked": true},
+              "width": {"unit": "%", "size": 18},
+              "min_width": {"unit": "px", "size": 160},
+              "_custom_css": "selector { transition: all 0.3s ease; filter: grayscale(100%); } selector:hover { filter: grayscale(0%); box-shadow: 0 4px 16px rgba(15,23,42,0.08); }"
+            },
+            "elements": [
+              {
+                "id": "logo-microfinanzas-text",
+                "elType": "widget",
+                "widgetType": "text-editor",
+                "settings": {
+                  "editor": "<p style=\"font-size:13px;font-weight:600;color:#475569;text-align:center;margin:0;\">Asoc. Española de Microfinanzas</p>"
+                }
+              }
+            ]
+          },
+          {
+            "id": "logo-trabajando",
+            "elType": "container",
+            "settings": {
+              "content_width": "full",
+              "flex_direction": "column",
+              "flex_justify_content": "center",
+              "flex_align_items": "center",
+              "padding": {"unit": "px", "top": "20", "right": "20", "bottom": "20", "left": "20", "isLinked": true},
+              "background_background": "classic",
+              "background_color": "#FFFFFF",
+              "border_border": "solid",
+              "border_width": {"unit": "px", "top": "1", "right": "1", "bottom": "1", "left": "1", "isLinked": true},
+              "border_color": "#E2E8F0",
+              "border_radius": {"unit": "px", "top": "12", "right": "12", "bottom": "12", "left": "12", "isLinked": true},
+              "width": {"unit": "%", "size": 18},
+              "min_width": {"unit": "px", "size": 160},
+              "_custom_css": "selector { transition: all 0.3s ease; filter: grayscale(100%); } selector:hover { filter: grayscale(0%); box-shadow: 0 4px 16px rgba(15,23,42,0.08); }"
+            },
+            "elements": [
+              {
+                "id": "logo-trabajando-text",
+                "elType": "widget",
+                "widgetType": "text-editor",
+                "settings": {
+                  "editor": "<p style=\"font-size:13px;font-weight:600;color:#475569;text-align:center;margin:0;\">Trabajando en Positivo</p>"
+                }
+              }
+            ]
+          },
+          {
+            "id": "logo-sedoac",
+            "elType": "container",
+            "settings": {
+              "content_width": "full",
+              "flex_direction": "column",
+              "flex_justify_content": "center",
+              "flex_align_items": "center",
+              "padding": {"unit": "px", "top": "20", "right": "20", "bottom": "20", "left": "20", "isLinked": true},
+              "background_background": "classic",
+              "background_color": "#FFFFFF",
+              "border_border": "solid",
+              "border_width": {"unit": "px", "top": "1", "right": "1", "bottom": "1", "left": "1", "isLinked": true},
+              "border_color": "#E2E8F0",
+              "border_radius": {"unit": "px", "top": "12", "right": "12", "bottom": "12", "left": "12", "isLinked": true},
+              "width": {"unit": "%", "size": 18},
+              "min_width": {"unit": "px", "size": 160},
+              "_custom_css": "selector { transition: all 0.3s ease; filter: grayscale(100%); } selector:hover { filter: grayscale(0%); box-shadow: 0 4px 16px rgba(15,23,42,0.08); }"
+            },
+            "elements": [
+              {
+                "id": "logo-sedoac-text",
+                "elType": "widget",
+                "widgetType": "text-editor",
+                "settings": {
+                  "editor": "<p style=\"font-size:13px;font-weight:600;color:#475569;text-align:center;margin:0;\">SEDOAC</p>"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "redes-label",
+        "elType": "widget",
+        "widgetType": "text-editor",
+        "settings": {
+          "editor": "<p style=\"font-size:11px;font-weight:600;color:#6B7280;letter-spacing:0.08em;text-transform:uppercase;margin:0 0 20px;\">Redes internacionales</p>"
+        }
+      },
+      {
+        "id": "redes-badges-row",
+        "elType": "container",
+        "settings": {
+          "content_width": "full",
+          "flex_direction": "row",
+          "flex_wrap": "wrap",
+          "flex_justify_content": "flex-start",
+          "gap": {"unit": "px", "size": 12, "column": "12", "row": "12"}
+        },
+        "elements": [
+          {
+            "id": "badge-red-espanola",
+            "elType": "widget",
+            "widgetType": "text-editor",
+            "settings": {
+              "editor": "<span style=\"display:inline-block;background:rgba(43,212,199,0.15);color:#2BD4C7;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:5px 14px;border-radius:999px;\">Red de Clínicas Jurídicas de Universidades Españolas</span>"
+            }
+          },
+          {
+            "id": "badge-encle",
+            "elType": "widget",
+            "widgetType": "text-editor",
+            "settings": {
+              "editor": "<span style=\"display:inline-block;background:rgba(43,212,199,0.15);color:#2BD4C7;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:5px 14px;border-radius:999px;\">European Network for Clinical Legal Education (ENCLE)</span>"
+            }
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "id": "sec-cta-final",
+    "elType": "container",
+    "settings": {
+      "content_width": "boxed",
+      "content_width_default": {"unit": "px", "size": 1200},
+      "flex_direction": "column",
+      "flex_align_items": "center",
+      "flex_justify_content": "center",
+      "padding": {"unit": "px", "top": "72", "right": "64", "bottom": "72", "left": "64", "isLinked": false},
+      "padding_tablet": {"unit": "px", "top": "56", "right": "32", "bottom": "56", "left": "32", "isLinked": false},
+      "padding_mobile": {"unit": "px", "top": "48", "right": "20", "bottom": "48", "left": "20", "isLinked": false},
+      "background_background": "gradient",
+      "background_color": "#0E111B",
+      "background_color_b": "#0C1F3F",
+      "background_gradient_angle": {"unit": "deg", "size": 120},
+      "background_gradient_type": "linear",
+      "text_align": "center"
+    },
+    "elements": [
+      {
+        "id": "cta-h2",
+        "elType": "widget",
+        "widgetType": "heading",
+        "settings": {
+          "title": "¿Necesitas orientación laboral gratuita?",
+          "header_size": "h2",
+          "typography_typography": "custom",
+          "typography_font_family": "Plus Jakarta Sans",
+          "typography_font_size": {"unit": "px", "size": 28},
+          "typography_font_weight": "700",
+          "typography_line_height": {"unit": "em", "size": 1.25},
+          "title_color": "#FFFFFF",
+          "align": "center",
+          "max_width": {"unit": "px", "size": 720},
+          "_margin": {"unit": "px", "top": "0", "right": "auto", "bottom": "20", "left": "auto", "isLinked": false}
+        }
+      },
+      {
+        "id": "cta-text",
+        "elType": "widget",
+        "widgetType": "text-editor",
+        "settings": {
+          "editor": "<p style=\"font-size:16px;font-weight:300;color:rgba(255,255,255,0.6);max-width:600px;line-height:1.6;margin:0 auto 40px;text-align:center;\">Si estás en una situación difícil y no sabes a quién acudir, la Clínica Jurídica del Colegio de Graduados Sociales de Madrid puede ayudarte. El servicio es completamente gratuito.</p>"
+        }
+      },
+      {
+        "id": "cta-buttons-row",
+        "elType": "container",
+        "settings": {
+          "content_width": "full",
+          "flex_direction": "row",
+          "flex_wrap": "wrap",
+          "flex_justify_content": "center",
+          "flex_align_items": "center",
+          "gap": {"unit": "px", "size": 16, "column": "16", "row": "16"}
+        },
+        "elements": [
+          {
+            "id": "cta-btn-primary",
+            "elType": "widget",
+            "widgetType": "button",
+            "settings": {
+              "text": "Solicitar asesoramiento",
+              "link": {"url": "/contacto/", "is_external": false},
+              "typography_typography": "custom",
+              "typography_font_family": "Plus Jakarta Sans",
+              "typography_font_size": {"unit": "px", "size": 15},
+              "typography_font_weight": "600",
+              "button_text_color": "#FFFFFF",
+              "background_color": "#2563EB",
+              "border_radius": {"unit": "px", "top": "40", "right": "40", "bottom": "40", "left": "40", "isLinked": true},
+              "padding": {"unit": "px", "top": "14", "right": "40", "bottom": "14", "left": "40", "isLinked": false},
+              "_custom_css": "selector .elementor-button { background: linear-gradient(90deg, #2F5BEA 0%, #18B7B0 100%) !important; border: none !important; box-shadow: 0px 10px 25px rgba(30,107,255,0.25); transition: all 0.3s ease; } selector .elementor-button:hover { background: linear-gradient(180deg, #244FD1 0%, #12A7A0 100%) !important; box-shadow: 0px 8px 20px rgba(0,0,0,0.15); transform: translateY(-2px); }"
+            }
+          },
+          {
+            "id": "cta-btn-secondary",
+            "elType": "widget",
+            "widgetType": "button",
+            "settings": {
+              "text": "Llamar al 91 523 08 88",
+              "link": {"url": "tel:+34915230888", "is_external": false},
+              "typography_typography": "custom",
+              "typography_font_family": "Plus Jakarta Sans",
+              "typography_font_size": {"unit": "px", "size": 15},
+              "typography_font_weight": "600",
+              "button_text_color": "#FFFFFF",
+              "background_color": "transparent",
+              "border_border": "solid",
+              "border_width": {"unit": "px", "top": "1", "right": "1", "bottom": "1", "left": "1", "isLinked": true},
+              "border_color": "rgba(255,255,255,0.4)",
+              "border_radius": {"unit": "px", "top": "40", "right": "40", "bottom": "40", "left": "40", "isLinked": true},
+              "padding": {"unit": "px", "top": "14", "right": "32", "bottom": "14", "left": "32", "isLinked": false},
+              "_custom_css": "selector .elementor-button { transition: all 0.3s ease; } selector .elementor-button:hover { background: rgba(255,255,255,0.1) !important; border-color: rgba(255,255,255,0.7) !important; transform: translateY(-2px); }"
+            }
+          }
+        ]
+      }
+    ]
+  }
+]
