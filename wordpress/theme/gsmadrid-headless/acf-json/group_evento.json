@@ -1,0 +1,175 @@
+[
+    {
+        "key": "group_evento",
+        "title": "Evento",
+        "fields": [
+            {
+                "key": "field_evento_fecha_inicio",
+                "label": "Fecha de inicio",
+                "name": "fecha_inicio",
+                "type": "date_picker",
+                "required": 1,
+                "display_format": "d/m/Y",
+                "return_format": "Y-m-d",
+                "show_in_graphql": 1,
+                "wrapper": { "width": "33", "class": "", "id": "" }
+            },
+            {
+                "key": "field_evento_fecha_fin",
+                "label": "Fecha de fin",
+                "name": "fecha_fin",
+                "type": "date_picker",
+                "required": 0,
+                "display_format": "d/m/Y",
+                "return_format": "Y-m-d",
+                "show_in_graphql": 1,
+                "wrapper": { "width": "33", "class": "", "id": "" }
+            },
+            {
+                "key": "field_evento_horario",
+                "label": "Horario",
+                "name": "horario",
+                "type": "text",
+                "required": 0,
+                "placeholder": "18:00 - 20:00",
+                "show_in_graphql": 1,
+                "wrapper": { "width": "34", "class": "", "id": "" }
+            },
+            {
+                "key": "field_evento_lugar",
+                "label": "Lugar",
+                "name": "lugar",
+                "type": "text",
+                "required": 0,
+                "placeholder": "Sede del Colegio, C/ Jose Abascal 44",
+                "show_in_graphql": 1,
+                "wrapper": { "width": "50", "class": "", "id": "" }
+            },
+            {
+                "key": "field_evento_tipo",
+                "label": "Tipo de evento",
+                "name": "tipo_evento",
+                "type": "select",
+                "required": 1,
+                "choices": {
+                    "institucional": "Institucional",
+                    "asamblea": "Asamblea",
+                    "networking": "Networking",
+                    "conferencia": "Conferencia",
+                    "acto_social": "Acto Social",
+                    "otro": "Otro"
+                },
+                "default_value": "institucional",
+                "show_in_graphql": 1,
+                "wrapper": { "width": "50", "class": "", "id": "" }
+            },
+            {
+                "key": "field_evento_estado",
+                "label": "Estado",
+                "name": "estado",
+                "type": "select",
+                "required": 1,
+                "choices": {
+                    "programado": "Programado",
+                    "abierto": "Inscripcion abierta",
+                    "completo": "Completo",
+                    "cancelado": "Cancelado",
+                    "finalizado": "Finalizado"
+                },
+                "default_value": "programado",
+                "show_in_graphql": 1,
+                "wrapper": { "width": "33", "class": "", "id": "" }
+            },
+            {
+                "key": "field_evento_plazas",
+                "label": "Plazas",
+                "name": "plazas",
+                "type": "number",
+                "required": 0,
+                "show_in_graphql": 1,
+                "wrapper": { "width": "33", "class": "", "id": "" }
+            },
+            {
+                "key": "field_evento_requiere_inscripcion",
+                "label": "Requiere inscripcion",
+                "name": "requiere_inscripcion",
+                "type": "true_false",
+                "required": 0,
+                "default_value": 0,
+                "ui": 1,
+                "show_in_graphql": 1,
+                "wrapper": { "width": "34", "class": "", "id": "" }
+            },
+            {
+                "key": "field_evento_url_inscripcion",
+                "label": "URL de inscripcion externa",
+                "name": "url_inscripcion",
+                "type": "url",
+                "required": 0,
+                "show_in_graphql": 1,
+                "wrapper": { "width": "50", "class": "", "id": "" }
+            },
+            {
+                "key": "field_evento_organizador",
+                "label": "Organizador",
+                "name": "organizador",
+                "type": "text",
+                "required": 0,
+                "default_value": "Colegio Oficial de Graduados Sociales de Madrid",
+                "show_in_graphql": 1,
+                "wrapper": { "width": "50", "class": "", "id": "" }
+            },
+            {
+                "key": "field_evento_programa",
+                "label": "Programa",
+                "name": "programa",
+                "type": "wysiwyg",
+                "required": 0,
+                "tabs": "all",
+                "toolbar": "full",
+                "media_upload": 1,
+                "show_in_graphql": 1
+            },
+            {
+                "key": "field_evento_documento",
+                "label": "Documento adjunto",
+                "name": "documento",
+                "type": "file",
+                "required": 0,
+                "return_format": "url",
+                "show_in_graphql": 1,
+                "wrapper": { "width": "50", "class": "", "id": "" }
+            },
+            {
+                "key": "field_evento_solo_colegiados",
+                "label": "Solo para colegiados",
+                "name": "solo_colegiados",
+                "type": "true_false",
+                "required": 0,
+                "default_value": 0,
+                "ui": 1,
+                "show_in_graphql": 1,
+                "wrapper": { "width": "50", "class": "", "id": "" }
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "evento"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "active": true,
+        "show_in_rest": 1,
+        "show_in_graphql": 1,
+        "graphql_field_name": "eventoFields",
+        "modified": 1711000000
+    }
+]

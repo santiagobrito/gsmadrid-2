@@ -35,6 +35,28 @@ function gsmadrid_register_cpts() {
         'graphql_plural_name' => 'formaciones',
     ]);
 
+    // Evento (actos institucionales, asambleas, jornadas networking)
+    register_post_type('evento', [
+        'labels' => [
+            'name'               => 'Eventos',
+            'singular_name'      => 'Evento',
+            'add_new_item'       => 'Anadir nuevo evento',
+            'edit_item'          => 'Editar evento',
+            'all_items'          => 'Todos los eventos',
+            'search_items'       => 'Buscar eventos',
+            'not_found'          => 'No se encontraron eventos',
+        ],
+        'public'              => true,
+        'has_archive'         => true,
+        'rewrite'             => ['slug' => 'evento'],
+        'menu_icon'           => 'dashicons-megaphone',
+        'supports'            => ['title', 'editor', 'thumbnail', 'excerpt', 'revisions'],
+        'show_in_rest'        => true,
+        'show_in_graphql'     => true,
+        'graphql_single_name' => 'evento',
+        'graphql_plural_name' => 'eventos',
+    ]);
+
     // Curso (formacion larga con modulos)
     register_post_type('curso', [
         'labels' => [

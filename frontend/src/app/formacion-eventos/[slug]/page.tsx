@@ -182,11 +182,13 @@ export default async function FormacionDetailPage({ params }: PageProps) {
               <div className="sticky top-[102px] space-y-6">
                 {/* Inscription form with automatic past event blocking */}
                 <InscripcionForm
-                  formacionTitle={title}
                   estado={formacion.estado}
                   plazas={formacion.plazas}
-                  esGratuito={formacion.esGratuito}
                   fechaFin={formacion.fechaFin}
+                  precioColegiado={{ presencial: 0, online: 0 }}
+                  precioPrecolegiado={{ presencial: 0, online: 0 }}
+                  precioExterno={{ presencial: 50, online: 40 }}
+                  modalidadesDisponibles={['presencial', 'online']}
                 />
 
                 {/* Share */}

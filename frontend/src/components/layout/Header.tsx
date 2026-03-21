@@ -11,9 +11,9 @@ import { Container } from '@/components/ui/Container';
 const navItems = [
   { label: 'El Colegio', href: '/el-colegio' },
   { label: 'Hazte Colegiado', href: '/hazte-colegiado' },
-  { label: 'Servicios Colegiado', href: '/servicios-colegiado' },
-  { label: 'Servicios Ciudadano', href: '/servicios-ciudadano' },
+  { label: 'Servicios', href: '/servicios-colegiado' },
   { label: 'Formacion', href: '/formacion-eventos' },
+  { label: 'Eventos', href: '/eventos' },
   { label: 'Actualidad', href: '/actualidad' },
   { label: 'Directorio', href: '/directorio' },
 ];
