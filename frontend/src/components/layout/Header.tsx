@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
 import { Button } from '@/components/ui/Button';
@@ -24,10 +25,15 @@ export function Header() {
     <header className="sticky top-0 z-50 h-[86px] border-b border-[#E2E8F0] bg-white/95 backdrop-blur-sm">
       <Container className="flex h-full items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <span className="text-xl font-extrabold tracking-tight text-[#0E111B]">
-            GS Madrid
-          </span>
+        <Link href="/" className="flex-shrink-0">
+          <Image
+            src="/logo.png"
+            alt="Colegio Oficial de Graduados Sociales de Madrid"
+            width={294}
+            height={80}
+            className="h-auto w-[294px]"
+            priority
+          />
         </Link>
 
         {/* Desktop nav */}

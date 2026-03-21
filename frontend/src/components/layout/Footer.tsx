@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { Container } from '@/components/ui/Container';
 
 const columns = [
@@ -47,9 +48,13 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-5">
           {/* Logo + Address */}
           <div className="lg:col-span-1">
-            <span className="text-xl font-extrabold tracking-tight">
-              GS Madrid
-            </span>
+            <Image
+              src="/logo.png"
+              alt="Colegio Oficial de Graduados Sociales de Madrid"
+              width={180}
+              height={49}
+              className="h-auto w-[180px] brightness-0 invert opacity-85"
+            />
             <p className="mt-4 text-sm leading-relaxed text-[#6B7280]">
               Colegio Oficial de Graduados Sociales de Madrid
             </p>
