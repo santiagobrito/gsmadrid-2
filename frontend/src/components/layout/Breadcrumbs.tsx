@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
+import { Container } from '@/components/ui/Container';
 import { breadcrumbSchema } from '@/lib/seo/schema';
 
 interface BreadcrumbItem {
@@ -26,29 +27,31 @@ export function Breadcrumbs({ items }: BreadcrumbsProps) {
           __html: JSON.stringify(breadcrumbSchema(schemaItems)),
         }}
       />
-      <nav aria-label="Breadcrumb" className="mb-8">
-        <ol className="flex flex-wrap items-center gap-1 text-sm text-[#6B7280]">
-          {allItems.map((item, index) => {
-            const isLast = index === allItems.length - 1;
-            return (
-              <li key={item.href} className="flex items-center gap-1">
-                {index > 0 && (
-                  <ChevronRight size={14} strokeWidth={1.5} className="text-[#E2E8F0]" />
-                )}
-                {isLast ? (
-                  <span className="font-medium text-[#0F172A]">{item.label}</span>
-                ) : (
-                  <Link
-                    href={item.href}
-                    className="transition-colors hover:text-[#2563EB]"
-                  >
-                    {item.label}
-                  </Link>
-                )}
-              </li>
-            );
-          })}
-        </ol>
+      <nav aria-label="Breadcrumb" className="border-b border-border bg-bg-alt">
+        <Container className="py-3">
+          <ol className="flex flex-wrap items-center gap-1.5 text-sm text-text-tertiary">
+            {allItems.map((item, index) => {
+              const isLast = index === allItems.length - 1;
+              return (
+                <li key={item.href} className="flex items-center gap-1.5">
+                  {index > 0 && (
+                    <ChevronRight size={14} strokeWidth={1.5} className="text-border" />
+                  )}
+                  {isLast ? (
+                    <span className="font-medium text-text">{item.label}</span>
+                  ) : (
+                    <Link
+                      href={item.href}
+                      className="transition-colors hover:text-primary"
+                    >
+                      {item.label}
+                    </Link>
+                  )}
+                </li>
+              );
+            })}
+          </ol>
+        </Container>
       </nav>
     </>
   );

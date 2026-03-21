@@ -1,253 +1,314 @@
 import { Metadata } from 'next';
-import { ArrowRight, Shield } from 'lucide-react';
+import Image from 'next/image';
 import { Container } from '@/components/ui/Container';
 import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
+import { SectionHeading } from '@/components/ui/SectionHeading';
 import { createMetadata } from '@/lib/seo/metadata';
+import { ArrowRight, Shield, Quote } from 'lucide-react';
+// import { fetchGraphQL } from '@/lib/graphql/client';
+// import { GET_MIEMBROS_JUNTA } from '@/lib/graphql/queries/junta';
 
 export const metadata: Metadata = createMetadata({
-  title: 'Junta de Gobierno',
+  title: 'Junta de Gobierno 2025–2029',
   description:
-    'Conoce a los miembros de la Junta de Gobierno del Colegio Oficial de Graduados Sociales de Madrid. Mandato 2025–2029.',
+    'Conoce a los miembros de la Junta de Gobierno del Colegio Oficial de Graduados Sociales de Madrid, elegida en julio de 2025 bajo la presidencia de Teresa Silleras.',
   path: '/el-colegio/junta-de-gobierno',
 });
 
-interface BoardMember {
-  name: string;
-  role: string;
+export const revalidate = 60;
+
+// Fallback data — will be replaced by GraphQL query to miembrosJunta CPT
+interface Miembro {
+  nombre: string;
+  cargo: string;
+  tipo: 'directivo' | 'vocal_ejerciente' | 'vocal_no_ejerciente';
+  bio?: string;
+  cita?: string;
   initials: string;
-  description?: string;
-  featured?: boolean;
+  destacado?: boolean;
+  foto?: string;
 }
 
-interface Vocal {
-  name: string;
-  initials: string;
-}
-
-const equipo: BoardMember[] = [
+const miembros: Miembro[] = [
   {
-    name: 'Teresa Silleras Martinez',
-    role: 'Presidenta',
+    nombre: 'Teresa Silleras Martinez',
+    cargo: 'Presidenta',
+    tipo: 'directivo',
+    bio: 'Graduada Social colegiada desde 2006, Universidad Carlos III de Madrid. Fundadora y directora de Silleras Asesores Juridicos (51 empleados, 17 graduados sociales). Docente universitaria de Derecho del Trabajo.',
+    cita: 'Tu futuro, nuestro compromiso.',
     initials: 'TS',
-    description:
-      'Graduada Social colegiada desde 2006. Fundadora de Silleras Asesores Juridicos (51 empleados). Docente de Derecho del Trabajo.',
-    featured: true,
+    destacado: true,
+    foto: '/junta/TERESA_SILLERAS.jpg',
   },
   {
-    name: 'Manuel Rodriguez Noguera',
-    role: 'Vicepresidente 1.o',
+    nombre: 'Manuel Rodriguez Noguera',
+    cargo: 'Vicepresidente 1.o',
+    tipo: 'directivo',
+    bio: 'Graduado social en activo con larga trayectoria en el sector laboral madrileno.',
     initials: 'MR',
-    description:
-      'Graduado social en activo con larga trayectoria en el sector laboral madrileno.',
+    foto: '/junta/manuel_rodriguez_noguera1.jpg',
   },
   {
-    name: 'Amaya Segovia Mahillo',
-    role: 'Secretaria General',
+    nombre: 'Amaya Segovia Mahillo',
+    cargo: 'Secretaria General',
+    tipo: 'directivo',
+    bio: 'Responsable de la gestion documental, las actas de la Junta y la coordinacion interna del Colegio.',
     initials: 'AS',
-    description:
-      'Responsable de gestion documental, actas y coordinacion interna del Colegio.',
+    foto: '/junta/amaya_segovia_mahillo1.jpg',
   },
   {
-    name: 'Monica Esteban Amate',
-    role: 'Vicesecretaria',
+    nombre: 'Monica Esteban Amate',
+    cargo: 'Vicesecretaria',
+    tipo: 'directivo',
+    bio: 'Apoyo a la Secretaria General en la gestion institucional y coordinacion con los organos de representacion.',
     initials: 'ME',
-    description:
-      'Apoyo a la Secretaria General en gestion institucional y coordinacion.',
+    foto: '/junta/MONICA_ESTEBAN1.jpg',
   },
   {
-    name: 'Ana Maria Cerezo Rodriguez',
-    role: 'Tesorera',
+    nombre: 'Ana Maria Cerezo Rodriguez',
+    cargo: 'Tesorera',
+    tipo: 'directivo',
+    bio: 'Responsable de la gestion economica y presupuestaria del Colegio.',
     initials: 'AC',
-    description:
-      'Responsable de la gestion economica y presupuestaria del Colegio.',
+    foto: '/junta/ana_maria_cerezo_rodriguez1.jpg',
   },
   {
-    name: 'Jose Luis Perea Prieto',
-    role: 'Vicetesorero',
+    nombre: 'Jose Luis Perea Prieto',
+    cargo: 'Vicetesorero',
+    tipo: 'directivo',
+    bio: 'Supervision de cuentas y control financiero del Colegio.',
     initials: 'JP',
-    description:
-      'Supervision de cuentas y control financiero del Colegio.',
+    foto: '/junta/jose_luis_perea_prieto1.jpg',
   },
+  { nombre: 'Raul Bachot Ruiz', cargo: 'Vocal Ejerciente', tipo: 'vocal_ejerciente', initials: 'RB', foto: '/junta/raul_bachot_ruiz1.jpg' },
+  { nombre: 'Jose Antonio Juarez Rodriguez', cargo: 'Vocal Ejerciente', tipo: 'vocal_ejerciente', initials: 'JJ', foto: '/junta/JOSE_ANTONIO_JUAREZ1.jpg' },
+  { nombre: 'Juan Jose Carmelo Santana', cargo: 'Vocal Ejerciente', tipo: 'vocal_ejerciente', initials: 'JC', foto: '/junta/JUAN_JOSE_CARMELO1.jpg' },
+  { nombre: 'M.a Luisa Martin Bardera', cargo: 'Vocal Ejerciente', tipo: 'vocal_ejerciente', initials: 'LM', foto: '/junta/M_LUISA_MARTIN_BARDERA1.jpg' },
+  { nombre: 'Elena Tolbanos Cobo', cargo: 'Vocal Ejerciente', tipo: 'vocal_ejerciente', initials: 'ET', foto: '/junta/elena_tolbanos_cobo1.jpg' },
+  { nombre: 'Jose Carlos Astudillo Agudo', cargo: 'Vocal No Ejerciente', tipo: 'vocal_no_ejerciente', initials: 'JA', foto: '/junta/JoseCarlosAstudillo1.jpg' },
+  { nombre: 'Alvaro Rueda Sanchez', cargo: 'Vocal No Ejerciente', tipo: 'vocal_no_ejerciente', initials: 'AR', foto: '/junta/alvaro_rueda_sanchez1.jpg' },
+  { nombre: 'Francisco Javier Cerrajero Mendez', cargo: 'Vocal No Ejerciente', tipo: 'vocal_no_ejerciente', initials: 'FC', foto: '/junta/F_JAVIER_CERRAJERO1.jpg' },
 ];
 
-const vocalesEjercientes: Vocal[] = [
-  { name: 'Raul Bachot Ruiz', initials: 'RB' },
-  { name: 'Jose Antonio Juarez Rodriguez', initials: 'JJ' },
-  { name: 'Juan Jose Carmelo Santana', initials: 'JC' },
-  { name: 'M.a Luisa Martin Bardera', initials: 'LM' },
-  { name: 'Elena Tolbanos Cobo', initials: 'ET' },
-];
-
-const vocalesNoEjercientes: Vocal[] = [
-  { name: 'Jose Carlos Astudillo Agudo', initials: 'JA' },
-  { name: 'Alvaro Rueda Sanchez', initials: 'AR' },
-  { name: 'Francisco Javier Cerrajero Mendez', initials: 'FC' },
-];
-
-function MemberCard({ member }: { member: BoardMember }) {
+function AvatarPlaceholder({ initials, size = 'md' }: { initials: string; size?: 'sm' | 'md' | 'lg' }) {
+  const sizes = {
+    sm: 'h-14 w-14 text-lg',
+    md: 'h-20 w-20 text-2xl',
+    lg: 'h-28 w-28 text-4xl',
+  };
   return (
-    <Card hover={false} className="flex flex-col items-center text-center">
-      <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-[#2563EB]/10">
-        <span className="text-xl font-bold text-[#2563EB]">
-          {member.initials}
-        </span>
-      </div>
-      <h3 className="text-lg font-bold text-[#0F172A]">{member.name}</h3>
-      <div className="mt-2">
-        <Badge color="colegio">{member.role}</Badge>
-      </div>
-      {member.description && (
-        <p className="mt-3 text-sm text-[#475569]">{member.description}</p>
-      )}
-    </Card>
+    <div className={`${sizes[size]} flex-shrink-0 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary`}>
+      {initials}
+    </div>
   );
 }
 
-function VocalCard({ vocal }: { vocal: Vocal }) {
-  return (
-    <Card hover={false} className="flex items-center gap-4 p-4">
-      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#1565C0]/10">
-        <span className="text-sm font-bold text-[#1565C0]">
-          {vocal.initials}
-        </span>
-      </div>
-      <p className="text-sm font-semibold text-[#0F172A]">{vocal.name}</p>
-    </Card>
-  );
-}
+export default async function JuntaDeGobiernoPage() {
+  // TODO: Fetch from GraphQL
+  // const data = await fetchGraphQL(GET_MIEMBROS_JUNTA);
+  // const miembros = data.miembrosJunta.nodes.map(transformMiembro);
 
-export default function JuntaDeGobiernoPage() {
-  const presidenta = equipo.find((m) => m.featured);
-  const directivos = equipo.filter((m) => !m.featured);
+  const directivos = miembros.filter((m) => m.tipo === 'directivo');
+  const presidenta = directivos.find((m) => m.destacado);
+  const restoDirectivos = directivos.filter((m) => !m.destacado);
+  const vocalesEjercientes = miembros.filter((m) => m.tipo === 'vocal_ejerciente');
+  const vocalesNoEjercientes = miembros.filter((m) => m.tipo === 'vocal_no_ejerciente');
 
   return (
-    <section className="py-16">
-      <Container>
-        <Breadcrumbs
-          items={[
-            { label: 'El Colegio', href: '/el-colegio' },
-            { label: 'Junta de Gobierno', href: '/el-colegio/junta-de-gobierno' },
-          ]}
-        />
+    <>
+      <Breadcrumbs
+        items={[
+          { label: 'El Colegio', href: '/el-colegio' },
+          { label: 'Junta de Gobierno', href: '/el-colegio/junta-de-gobierno' },
+        ]}
+      />
 
-        {/* Header */}
-        <div className="mb-12 max-w-3xl">
-          <div className="mb-4">
-            <Badge color="institutional">
-              Organo de Gobierno · Mandato 2025–2029
-            </Badge>
-          </div>
-          <h1 className="text-4xl font-extrabold tracking-tight text-[#0F172A] sm:text-5xl">
+      {/* Hero */}
+      <section className="bg-gradient-to-br from-white to-[#F0F4F8] py-20">
+        <Container>
+          <Badge color="colegio" className="mb-4">Organo de Gobierno · Mandato 2025–2029</Badge>
+          <h1 className="text-4xl font-extrabold tracking-tight text-text sm:text-5xl">
             Junta de Gobierno
           </h1>
-          <p className="mt-4 text-lg text-[#475569]">
-            El organo de gobierno del Colegio fue elegido en julio de 2025. Sus
-            miembros trabajan de forma colegiada para modernizar la institucion,
-            mejorar los servicios a los colegiados y garantizar la transparencia
-            en la gestion.
+          <p className="mt-4 max-w-[600px] text-lg font-light text-text-secondary">
+            El equipo elegido en julio de 2025 para liderar el Colegio Oficial de Graduados Sociales
+            de Madrid durante los proximos cuatro anos.
           </p>
-        </div>
+        </Container>
+      </section>
 
-        {/* Presidenta — featured */}
-        {presidenta && (
-          <Card
-            hover={false}
-            className="mb-10 flex flex-col items-center gap-6 p-8 sm:flex-row sm:items-start"
-          >
-            <div className="flex h-28 w-28 shrink-0 items-center justify-center rounded-full bg-[#2563EB]/10">
-              <span className="text-3xl font-bold text-[#2563EB]">
-                {presidenta.initials}
-              </span>
-            </div>
-            <div className="text-center sm:text-left">
-              <Badge color="colegio">{presidenta.role}</Badge>
-              <h2 className="mt-2 text-2xl font-bold text-[#0F172A]">
-                {presidenta.name}
-              </h2>
-              <p className="mt-2 text-[#475569] leading-relaxed">
-                {presidenta.description}
-              </p>
-              <Button
-                href="/el-colegio/carta-presidenta"
-                variant="outline"
-                className="mt-4"
-              >
-                Leer su carta
-                <ArrowRight size={14} strokeWidth={2} />
-              </Button>
-            </div>
-          </Card>
-        )}
-
-        {/* Equipo directivo */}
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {directivos.map((member) => (
-            <MemberCard key={member.name} member={member} />
-          ))}
-        </div>
-
-        {/* Vocales Ejercientes */}
-        <div className="mt-16">
-          <h2 className="text-2xl font-bold tracking-tight text-[#0F172A]">
-            Vocales Ejercientes
-          </h2>
-          <p className="mt-2 mb-6 text-[#475569]">
-            Representan a los colegiados en ejercicio activo de la profesion.
+      {/* Intro */}
+      <section className="py-16">
+        <Container narrow>
+          <p className="text-text-secondary font-light leading-relaxed">
+            La Junta de Gobierno es el organo colegiado que dirige y representa al Excmo. Colegio Oficial
+            de Graduados Sociales de Madrid. Sus miembros fueron elegidos en la Asamblea General celebrada
+            el 8 de julio de 2025 y tomaron posesion de sus cargos el 18 de septiembre en el Salon de Actos
+            del Tribunal Superior de Justicia de Madrid.
           </p>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {vocalesEjercientes.map((vocal) => (
-              <VocalCard key={vocal.name} vocal={vocal} />
+          <p className="mt-4 text-text-secondary font-light leading-relaxed">
+            Su agenda para el mandato 2025–2029 se articula en torno a cinco ejes: modernizacion digital,
+            plan de formacion de excelencia, captacion de nuevos colegiados, presencia en medios y mejora
+            de las instalaciones.
+          </p>
+        </Container>
+      </section>
+
+      {/* Presidenta — Featured */}
+      {presidenta && (
+        <section className="bg-bg-alt py-16">
+          <Container>
+            <Card hover={false} className="overflow-hidden p-0">
+              <div className="grid grid-cols-1 md:grid-cols-3">
+                {/* Photo */}
+                <div className="flex items-center justify-center bg-primary/5 p-10 md:p-12">
+                  {presidenta.foto ? (
+                    <Image
+                      src={presidenta.foto}
+                      alt={presidenta.nombre}
+                      width={200}
+                      height={260}
+                      className="rounded-2xl object-cover"
+                    />
+                  ) : (
+                    <AvatarPlaceholder initials={presidenta.initials} size="lg" />
+                  )}
+                </div>
+
+                {/* Content */}
+                <div className="p-8 md:col-span-2 md:p-10">
+                  <Badge color="colegio" className="mb-3">{presidenta.cargo}</Badge>
+                  <h2 className="text-2xl font-bold text-text sm:text-3xl">{presidenta.nombre}</h2>
+                  {presidenta.bio && (
+                    <p className="mt-4 text-text-secondary font-light leading-relaxed">{presidenta.bio}</p>
+                  )}
+                  {presidenta.cita && (
+                    <div className="mt-6 flex items-start gap-3 rounded-xl bg-bg-alt p-4">
+                      <Quote size={20} className="mt-0.5 flex-shrink-0 text-primary" />
+                      <p className="text-sm font-medium italic text-primary">{presidenta.cita}</p>
+                    </div>
+                  )}
+                  <div className="mt-6">
+                    <Button variant="outline" href="/el-colegio/carta-presidenta" className="text-sm">
+                      Leer la Carta de la Presidenta <ArrowRight size={14} className="ml-1" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          </Container>
+        </section>
+      )}
+
+      {/* Equipo Directivo */}
+      <section className="py-16">
+        <Container>
+          <SectionHeading
+            title="Equipo Directivo"
+            subtitle="Miembros con responsabilidades ejecutivas en la gestion del Colegio."
+            centered={false}
+          />
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {restoDirectivos.map((m) => (
+              <Card key={m.nombre} className="flex items-start gap-4">
+                {m.foto ? (
+                  <Image
+                    src={m.foto}
+                    alt={m.nombre}
+                    width={80}
+                    height={80}
+                    className="h-20 w-20 flex-shrink-0 rounded-full object-cover"
+                  />
+                ) : (
+                  <AvatarPlaceholder initials={m.initials} size="md" />
+                )}
+                <div className="min-w-0">
+                  <Badge color="colegio" className="mb-2 text-[10px]">{m.cargo}</Badge>
+                  <h3 className="text-base font-bold text-text">{m.nombre}</h3>
+                  {m.bio && (
+                    <p className="mt-1.5 text-sm font-light text-text-secondary leading-relaxed">{m.bio}</p>
+                  )}
+                </div>
+              </Card>
             ))}
           </div>
-        </div>
+        </Container>
+      </section>
 
-        {/* Vocales No Ejercientes */}
-        <div className="mt-12">
-          <h2 className="text-2xl font-bold tracking-tight text-[#0F172A]">
-            Vocales No Ejercientes
-          </h2>
-          <p className="mt-2 mb-6 text-[#475569]">
-            Representan a los colegiados que no ejercen activamente la profesion.
-          </p>
+      {/* Vocales Ejercientes */}
+      <section className="bg-bg-alt py-16">
+        <Container>
+          <SectionHeading
+            title="Vocales Ejercientes"
+            subtitle="Representan a los graduados sociales que ejercen activamente la profesion en Madrid."
+            centered={false}
+          />
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {vocalesNoEjercientes.map((vocal) => (
-              <VocalCard key={vocal.name} vocal={vocal} />
+            {vocalesEjercientes.map((m) => (
+              <Card key={m.nombre} className="flex items-center gap-4 py-5">
+                {m.foto ? (
+                  <Image src={m.foto} alt={m.nombre} width={56} height={56} className="h-14 w-14 flex-shrink-0 rounded-full object-cover" />
+                ) : (
+                  <AvatarPlaceholder initials={m.initials} size="sm" />
+                )}
+                <div>
+                  <h3 className="text-sm font-bold text-text">{m.nombre}</h3>
+                  <p className="text-xs text-text-tertiary">{m.cargo}</p>
+                </div>
+              </Card>
             ))}
           </div>
-        </div>
+        </Container>
+      </section>
 
-        {/* Transparency note */}
-        <div className="mt-16 rounded-2xl bg-[#F7F8FA] p-8 text-center">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#2F5BEA]/10 to-[#18B7B0]/10">
-            <Shield size={24} strokeWidth={1.5} className="text-[#2563EB]" />
+      {/* Vocales No Ejercientes */}
+      <section className="py-16">
+        <Container>
+          <SectionHeading
+            title="Vocales No Ejercientes"
+            subtitle="Aportan la perspectiva de colegiados en empresas, instituciones y sector publico."
+            centered={false}
+          />
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {vocalesNoEjercientes.map((m) => (
+              <Card key={m.nombre} className="flex items-center gap-4 py-5">
+                {m.foto ? (
+                  <Image src={m.foto} alt={m.nombre} width={56} height={56} className="h-14 w-14 flex-shrink-0 rounded-full object-cover" />
+                ) : (
+                  <AvatarPlaceholder initials={m.initials} size="sm" />
+                )}
+                <div>
+                  <h3 className="text-sm font-bold text-text">{m.nombre}</h3>
+                  <p className="text-xs text-text-tertiary">{m.cargo}</p>
+                </div>
+              </Card>
+            ))}
           </div>
-          <h3 className="mt-4 text-lg font-bold text-[#0F172A]">
-            Comprometidos con la transparencia
-          </h3>
-          <p className="mx-auto mt-2 max-w-md text-sm text-[#475569]">
-            Las actas de la Junta de Gobierno, las memorias anuales y los
-            presupuestos aprobados estan disponibles en nuestra seccion de
-            transparencia.
+        </Container>
+      </section>
+
+      {/* Transparencia + CTA */}
+      <section className="bg-bg-alt py-16">
+        <Container narrow className="text-center">
+          <Shield size={32} className="mx-auto mb-4 text-primary" strokeWidth={1.5} />
+          <h2 className="text-2xl font-bold text-text">Transparencia en la gestion</h2>
+          <p className="mx-auto mt-4 max-w-[540px] text-text-secondary font-light">
+            Las actas de la Junta, memorias anuales y presupuestos estan disponibles para todos los colegiados
+            en el Area Privada. Tu opinion y propuestas son parte fundamental de esta institucion.
           </p>
-          <div className="mt-6">
-            <Button href="/el-colegio/transparencia" variant="outline">
-              Ver transparencia
-              <ArrowRight size={14} strokeWidth={2} />
+          <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <Button variant="gradient" href="/contacto">
+              Contacta con nosotros
+            </Button>
+            <Button variant="outline" href="/el-colegio">
+              Volver a El Colegio
             </Button>
           </div>
-        </div>
-
-        {/* CTA */}
-        <div className="mt-12 flex justify-center">
-          <Button href="/contacto" variant="gradient">
-            Contacta con nosotros
-            <ArrowRight size={16} strokeWidth={2} />
-          </Button>
-        </div>
-      </Container>
-    </section>
+        </Container>
+      </section>
+    </>
   );
 }

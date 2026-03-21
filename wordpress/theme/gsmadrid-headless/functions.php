@@ -78,6 +78,28 @@ function gsmadrid_register_cpts() {
         'graphql_single_name' => 'profesional',
         'graphql_plural_name' => 'profesionales',
     ]);
+
+    // Miembro Junta de Gobierno
+    register_post_type('miembro_junta', [
+        'labels' => [
+            'name'               => 'Junta de Gobierno',
+            'singular_name'      => 'Miembro',
+            'add_new_item'       => 'Anadir miembro',
+            'edit_item'          => 'Editar miembro',
+            'all_items'          => 'Junta de Gobierno',
+            'search_items'       => 'Buscar miembros',
+            'not_found'          => 'No se encontraron miembros',
+        ],
+        'public'              => true,
+        'has_archive'         => false,
+        'rewrite'             => ['slug' => 'junta'],
+        'menu_icon'           => 'dashicons-groups',
+        'supports'            => ['title', 'thumbnail', 'revisions'],
+        'show_in_rest'        => true,
+        'show_in_graphql'     => true,
+        'graphql_single_name' => 'miembroJunta',
+        'graphql_plural_name' => 'miembrosJunta',
+    ]);
 }
 
 // ============================================================
