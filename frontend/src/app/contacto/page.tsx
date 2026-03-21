@@ -45,11 +45,11 @@ const serviciosSalaTogas = [
 
 export default function ContactoPage() {
   return (
-    <section className="py-16">
-      <Container>
-        <Breadcrumbs items={[{ label: 'Contacto', href: '/contacto' }]} />
-
-        {/* Header */}
+    <>
+      <Breadcrumbs items={[{ label: 'Contacto', href: '/contacto' }]} />
+      <section className="py-16">
+        <Container>
+          {/* Header */}
         <div className="mb-16 max-w-3xl">
           <div className="mb-4">
             <Badge color="institutional">Atencion al Colegiado</Badge>
@@ -482,7 +482,8 @@ export default function ContactoPage() {
             </a>
           </div>
         </div>
-      </Container>
-    </section>
+        </Container>
+      </section>
+    </>
   );
 }

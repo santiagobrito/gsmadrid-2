@@ -25,16 +25,16 @@ const datosCargo = [
 
 export default function CartaPresidentaPage() {
   return (
-    <section className="py-16">
-      <Container>
-        <Breadcrumbs
-          items={[
-            { label: 'El Colegio', href: '/el-colegio' },
-            { label: 'Carta de la Presidenta', href: '/el-colegio/carta-presidenta' },
-          ]}
-        />
-
-        {/* Header */}
+    <>
+      <Breadcrumbs
+        items={[
+          { label: 'El Colegio', href: '/el-colegio' },
+          { label: 'Carta de la Presidenta', href: '/el-colegio/carta-presidenta' },
+        ]}
+      />
+      <section className="py-16">
+        <Container>
+          {/* Header */}
         <div className="mb-12 max-w-3xl">
           <div className="mb-4">
             <Badge color="colegio">Mensaje Institucional</Badge>
@@ -230,7 +230,8 @@ export default function CartaPresidentaPage() {
             <ArrowRight size={16} strokeWidth={2} />
           </Button>
         </div>
-      </Container>
-    </section>
+        </Container>
+      </section>
+    </>
   );
 }

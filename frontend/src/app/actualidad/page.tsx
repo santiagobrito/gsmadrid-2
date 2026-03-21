@@ -76,13 +76,13 @@ const placeholderPosts = [
 
 export default function ActualidadPage() {
   return (
-    <section className="py-16">
-      <Container>
-        <Breadcrumbs
-          items={[{ label: 'Actualidad', href: '/actualidad' }]}
-        />
-
-        <SectionHeading
+    <>
+      <Breadcrumbs
+        items={[{ label: 'Actualidad', href: '/actualidad' }]}
+      />
+      <section className="py-16">
+        <Container>
+          <SectionHeading
           badge="Blog"
           title="Actualidad"
           subtitle="Noticias, publicaciones y novedades del Colegio"
@@ -109,7 +109,8 @@ export default function ActualidadPage() {
             </Card>
           ))}
         </div>
-      </Container>
-    </section>
+        </Container>
+      </section>
+    </>
   );
 }

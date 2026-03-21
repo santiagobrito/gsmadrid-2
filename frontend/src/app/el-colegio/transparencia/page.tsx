@@ -71,16 +71,16 @@ const areas = [
 
 export default function TransparenciaPage() {
   return (
-    <section className="py-16">
-      <Container>
-        <Breadcrumbs
-          items={[
-            { label: 'El Colegio', href: '/el-colegio' },
-            { label: 'Transparencia', href: '/el-colegio/transparencia' },
-          ]}
-        />
-
-        {/* Header */}
+    <>
+      <Breadcrumbs
+        items={[
+          { label: 'El Colegio', href: '/el-colegio' },
+          { label: 'Transparencia', href: '/el-colegio/transparencia' },
+        ]}
+      />
+      <section className="py-16">
+        <Container>
+          {/* Header */}
         <div className="mb-12 max-w-3xl">
           <div className="mb-4">
             <Badge color="institutional">Buen Gobierno</Badge>
@@ -156,7 +156,8 @@ export default function TransparenciaPage() {
             <ArrowRight size={16} strokeWidth={2} />
           </Button>
         </div>
-      </Container>
-    </section>
+        </Container>
+      </section>
+    </>
   );
 }

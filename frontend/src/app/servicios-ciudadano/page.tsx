@@ -42,15 +42,15 @@ const services = [
 
 export default function ServiciosCiudadanoPage() {
   return (
-    <section className="py-16">
-      <Container>
-        <Breadcrumbs
-          items={[
-            { label: 'Servicios Ciudadano', href: '/servicios-ciudadano' },
-          ]}
-        />
-
-        <SectionHeading
+    <>
+      <Breadcrumbs
+        items={[
+          { label: 'Servicios Ciudadano', href: '/servicios-ciudadano' },
+        ]}
+      />
+      <section className="py-16">
+        <Container>
+          <SectionHeading
           badge="Ciudadanos"
           title="Servicios para Ciudadanos"
           subtitle="El Colegio esta a tu disposicion para garantizar la calidad de los servicios profesionales"
@@ -74,7 +74,8 @@ export default function ServiciosCiudadanoPage() {
             );
           })}
         </div>
-      </Container>
-    </section>
+        </Container>
+      </section>
+    </>
   );
 }

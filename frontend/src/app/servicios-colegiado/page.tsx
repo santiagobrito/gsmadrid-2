@@ -53,15 +53,15 @@ const services = [
 
 export default function ServiciosColegiadoPage() {
   return (
-    <section className="py-16">
-      <Container>
-        <Breadcrumbs
-          items={[
-            { label: 'Servicios Colegiado', href: '/servicios-colegiado' },
-          ]}
-        />
-
-        <SectionHeading
+    <>
+      <Breadcrumbs
+        items={[
+          { label: 'Servicios Colegiado', href: '/servicios-colegiado' },
+        ]}
+      />
+      <section className="py-16">
+        <Container>
+          <SectionHeading
           badge="Colegiados"
           title="Servicios para Colegiados"
           subtitle="Todo lo que necesitas para ejercer tu profesion con las mejores garantias"
@@ -85,7 +85,8 @@ export default function ServiciosColegiadoPage() {
             );
           })}
         </div>
-      </Container>
-    </section>
+        </Container>
+      </section>
+    </>
   );
 }

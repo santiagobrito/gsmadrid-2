@@ -54,13 +54,13 @@ const advantages = [
 
 export default function HazteColegiadoPage() {
   return (
-    <section className="py-16">
-      <Container>
-        <Breadcrumbs
-          items={[{ label: 'Hazte Colegiado', href: '/hazte-colegiado' }]}
-        />
-
-        <SectionHeading
+    <>
+      <Breadcrumbs
+        items={[{ label: 'Hazte Colegiado', href: '/hazte-colegiado' }]}
+      />
+      <section className="py-16">
+        <Container>
+          <SectionHeading
           badge="Colegiacion"
           title="Hazte Colegiado"
           subtitle="Descubre todas las ventajas de formar parte del Colegio Oficial de Graduados Sociales de Madrid"
@@ -86,7 +86,8 @@ export default function HazteColegiadoPage() {
             Solicitar Colegiacion
           </Button>
         </div>
-      </Container>
-    </section>
+        </Container>
+      </section>
+    </>
   );
 }

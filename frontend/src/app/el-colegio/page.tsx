@@ -47,11 +47,11 @@ const navCards = [
 
 export default function ElColegioPage() {
   return (
-    <section className="py-16">
-      <Container>
-        <Breadcrumbs items={[{ label: 'El Colegio', href: '/el-colegio' }]} />
-
-        {/* Hero */}
+    <>
+      <Breadcrumbs items={[{ label: 'El Colegio', href: '/el-colegio' }]} />
+      <section className="py-16">
+        <Container>
+          {/* Hero */}
         <div className="mb-16 max-w-3xl">
           <div className="mb-4">
             <Badge color="institutional">Institucion</Badge>
@@ -122,7 +122,8 @@ export default function ElColegioPage() {
             Imagen de la nueva sede
           </p>
         </div>
-      </Container>
-    </section>
+        </Container>
+      </section>
+    </>
   );
 }

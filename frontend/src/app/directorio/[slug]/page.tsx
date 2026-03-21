@@ -41,16 +41,16 @@ export default async function ProfesionalDetailPage({ params }: PageProps) {
     .join('');
 
   return (
-    <section className="py-16">
-      <Container>
-        <Breadcrumbs
-          items={[
-            { label: 'Directorio', href: '/directorio' },
-            { label: nombre, href: `/directorio/${slug}` },
-          ]}
-        />
-
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+    <>
+      <Breadcrumbs
+        items={[
+          { label: 'Directorio', href: '/directorio' },
+          { label: nombre, href: `/directorio/${slug}` },
+        ]}
+      />
+      <section className="py-16">
+        <Container>
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           {/* Sidebar card */}
           <div className="lg:col-span-1">
             <Card hover={false} className="sticky top-[102px]">
@@ -133,7 +133,8 @@ export default async function ProfesionalDetailPage({ params }: PageProps) {
             </div>
           </div>
         </div>
-      </Container>
-    </section>
+        </Container>
+      </section>
+    </>
   );
 }

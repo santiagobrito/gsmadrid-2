@@ -61,16 +61,16 @@ export default async function PostDetailPage({ params }: PageProps) {
     .replace(/\b\w/g, (c) => c.toUpperCase());
 
   return (
-    <section className="py-16">
-      <Container>
-        <Breadcrumbs
-          items={[
-            { label: 'Actualidad', href: '/actualidad' },
-            { label: title, href: `/actualidad/${slug}` },
-          ]}
-        />
-
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-4">
+    <>
+      <Breadcrumbs
+        items={[
+          { label: 'Actualidad', href: '/actualidad' },
+          { label: title, href: `/actualidad/${slug}` },
+        ]}
+      />
+      <section className="py-16">
+        <Container>
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-4">
           {/* Table of Contents sidebar */}
           <aside className="lg:col-span-1">
             <div className="lg:sticky lg:top-24">
@@ -171,7 +171,8 @@ export default async function PostDetailPage({ params }: PageProps) {
             </div>
           </article>
         </div>
-      </Container>
-    </section>
+        </Container>
+      </section>
+    </>
   );
 }

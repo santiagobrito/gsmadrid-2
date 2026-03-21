@@ -79,13 +79,13 @@ export default function DirectorioPage() {
   );
 
   return (
-    <section className="py-16">
-      <Container>
-        <Breadcrumbs
-          items={[{ label: 'Directorio', href: '/directorio' }]}
-        />
-
-        <SectionHeading
+    <>
+      <Breadcrumbs
+        items={[{ label: 'Directorio', href: '/directorio' }]}
+      />
+      <section className="py-16">
+        <Container>
+          <SectionHeading
           badge="Profesionales"
           title="Directorio de Colegiados"
           subtitle="Encuentra un Graduado Social colegiado en la Comunidad de Madrid"
@@ -164,7 +164,8 @@ export default function DirectorioPage() {
             No se han encontrado resultados para &ldquo;{search}&rdquo;
           </p>
         )}
-      </Container>
-    </section>
+        </Container>
+      </section>
+    </>
   );
 }
