@@ -8,8 +8,7 @@ import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { createMetadata } from '@/lib/seo/metadata';
 import { ArrowRight, Shield, Quote } from 'lucide-react';
-// import { fetchGraphQL } from '@/lib/graphql/client';
-// import { GET_MIEMBROS_JUNTA } from '@/lib/graphql/queries/junta';
+import { fetchGraphQL } from '@/lib/graphql/client';
 
 export const metadata: Metadata = createMetadata({
   title: 'Junta de Gobierno 2025–2029',
@@ -20,7 +19,25 @@ export const metadata: Metadata = createMetadata({
 
 export const revalidate = 60;
 
-// Fallback data — will be replaced by GraphQL query to miembrosJunta CPT
+const MIEMBROS_QUERY = `{
+  miembrosJunta(first: 50, where: { orderby: { field: MENU_ORDER, order: ASC } }) {
+    nodes {
+      title
+      featuredImage {
+        node { sourceUrl }
+      }
+      miembroJuntaFields {
+        cargo
+        tipo
+        orden
+        destacado
+        bio
+        cita
+      }
+    }
+  }
+}`;
+
 interface Miembro {
   nombre: string;
   cargo: string;
@@ -30,9 +47,11 @@ interface Miembro {
   initials: string;
   destacado?: boolean;
   foto?: string;
+  orden?: number;
 }
 
-const miembros: Miembro[] = [
+// Fallback data — used if GraphQL is unavailable
+const fallbackMiembros: Miembro[] = [
   {
     nombre: 'Teresa Silleras Martinez',
     cargo: 'Presidenta',
@@ -93,6 +112,67 @@ const miembros: Miembro[] = [
   { nombre: 'Francisco Javier Cerrajero Mendez', cargo: 'Vocal No Ejerciente', tipo: 'vocal_no_ejerciente', initials: 'FC', foto: '/junta/F_JAVIER_CERRAJERO1.jpg' },
 ];
 
+// Map from fallback name to fallback foto for matching WP members that lack featuredImage
+const fallbackFotoMap: Record<string, string> = {};
+for (const m of fallbackMiembros) {
+  if (m.foto) fallbackFotoMap[m.nombre] = m.foto;
+}
+
+function getInitials(name: string): string {
+  return name
+    .split(' ')
+    .filter((part) => part.length > 0 && part[0] === part[0].toUpperCase() && !/^(de|del|la|las|los|y)$/i.test(part))
+    .map((part) => part[0])
+    .slice(0, 2)
+    .join('');
+}
+
+interface WpMiembroNode {
+  title: string;
+  featuredImage: { node: { sourceUrl: string } } | null;
+  miembroJuntaFields: {
+    cargo: string | string[] | null;
+    tipo: string | string[] | null;
+    orden: number | null;
+    destacado: boolean | null;
+    bio: string | null;
+    cita: string | null;
+  } | null;
+}
+
+interface MiembrosResponse {
+  miembrosJunta: { nodes: WpMiembroNode[] };
+}
+
+function transformWpMiembro(node: WpMiembroNode): Miembro {
+  const fields = node.miembroJuntaFields || {} as NonNullable<WpMiembroNode['miembroJuntaFields']>;
+  const nombre = node.title || '';
+
+  // cargo comes as array like ["presidenta", "Presidenta"] — use index [1] for display label
+  const cargoRaw = fields.cargo;
+  const cargo = Array.isArray(cargoRaw) ? (cargoRaw[1] || cargoRaw[0] || '') : (cargoRaw || '');
+
+  // tipo comes as array like ["directivo", "Directivo"] — use index [0] for value
+  const tipoRaw = fields.tipo;
+  const tipo = (Array.isArray(tipoRaw) ? tipoRaw[0] : (tipoRaw || 'directivo')) as Miembro['tipo'];
+
+  // Photo: prefer WP featuredImage, fallback to local /junta/ photos
+  const wpFoto = node.featuredImage?.node?.sourceUrl || null;
+  const localFoto = fallbackFotoMap[nombre] || null;
+
+  return {
+    nombre,
+    cargo,
+    tipo,
+    bio: fields.bio || undefined,
+    cita: fields.cita || undefined,
+    initials: getInitials(nombre),
+    destacado: fields.destacado || false,
+    foto: wpFoto || localFoto || undefined,
+    orden: fields.orden || 99,
+  };
+}
+
 function AvatarPlaceholder({ initials, size = 'md' }: { initials: string; size?: 'sm' | 'md' | 'lg' }) {
   const sizes = {
     sm: 'h-14 w-14 text-lg',
@@ -107,9 +187,18 @@ function AvatarPlaceholder({ initials, size = 'md' }: { initials: string; size?:
 }
 
 export default async function JuntaDeGobiernoPage() {
-  // TODO: Fetch from GraphQL
-  // const data = await fetchGraphQL(GET_MIEMBROS_JUNTA);
-  // const miembros = data.miembrosJunta.nodes.map(transformMiembro);
+  let miembros: Miembro[] = fallbackMiembros;
+
+  try {
+    const data = await fetchGraphQL<MiembrosResponse>(MIEMBROS_QUERY);
+    if (data.miembrosJunta?.nodes?.length > 0) {
+      miembros = data.miembrosJunta.nodes
+        .map(transformWpMiembro)
+        .sort((a, b) => (a.orden || 99) - (b.orden || 99));
+    }
+  } catch {
+    // Use fallback data
+  }
 
   const directivos = miembros.filter((m) => m.tipo === 'directivo');
   const presidenta = directivos.find((m) => m.destacado);

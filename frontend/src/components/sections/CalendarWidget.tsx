@@ -26,8 +26,8 @@ interface CalendarEvent {
   href: string;
 }
 
-// Placeholder events — will come from GraphQL
-const events: CalendarEvent[] = [
+// Placeholder events — used as fallback if no data from GraphQL
+const fallbackEvents: CalendarEvent[] = [
   {
     date: '2026-03-28',
     title: 'Jornada de Actualizacion Laboral',
@@ -60,7 +60,12 @@ const events: CalendarEvent[] = [
 
 const WEEKDAYS = ['L', 'M', 'X', 'J', 'V', 'S', 'D'];
 
-export function CalendarWidget() {
+interface CalendarWidgetProps {
+  events?: CalendarEvent[];
+}
+
+export function CalendarWidget({ events: eventsProp }: CalendarWidgetProps) {
+  const events = eventsProp && eventsProp.length > 0 ? eventsProp : fallbackEvents;
   const [currentMonth, setCurrentMonth] = useState(new Date(2026, 2, 1)); // March 2026
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 

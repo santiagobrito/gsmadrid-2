@@ -1,25 +1,44 @@
-'use client';
-
-import { useState } from 'react';
-import Link from 'next/link';
-import { Container } from '@/components/ui/Container';
-import { SectionHeading } from '@/components/ui/SectionHeading';
-import { Card } from '@/components/ui/Card';
-import { Badge } from '@/components/ui/Badge';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
-import { Calendar, Clock, MapPin, ArrowRight, Lock, Users } from 'lucide-react';
+import { FilteredEventos, EventoItem } from '@/components/sections/FilteredEventos';
+import { createMetadata } from '@/lib/seo/metadata';
+import { fetchGraphQL } from '@/lib/graphql/client';
 
-type FilterType = 'todos' | 'institucional' | 'networking' | 'asamblea';
+export const revalidate = 60;
 
-const eventos = [
+export const metadata = createMetadata({
+  title: 'Eventos',
+  description:
+    'Actos institucionales, asambleas, networking y actividades sociales del Colegio Oficial de Graduados Sociales de Madrid.',
+  path: '/eventos',
+});
+
+const EVENTOS_QUERY = `{
+  eventos(first: 50, where: { orderby: { field: DATE, order: DESC } }) {
+    nodes {
+      slug
+      title
+      eventoFields {
+        fechaInicio
+        horario
+        lugar
+        tipoEvento
+        estado
+        soloColegiados
+      }
+    }
+  }
+}`;
+
+// Fallback data if GraphQL is unavailable
+const fallbackEventos: EventoItem[] = [
   {
     slug: 'asamblea-general-ordinaria-2026',
     title: 'Asamblea General Ordinaria 2026',
     date: '15 Abr 2026',
     time: '18:00 - 20:00',
     location: 'Salon de Actos, C/ Jose Abascal 44',
-    tipo: 'asamblea' as const,
-    estado: 'Abierto' as const,
+    tipo: 'asamblea',
+    estado: 'Abierto',
     soloColegiados: true,
   },
   {
@@ -28,8 +47,8 @@ const eventos = [
     date: '22 Abr 2026',
     time: '19:00 - 21:00',
     location: 'Sede del Colegio',
-    tipo: 'networking' as const,
-    estado: 'Abierto' as const,
+    tipo: 'networking',
+    estado: 'Abierto',
     soloColegiados: false,
   },
   {
@@ -38,8 +57,8 @@ const eventos = [
     date: '3 May 2026',
     time: '12:00 - 14:00',
     location: 'Salon de Actos, C/ Jose Abascal 44',
-    tipo: 'institucional' as const,
-    estado: 'Abierto' as const,
+    tipo: 'institucional',
+    estado: 'Abierto',
     soloColegiados: false,
   },
   {
@@ -48,152 +67,77 @@ const eventos = [
     date: '20 Dic 2025',
     time: '21:00',
     location: 'Hotel Palace, Madrid',
-    tipo: 'institucional' as const,
-    estado: 'Finalizado' as const,
+    tipo: 'institucional',
+    estado: 'Finalizado',
     soloColegiados: true,
   },
 ];
 
-const filterConfig: { key: FilterType; label: string }[] = [
-  { key: 'todos', label: 'Todos' },
-  { key: 'institucional', label: 'Institucional' },
-  { key: 'networking', label: 'Networking' },
-  { key: 'asamblea', label: 'Asamblea' },
-];
+function determineEstado(estado: string | null, fechaInicio: string | null): 'Abierto' | 'Finalizado' {
+  if (estado) {
+    const lower = estado.toLowerCase();
+    if (lower.includes('finalizado') || lower.includes('cancelado')) return 'Finalizado';
+    if (lower.includes('abierto') || lower.includes('programado') || lower.includes('completo')) return 'Abierto';
+  }
+  if (fechaInicio) {
+    const startDate = new Date(fechaInicio);
+    if (startDate < new Date()) return 'Finalizado';
+  }
+  return 'Abierto';
+}
 
-const tipoBadge: Record<string, { color: 'institutional' | 'formacion' | 'eventos' | 'colegio'; label: string }> = {
-  institucional: { color: 'colegio', label: 'Institucional' },
-  asamblea: { color: 'institutional', label: 'Asamblea' },
-  networking: { color: 'formacion', label: 'Networking' },
-  conferencia: { color: 'eventos', label: 'Conferencia' },
-  acto_social: { color: 'colegio', label: 'Acto Social' },
-};
+interface WpEventoNode {
+  slug: string;
+  title: string;
+  eventoFields: {
+    fechaInicio: string | null;
+    horario: string | null;
+    lugar: string | null;
+    tipoEvento: string | string[] | null;
+    estado: string | null;
+    soloColegiados: boolean | null;
+  } | null;
+}
 
-export default function EventosPage() {
-  const [activeFilter, setActiveFilter] = useState<FilterType>('todos');
+interface EventosResponse {
+  eventos: { nodes: WpEventoNode[] };
+}
 
-  const activos = eventos.filter((e) => e.estado !== 'Finalizado');
-  const pasados = eventos.filter((e) => e.estado === 'Finalizado');
+export default async function EventosPage() {
+  let eventos: EventoItem[] = fallbackEventos;
 
-  const filteredActivos = activos.filter((e) => {
-    if (activeFilter === 'todos') return true;
-    return e.tipo === activeFilter;
-  });
+  try {
+    const data = await fetchGraphQL<EventosResponse>(EVENTOS_QUERY);
+    if (data.eventos?.nodes?.length > 0) {
+      eventos = data.eventos.nodes.map((e) => {
+        const fields = e.eventoFields || {} as NonNullable<WpEventoNode['eventoFields']>;
+        const fechaInicio = fields.fechaInicio || null;
+        // tipoEvento comes as array like ["institucional", "Institucional"] from ACF select
+        const tipoRaw = fields.tipoEvento;
+        const tipo = Array.isArray(tipoRaw) ? tipoRaw[0] : (tipoRaw || 'institucional');
+
+        return {
+          slug: e.slug,
+          title: e.title,
+          date: fechaInicio
+            ? new Date(fechaInicio).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })
+            : '',
+          time: fields.horario || '',
+          location: fields.lugar || 'Sede del Colegio',
+          tipo,
+          estado: determineEstado(fields.estado, fechaInicio),
+          soloColegiados: fields.soloColegiados || false,
+        };
+      });
+    }
+  } catch {
+    // Use fallback data
+  }
 
   return (
     <>
       <Breadcrumbs items={[{ label: 'Eventos', href: '/eventos' }]} />
-
-      <section className="py-24">
-        <Container>
-          <SectionHeading
-            badge="Eventos"
-            title="Eventos del Colegio"
-            subtitle="Actos institucionales, asambleas, networking y actividades sociales."
-          />
-
-          {/* Filters */}
-          <div className="mb-10 flex flex-wrap justify-center gap-3">
-            {filterConfig.map((f) => (
-              <button
-                key={f.key}
-                onClick={() => setActiveFilter(f.key)}
-                className={`rounded-full px-4 py-1.5 text-xs font-semibold transition ${
-                  activeFilter === f.key
-                    ? 'bg-primary text-white'
-                    : 'border border-border bg-white text-text-secondary hover:border-primary hover:text-primary'
-                }`}
-              >
-                {f.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Active events */}
-          {filteredActivos.length > 0 ? (
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {filteredActivos.map((e) => {
-                const badge = tipoBadge[e.tipo] || tipoBadge.institucional;
-                return (
-                  <Link key={e.slug} href={`/eventos/${e.slug}`} className="group">
-                    <Card className="flex h-full flex-col">
-                      <div className="-mx-7 -mt-7 mb-5 flex aspect-[3/2] items-center justify-center overflow-hidden rounded-t-2xl bg-bg-alt">
-                        <p className="text-xs text-text-tertiary">Imagen del evento</p>
-                      </div>
-
-                      <div className="mb-3 flex flex-wrap items-center gap-2">
-                        <Badge color={badge.color}>{badge.label}</Badge>
-                        {e.soloColegiados && (
-                          <Badge color="colegio">
-                            <Users size={10} className="mr-1" /> Solo colegiados
-                          </Badge>
-                        )}
-                      </div>
-
-                      <h3 className="mb-3 text-lg font-bold text-text transition-colors group-hover:text-primary">
-                        {e.title}
-                      </h3>
-
-                      <div className="mt-auto space-y-2 text-sm text-text-secondary">
-                        <div className="flex items-center gap-2">
-                          <Calendar size={14} strokeWidth={1.5} />
-                          <span>{e.date}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Clock size={14} strokeWidth={1.5} />
-                          <span>{e.time}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <MapPin size={14} strokeWidth={1.5} />
-                          <span>{e.location}</span>
-                        </div>
-                      </div>
-
-                      <div className="mt-4 flex items-center gap-1 text-sm font-semibold text-primary">
-                        Ver detalle <ArrowRight size={14} />
-                      </div>
-                    </Card>
-                  </Link>
-                );
-              })}
-            </div>
-          ) : (
-            <div className="py-16 text-center">
-              <p className="text-text-tertiary">No hay eventos para este filtro.</p>
-            </div>
-          )}
-
-          {/* Past events */}
-          {pasados.length > 0 && (
-            <div className="mt-20">
-              <h2 className="mb-8 text-center text-2xl font-bold text-text">Eventos anteriores</h2>
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {pasados.map((e) => {
-                  const badge = tipoBadge[e.tipo] || tipoBadge.institucional;
-                  return (
-                    <Link key={e.slug} href={`/eventos/${e.slug}`} className="group">
-                      <Card className="flex h-full flex-col opacity-70 transition-opacity hover:opacity-100">
-                        <div className="mb-3 flex items-center gap-2">
-                          <Lock size={14} className="text-text-tertiary" strokeWidth={1.5} />
-                          <Badge color="institutional">Finalizado</Badge>
-                          <Badge color={badge.color}>{badge.label}</Badge>
-                        </div>
-                        <h3 className="mb-2 text-base font-bold text-text-secondary transition-colors group-hover:text-text">
-                          {e.title}
-                        </h3>
-                        <div className="mt-auto flex items-center gap-2 text-sm text-text-tertiary">
-                          <Calendar size={14} strokeWidth={1.5} />
-                          <span>{e.date}</span>
-                        </div>
-                      </Card>
-                    </Link>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-        </Container>
-      </section>
+      <FilteredEventos eventos={eventos} />
     </>
   );
 }

@@ -1,23 +1,37 @@
-'use client';
-
-import { useState } from 'react';
-import Link from 'next/link';
-import { Container } from '@/components/ui/Container';
-import { SectionHeading } from '@/components/ui/SectionHeading';
-import { Card } from '@/components/ui/Card';
-import { Badge } from '@/components/ui/Badge';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
-import { Calendar, Clock, MapPin, ArrowRight, Lock } from 'lucide-react';
+import { FilteredFormaciones, FormacionItem } from '@/components/sections/FilteredFormaciones';
+import { createMetadata } from '@/lib/seo/metadata';
+import { fetchGraphQL } from '@/lib/graphql/client';
 
-// export const metadata: Metadata = createMetadata({
-//   title: 'Formacion y Eventos',
-//   description: 'Calendario de formacion, jornadas, seminarios y eventos del Colegio Oficial de Graduados Sociales de Madrid. Inscripcion abierta.',
-//   path: '/formacion-eventos',
-// });
+export const revalidate = 60;
 
-type FilterType = 'todos' | 'presencial' | 'online' | 'gratuito';
+export const metadata = createMetadata({
+  title: 'Formacion y Eventos',
+  description:
+    'Calendario de formacion, jornadas, seminarios y eventos del Colegio Oficial de Graduados Sociales de Madrid. Inscripcion abierta.',
+  path: '/formacion-eventos',
+});
 
-const formaciones = [
+const FORMACIONES_QUERY = `{
+  formaciones(first: 50, where: { orderby: { field: DATE, order: DESC } }) {
+    nodes {
+      slug
+      title
+      formacionFields {
+        fechaInicio
+        fechaFin
+        horario
+        lugar
+        plazas
+        esGratuito
+        estado
+      }
+    }
+  }
+}`;
+
+// Fallback data if GraphQL is unavailable
+const fallbackFormaciones: FormacionItem[] = [
   {
     slug: 'jornada-actualizacion-laboral-2026',
     title: 'Jornada de Actualizacion Laboral 2026',
@@ -25,7 +39,7 @@ const formaciones = [
     time: '10:00 - 14:00',
     location: 'Sede del Colegio',
     modalidad: 'Presencial',
-    estado: 'Abierta' as const,
+    estado: 'Abierta',
     plazas: 8,
     esGratuito: false,
   },
@@ -36,7 +50,7 @@ const formaciones = [
     time: '17:00 - 19:00',
     location: 'Online',
     modalidad: 'Online',
-    estado: 'Abierta' as const,
+    estado: 'Abierta',
     plazas: 200,
     esGratuito: true,
   },
@@ -47,7 +61,7 @@ const formaciones = [
     time: '09:00 - 14:00',
     location: 'Sede del Colegio',
     modalidad: 'Presencial',
-    estado: 'Abierta' as const,
+    estado: 'Abierta',
     plazas: 30,
     esGratuito: false,
   },
@@ -58,7 +72,7 @@ const formaciones = [
     time: '16:00 - 20:00',
     location: 'Online',
     modalidad: 'Online',
-    estado: 'Abierta' as const,
+    estado: 'Abierta',
     plazas: 100,
     esGratuito: false,
   },
@@ -69,7 +83,7 @@ const formaciones = [
     time: '10:00 - 14:00',
     location: 'Sede del Colegio',
     modalidad: 'Presencial',
-    estado: 'Finalizada' as const,
+    estado: 'Finalizada',
     plazas: 0,
     esGratuito: false,
   },
@@ -80,147 +94,85 @@ const formaciones = [
     time: '09:00 - 13:00',
     location: 'Sede del Colegio',
     modalidad: 'Presencial',
-    estado: 'Finalizada' as const,
+    estado: 'Finalizada',
     plazas: 0,
     esGratuito: false,
   },
 ];
 
-const filterConfig: { key: FilterType; label: string }[] = [
-  { key: 'todos', label: 'Todos' },
-  { key: 'presencial', label: 'Presencial' },
-  { key: 'online', label: 'Online' },
-  { key: 'gratuito', label: 'Gratuito' },
-];
+function determineModalidad(lugar: string | null): string {
+  if (!lugar) return 'Presencial';
+  const lower = lugar.toLowerCase();
+  if (lower.includes('online') || lower.includes('webinar') || lower.includes('virtual')) return 'Online';
+  return 'Presencial';
+}
 
-export default function FormacionEventosPage() {
-  const [activeFilter, setActiveFilter] = useState<FilterType>('todos');
+function determineEstado(estado: string | null, fechaInicio: string | null): 'Abierta' | 'Finalizada' {
+  if (estado) {
+    const lower = estado.toLowerCase();
+    if (lower.includes('finalizada') || lower.includes('cerrada') || lower.includes('pasada')) return 'Finalizada';
+    if (lower.includes('abierta') || lower.includes('activa')) return 'Abierta';
+  }
+  // If no explicit estado, check date
+  if (fechaInicio) {
+    const startDate = new Date(fechaInicio);
+    if (startDate < new Date()) return 'Finalizada';
+  }
+  return 'Abierta';
+}
 
-  const abiertas = formaciones.filter((f) => f.estado !== 'Finalizada');
-  const pasadas = formaciones.filter((f) => f.estado === 'Finalizada');
+interface WpFormacionNode {
+  slug: string;
+  title: string;
+  formacionFields: {
+    fechaInicio: string | null;
+    fechaFin: string | null;
+    horario: string | null;
+    lugar: string | null;
+    plazas: number | null;
+    esGratuito: boolean | null;
+    estado: string | null;
+  } | null;
+}
 
-  const filteredAbiertas = abiertas.filter((f) => {
-    if (activeFilter === 'todos') return true;
-    if (activeFilter === 'presencial') return f.modalidad === 'Presencial';
-    if (activeFilter === 'online') return f.modalidad === 'Online';
-    if (activeFilter === 'gratuito') return f.esGratuito === true;
-    return true;
-  });
+interface FormacionesResponse {
+  formaciones: { nodes: WpFormacionNode[] };
+}
+
+export default async function FormacionEventosPage() {
+  let formaciones: FormacionItem[] = fallbackFormaciones;
+
+  try {
+    const data = await fetchGraphQL<FormacionesResponse>(FORMACIONES_QUERY);
+    if (data.formaciones?.nodes?.length > 0) {
+      formaciones = data.formaciones.nodes.map((f) => {
+        const fields = f.formacionFields || {} as NonNullable<WpFormacionNode['formacionFields']>;
+        const fechaInicio = fields.fechaInicio || null;
+        const lugar = fields.lugar || '';
+
+        return {
+          slug: f.slug,
+          title: f.title,
+          date: fechaInicio
+            ? new Date(fechaInicio).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })
+            : '',
+          time: fields.horario || '',
+          location: lugar || 'Sede del Colegio',
+          modalidad: determineModalidad(lugar),
+          estado: determineEstado(fields.estado, fechaInicio),
+          plazas: fields.plazas || 0,
+          esGratuito: fields.esGratuito || false,
+        };
+      });
+    }
+  } catch {
+    // Use fallback data
+  }
 
   return (
     <>
       <Breadcrumbs items={[{ label: 'Formacion y Eventos', href: '/formacion-eventos' }]} />
-
-      <section className="py-24">
-        <Container>
-          <SectionHeading
-            badge="Formacion"
-            title="Formacion y Eventos"
-            subtitle="Jornadas, seminarios, cursos y eventos organizados por el Colegio. Inscripcion abierta para colegiados y publico general."
-          />
-
-          {/* Filter badges */}
-          <div className="mb-10 flex flex-wrap justify-center gap-3">
-            {filterConfig.map((filter) => (
-              <button
-                key={filter.key}
-                onClick={() => setActiveFilter(filter.key)}
-                className={`rounded-full px-4 py-1.5 text-xs font-semibold transition ${
-                  activeFilter === filter.key
-                    ? 'bg-primary text-white'
-                    : 'border border-border bg-white text-text-secondary hover:border-primary hover:text-primary'
-                }`}
-              >
-                {filter.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Active formations */}
-          {filteredAbiertas.length > 0 ? (
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {filteredAbiertas.map((f) => (
-                <Link key={f.slug} href={`/formacion-eventos/${f.slug}`} className="group">
-                  <Card className="flex h-full flex-col">
-                    {/* Image placeholder */}
-                    <div className="-mx-7 -mt-7 mb-5 flex aspect-[3/2] items-center justify-center overflow-hidden rounded-t-2xl bg-bg-alt">
-                      <p className="text-xs text-text-tertiary">Imagen de la formacion</p>
-                    </div>
-
-                    <div className="flex flex-wrap items-center gap-2 mb-3">
-                      <Badge color={f.modalidad === 'Online' ? 'eventos' : 'formacion'}>
-                        {f.modalidad}
-                      </Badge>
-                      {f.esGratuito && <Badge color="activo">Gratuito</Badge>}
-                      {f.plazas > 0 && f.plazas <= 10 && (
-                        <Badge color="pendiente">Ultimas plazas</Badge>
-                      )}
-                    </div>
-
-                    <h3 className="mb-3 text-lg font-bold text-text transition-colors group-hover:text-primary">
-                      {f.title}
-                    </h3>
-
-                    <div className="mt-auto space-y-2 text-sm text-text-secondary">
-                      <div className="flex items-center gap-2">
-                        <Calendar size={14} strokeWidth={1.5} />
-                        <span>{f.date}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Clock size={14} strokeWidth={1.5} />
-                        <span>{f.time}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <MapPin size={14} strokeWidth={1.5} />
-                        <span>{f.location}</span>
-                      </div>
-                    </div>
-
-                    <div className="mt-4 flex items-center gap-1 text-sm font-semibold text-primary">
-                      Ver detalle e inscripcion <ArrowRight size={14} />
-                    </div>
-                  </Card>
-                </Link>
-              ))}
-            </div>
-          ) : (
-            <div className="py-16 text-center">
-              <p className="text-text-tertiary">
-                No hay formaciones que coincidan con el filtro seleccionado.
-              </p>
-            </div>
-          )}
-
-          {/* Past formations */}
-          {pasadas.length > 0 && (
-            <div className="mt-20">
-              <h2 className="mb-8 text-center text-2xl font-bold text-text">Formaciones anteriores</h2>
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {pasadas.map((f) => (
-                  <Link key={f.slug} href={`/formacion-eventos/${f.slug}`} className="group">
-                    <Card className="flex h-full flex-col opacity-70 transition-opacity hover:opacity-100">
-                      <div className="mb-3 flex items-center gap-2">
-                        <Lock size={14} className="text-text-tertiary" strokeWidth={1.5} />
-                        <Badge color="institutional">Finalizada</Badge>
-                        <Badge color={f.modalidad === 'Online' ? 'eventos' : 'formacion'}>
-                          {f.modalidad}
-                        </Badge>
-                      </div>
-                      <h3 className="mb-2 text-base font-bold text-text-secondary transition-colors group-hover:text-text">
-                        {f.title}
-                      </h3>
-                      <div className="mt-auto flex items-center gap-2 text-sm text-text-tertiary">
-                        <Calendar size={14} strokeWidth={1.5} />
-                        <span>{f.date}</span>
-                      </div>
-                    </Card>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          )}
-        </Container>
-      </section>
+      <FilteredFormaciones formaciones={formaciones} />
     </>
   );
 }
