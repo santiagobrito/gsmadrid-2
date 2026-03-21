@@ -8,7 +8,8 @@ import { cn } from '@/lib/utils/cn';
 import { Button } from '@/components/ui/Button';
 import { Container } from '@/components/ui/Container';
 
-const navItems = [
+// Hardcoded fallback — used when WordPress menu is unavailable
+export const FALLBACK_NAV = [
   { label: 'El Colegio', href: '/el-colegio' },
   { label: 'Hazte Colegiado', href: '/hazte-colegiado' },
   { label: 'Servicios', href: '/servicios-colegiado' },
@@ -18,8 +19,18 @@ const navItems = [
   { label: 'Directorio', href: '/directorio' },
 ];
 
-export function Header() {
+export interface NavItem {
+  label: string;
+  href: string;
+}
+
+interface HeaderProps {
+  navItems?: NavItem[];
+}
+
+export function Header({ navItems }: HeaderProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const items = navItems && navItems.length > 0 ? navItems : FALLBACK_NAV;
 
   return (
     <header className="sticky top-0 z-50 h-[86px] border-b border-[#E2E8F0] bg-white/95 backdrop-blur-sm">
@@ -38,11 +49,11 @@ export function Header() {
 
         {/* Desktop nav */}
         <nav className="hidden items-center gap-1 xl:gap-3 lg:flex">
-          {navItems.map((item) => (
+          {items.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="text-sm font-medium text-[#475569] transition-colors hover:text-[#2563EB]"
+              className="px-2 py-1 text-sm font-medium text-[#475569] transition-colors hover:text-[#2563EB]"
             >
               {item.label}
             </Link>
@@ -81,7 +92,7 @@ export function Header() {
       >
         <Container className="py-6">
           <nav className="flex flex-col gap-4">
-            {navItems.map((item) => (
+            {items.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}

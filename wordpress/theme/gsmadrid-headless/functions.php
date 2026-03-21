@@ -125,6 +125,19 @@ function gsmadrid_register_cpts() {
 }
 
 // ============================================================
+// 1b. REGISTER NAV MENUS
+// ============================================================
+
+add_action('after_setup_theme', 'gsmadrid_register_menus');
+
+function gsmadrid_register_menus() {
+    register_nav_menus([
+        'primary' => 'Menu Principal',
+        'footer'  => 'Menu Footer',
+    ]);
+}
+
+// ============================================================
 // 2. TAXONOMIAS
 // ============================================================
 
