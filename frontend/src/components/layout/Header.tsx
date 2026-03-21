@@ -29,15 +29,15 @@ export function Header() {
           <Image
             src="/logo.png"
             alt="Colegio Oficial de Graduados Sociales de Madrid"
-            width={294}
-            height={80}
-            className="h-auto w-[294px]"
+            width={180}
+            height={49}
+            className="h-auto w-[160px] lg:w-[180px]"
             priority
           />
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden items-center gap-6 lg:flex">
+        <nav className="hidden items-center gap-1 xl:gap-3 lg:flex">
           {navItems.map((item) => (
             <Link
               key={item.href}

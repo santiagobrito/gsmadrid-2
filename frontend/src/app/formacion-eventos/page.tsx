@@ -1,139 +1,199 @@
-import { Calendar, Clock, MapPin } from 'lucide-react';
+import { Metadata } from 'next';
+import Link from 'next/link';
 import { Container } from '@/components/ui/Container';
+import { SectionHeading } from '@/components/ui/SectionHeading';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
-import { SectionHeading } from '@/components/ui/SectionHeading';
 import { createMetadata } from '@/lib/seo/metadata';
+import { Calendar, Clock, MapPin, ArrowRight, Lock } from 'lucide-react';
 
-export const revalidate = 60;
-
-export const metadata = createMetadata({
+export const metadata: Metadata = createMetadata({
   title: 'Formacion y Eventos',
-  description:
-    'Calendario de formacion, cursos, jornadas y eventos del Colegio Oficial de Graduados Sociales de Madrid.',
+  description: 'Calendario de formacion, jornadas, seminarios y eventos del Colegio Oficial de Graduados Sociales de Madrid. Inscripcion abierta.',
   path: '/formacion-eventos',
 });
 
-// TODO: Replace with GraphQL query GET_FORMACIONES
-const placeholderEvents = [
+export const revalidate = 60;
+
+const formaciones = [
   {
     slug: 'jornada-actualizacion-laboral-2026',
     title: 'Jornada de Actualizacion Laboral 2026',
-    date: '28 de marzo de 2026',
+    date: '28 Mar 2026',
     time: '10:00 - 14:00',
-    location: 'Sede del Colegio, Madrid',
-    type: 'Jornada',
-    badge: 'formacion' as const,
+    location: 'Sede del Colegio',
+    modalidad: 'Presencial',
+    estado: 'Abierta' as const,
+    plazas: 8,
+    esGratuito: false,
   },
   {
-    slug: 'taller-nominas-seguros-sociales',
-    title: 'Taller Practico: Nominas y Seguros Sociales',
-    date: '5 de abril de 2026',
+    slug: 'webinar-seguridad-social',
+    title: 'Webinar: Novedades en Seguridad Social',
+    date: '2 Abr 2026',
+    time: '17:00 - 19:00',
+    location: 'Online',
+    modalidad: 'Online',
+    estado: 'Abierta' as const,
+    plazas: 200,
+    esGratuito: true,
+  },
+  {
+    slug: 'curso-mediacion-arbitraje',
+    title: 'Curso de Mediacion y Arbitraje Laboral',
+    date: '7 Abr 2026',
+    time: '09:00 - 14:00',
+    location: 'Sede del Colegio',
+    modalidad: 'Presencial',
+    estado: 'Abierta' as const,
+    plazas: 30,
+    esGratuito: false,
+  },
+  {
+    slug: 'taller-inteligencia-artificial-laboral',
+    title: 'Taller: IA Aplicada al Ambito Laboral',
+    date: '15 Abr 2026',
     time: '16:00 - 20:00',
-    location: 'Online (Zoom)',
-    type: 'Taller',
-    badge: 'eventos' as const,
+    location: 'Online',
+    modalidad: 'Online',
+    estado: 'Abierta' as const,
+    plazas: 100,
+    esGratuito: false,
   },
   {
-    slug: 'curso-legislacion-laboral',
-    title: 'Curso de Legislacion Laboral Actualizada',
-    date: '12 de abril de 2026',
-    time: '09:00 - 18:00',
-    location: 'Sede del Colegio, Madrid',
-    type: 'Curso',
-    badge: 'formacion' as const,
-  },
-  {
-    slug: 'seminario-prevencion-riesgos',
-    title: 'Seminario de Prevencion de Riesgos Laborales',
-    date: '20 de abril de 2026',
+    slug: 'jornada-prevencion-riesgos-2025',
+    title: 'Jornada de Prevencion de Riesgos Laborales',
+    date: '15 Dic 2025',
     time: '10:00 - 14:00',
-    location: 'Online (Teams)',
-    type: 'Seminario',
-    badge: 'formacion' as const,
+    location: 'Sede del Colegio',
+    modalidad: 'Presencial',
+    estado: 'Finalizada' as const,
+    plazas: 0,
+    esGratuito: false,
   },
   {
-    slug: 'mesa-redonda-reforma-pensiones',
-    title: 'Mesa Redonda: Reforma del Sistema de Pensiones',
-    date: '28 de abril de 2026',
-    time: '18:00 - 20:00',
-    location: 'Salon de Actos, C/ Flora 1',
-    type: 'Evento',
-    badge: 'eventos' as const,
-  },
-  {
-    slug: 'taller-mediacion-laboral',
-    title: 'Taller de Mediacion Laboral',
-    date: '5 de mayo de 2026',
-    time: '16:00 - 20:00',
-    location: 'Sede del Colegio, Madrid',
-    type: 'Taller',
-    badge: 'formacion' as const,
+    slug: 'seminario-reforma-laboral-2025',
+    title: 'Seminario: Reforma Laboral — Balance 2025',
+    date: '28 Nov 2025',
+    time: '09:00 - 13:00',
+    location: 'Sede del Colegio',
+    modalidad: 'Presencial',
+    estado: 'Finalizada' as const,
+    plazas: 0,
+    esGratuito: false,
   },
 ];
 
-const filterTypes = ['Todos', 'Jornada', 'Taller', 'Curso', 'Seminario', 'Evento'];
+export default async function FormacionEventosPage() {
+  const abiertas = formaciones.filter((f) => f.estado !== 'Finalizada');
+  const pasadas = formaciones.filter((f) => f.estado === 'Finalizada');
 
-export default function FormacionEventosPage() {
   return (
-    <section className="py-16">
-      <Container>
-        <Breadcrumbs
-          items={[{ label: 'Formacion y Eventos', href: '/formacion-eventos' }]}
-        />
+    <>
+      <Breadcrumbs items={[{ label: 'Formacion y Eventos', href: '/formacion-eventos' }]} />
 
-        <SectionHeading
-          badge="Agenda"
-          title="Formacion y Eventos"
-          subtitle="Cursos, jornadas, talleres y actividades del Colegio"
-        />
+      <section className="py-24">
+        <Container>
+          <SectionHeading
+            badge="Formacion"
+            title="Formacion y Eventos"
+            subtitle="Jornadas, seminarios, cursos y eventos organizados por el Colegio. Inscripcion abierta para colegiados y publico general."
+          />
 
-        {/* Filter badges */}
-        <div className="mb-8 flex flex-wrap justify-center gap-2">
-          {filterTypes.map((type) => (
-            <Badge
-              key={type}
-              color={type === 'Todos' ? 'institutional' : 'formacion'}
-              className="cursor-pointer"
-            >
-              {type}
-            </Badge>
-          ))}
-        </div>
+          {/* Filter badges */}
+          <div className="mb-10 flex flex-wrap justify-center gap-3">
+            <button className="rounded-full bg-primary px-4 py-1.5 text-xs font-semibold text-white">
+              Todos
+            </button>
+            <button className="rounded-full border border-border bg-white px-4 py-1.5 text-xs font-semibold text-text-secondary transition hover:border-primary hover:text-primary">
+              Presencial
+            </button>
+            <button className="rounded-full border border-border bg-white px-4 py-1.5 text-xs font-semibold text-text-secondary transition hover:border-primary hover:text-primary">
+              Online
+            </button>
+            <button className="rounded-full border border-border bg-white px-4 py-1.5 text-xs font-semibold text-text-secondary transition hover:border-primary hover:text-primary">
+              Gratuito
+            </button>
+          </div>
 
-        {/* TODO: Integrate with GraphQL — replace placeholder data */}
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {placeholderEvents.map((event) => (
-            <a
-              key={event.slug}
-              href={`/formacion-eventos/${event.slug}`}
-              className="block"
-            >
-              <Card className="h-full">
-                <Badge color={event.badge}>{event.type}</Badge>
-                <h3 className="mt-4 text-lg font-bold text-[#0F172A]">
-                  {event.title}
-                </h3>
-                <div className="mt-4 space-y-2">
-                  <div className="flex items-center gap-2 text-sm text-[#475569]">
-                    <Calendar size={16} strokeWidth={1.5} className="text-[#6B7280]" />
-                    {event.date}
+          {/* Active formations */}
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {abiertas.map((f) => (
+              <Link key={f.slug} href={`/formacion-eventos/${f.slug}`} className="group">
+                <Card className="flex h-full flex-col">
+                  {/* Image placeholder */}
+                  <div className="-mx-7 -mt-7 mb-5 flex aspect-[3/2] items-center justify-center overflow-hidden rounded-t-2xl bg-bg-alt">
+                    <p className="text-xs text-text-tertiary">Imagen de la formacion</p>
                   </div>
-                  <div className="flex items-center gap-2 text-sm text-[#475569]">
-                    <Clock size={16} strokeWidth={1.5} className="text-[#6B7280]" />
-                    {event.time}
+
+                  <div className="flex flex-wrap items-center gap-2 mb-3">
+                    <Badge color={f.modalidad === 'Online' ? 'eventos' : 'formacion'}>
+                      {f.modalidad}
+                    </Badge>
+                    {f.esGratuito && <Badge color="activo">Gratuito</Badge>}
+                    {f.plazas > 0 && f.plazas <= 10 && (
+                      <Badge color="pendiente">Ultimas plazas</Badge>
+                    )}
                   </div>
-                  <div className="flex items-center gap-2 text-sm text-[#475569]">
-                    <MapPin size={16} strokeWidth={1.5} className="text-[#6B7280]" />
-                    {event.location}
+
+                  <h3 className="mb-3 text-lg font-bold text-text transition-colors group-hover:text-primary">
+                    {f.title}
+                  </h3>
+
+                  <div className="mt-auto space-y-2 text-sm text-text-secondary">
+                    <div className="flex items-center gap-2">
+                      <Calendar size={14} strokeWidth={1.5} />
+                      <span>{f.date}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Clock size={14} strokeWidth={1.5} />
+                      <span>{f.time}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <MapPin size={14} strokeWidth={1.5} />
+                      <span>{f.location}</span>
+                    </div>
                   </div>
-                </div>
-              </Card>
-            </a>
-          ))}
-        </div>
-      </Container>
-    </section>
+
+                  <div className="mt-4 flex items-center gap-1 text-sm font-semibold text-primary">
+                    Ver detalle e inscripcion <ArrowRight size={14} />
+                  </div>
+                </Card>
+              </Link>
+            ))}
+          </div>
+
+          {/* Past formations */}
+          {pasadas.length > 0 && (
+            <div className="mt-20">
+              <h2 className="mb-8 text-center text-2xl font-bold text-text">Formaciones anteriores</h2>
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {pasadas.map((f) => (
+                  <Link key={f.slug} href={`/formacion-eventos/${f.slug}`} className="group">
+                    <Card className="flex h-full flex-col opacity-70 transition-opacity hover:opacity-100">
+                      <div className="mb-3 flex items-center gap-2">
+                        <Lock size={14} className="text-text-tertiary" />
+                        <Badge color="institutional">Finalizada</Badge>
+                        <Badge color={f.modalidad === 'Online' ? 'eventos' : 'formacion'}>
+                          {f.modalidad}
+                        </Badge>
+                      </div>
+                      <h3 className="mb-2 text-base font-bold text-text-secondary transition-colors group-hover:text-text">
+                        {f.title}
+                      </h3>
+                      <div className="mt-auto flex items-center gap-2 text-sm text-text-tertiary">
+                        <Calendar size={14} strokeWidth={1.5} />
+                        <span>{f.date}</span>
+                      </div>
+                    </Card>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+        </Container>
+      </section>
+    </>
   );
 }
