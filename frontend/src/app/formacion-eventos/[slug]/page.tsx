@@ -1,4 +1,6 @@
 import { Calendar, Clock, MapPin, Users, ArrowLeft, BookOpen, Award } from 'lucide-react';
+import { PonentesGrid } from '@/components/sections/PonentesGrid';
+import type { Ponente } from '@/components/sections/PonentesGrid';
 import { Container } from '@/components/ui/Container';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
@@ -51,6 +53,20 @@ export default async function FormacionDetailPage({ params }: PageProps) {
     esGratuito: false,
     modalidad: 'Presencial',
   };
+
+  // Placeholder ponentes — will come from ACF repeater via GraphQL
+  const ponentes: Ponente[] = [
+    {
+      nombre: 'Dr. Carlos Martinez Lopez',
+      cargo: 'Magistrado del Tribunal Superior de Justicia de Madrid',
+      bio: 'Especialista en derecho laboral con mas de 20 anos de experiencia en la jurisdiccion social.',
+    },
+    {
+      nombre: 'Maria Garcia Fernandez',
+      cargo: 'Inspectora de Trabajo y Seguridad Social',
+      bio: 'Experta en prevencion de riesgos laborales y regulacion de condiciones de trabajo.',
+    },
+  ];
 
   return (
     <>
@@ -145,11 +161,11 @@ export default async function FormacionDetailPage({ params }: PageProps) {
                   El programa detallado se cargara desde WordPress. Incluira los temas, ponentes y
                   horarios de cada bloque.
                 </p>
+              </div>
 
-                <h2>Ponentes</h2>
-                <p className="text-text-secondary font-light">
-                  Informacion sobre los ponentes se mostrara aqui, incluyendo foto, nombre, cargo y breve bio.
-                </p>
+              {/* Ponentes — loaded from ACF repeater via GraphQL */}
+              <div className="mt-10">
+                <PonentesGrid ponentes={ponentes} />
               </div>
 
               {/* Back button */}

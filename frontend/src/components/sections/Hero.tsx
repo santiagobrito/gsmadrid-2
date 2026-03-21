@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
@@ -16,6 +17,7 @@ export interface HeroSlide {
   href: string;
   date?: string;
   pinned?: boolean;
+  image?: string;
 }
 
 // Placeholder slides — will be replaced with GraphQL data
@@ -28,6 +30,7 @@ const defaultSlides: HeroSlide[] = [
     href: '/formacion-eventos/jornada-actualizacion-laboral-2026',
     date: '28 Mar 2026',
     pinned: true,
+    image: '/placeholder-news.jpg',
   },
   {
     id: '2',
@@ -36,6 +39,7 @@ const defaultSlides: HeroSlide[] = [
     excerpt: 'El Colegio estrena nuevas instalaciones con sala de togas, biblioteca y espacios de coworking.',
     href: '/actualidad/nueva-sede-colegio',
     date: '20 Mar 2026',
+    image: '/placeholder-news.jpg',
   },
   {
     id: '3',
@@ -44,6 +48,7 @@ const defaultSlides: HeroSlide[] = [
     excerpt: 'Repaso completo a las ultimas reformas y su impacto en el ambito laboral.',
     href: '/formacion-eventos/webinar-seguridad-social',
     date: '2 Abr 2026',
+    image: '/placeholder-news.jpg',
   },
   {
     id: '4',
@@ -52,6 +57,7 @@ const defaultSlides: HeroSlide[] = [
     excerpt: 'Acuerdo de colaboracion para practicas y formacion continua de graduados sociales.',
     href: '/actualidad/convenio-ucm',
     date: '15 Mar 2026',
+    image: '/placeholder-news.jpg',
   },
 ];
 
@@ -147,6 +153,17 @@ export function Hero({ slides = defaultSlides }: HeroProps) {
                   )}
 
                   <div className="p-7">
+                    {/* Image */}
+                    {slide.image ? (
+                      <div className="mb-4 aspect-[16/9] overflow-hidden rounded-xl">
+                        <Image src={slide.image} alt={slide.title} width={600} height={340} className="h-full w-full object-cover" />
+                      </div>
+                    ) : (
+                      <div className="mb-4 flex aspect-[16/9] items-center justify-center rounded-xl bg-bg-alt border border-border">
+                        <span className="text-xs text-text-tertiary">Imagen destacada</span>
+                      </div>
+                    )}
+
                     {/* Type badge */}
                     <div className="mb-4 flex items-center gap-2">
                       <Badge color={config.badge}>
