@@ -244,6 +244,22 @@ remove_action('wp_head', 'feed_links', 2);
 remove_action('wp_head', 'feed_links_extra', 3);
 
 // ============================================================
+// 6b. DISABLE GUTENBERG — Use Classic Editor
+// (headless CMS: Gutenberg blocks not rendered in frontend)
+// ============================================================
+
+add_filter('use_block_editor_for_post', '__return_false');
+add_filter('use_block_editor_for_post_type', '__return_false');
+
+// Also remove Gutenberg styles from admin
+add_action('admin_init', function () {
+    remove_action('wp_enqueue_scripts', 'wp_common_block_scripts_and_styles');
+    wp_deregister_style('wp-block-library');
+    wp_deregister_style('wp-block-library-theme');
+    wp_deregister_style('global-styles');
+});
+
+// ============================================================
 // 7. DISABLE XML-RPC
 // ============================================================
 
