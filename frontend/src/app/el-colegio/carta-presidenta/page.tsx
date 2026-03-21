@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { ArrowRight } from 'lucide-react';
+import Image from 'next/image';
 import { Container } from '@/components/ui/Container';
 import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
@@ -32,10 +33,10 @@ export default function CartaPresidentaPage() {
           { label: 'Carta de la Presidenta', href: '/el-colegio/carta-presidenta' },
         ]}
       />
-      <section className="py-16">
+      <section className="py-12">
         <Container>
           {/* Header */}
-        <div className="mb-12 max-w-3xl">
+        <div className="mb-8 max-w-3xl">
           <div className="mb-4">
             <Badge color="colegio">Mensaje Institucional</Badge>
           </div>
@@ -52,10 +53,15 @@ export default function CartaPresidentaPage() {
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[320px_1fr]">
           {/* LEFT column */}
           <div className="space-y-6">
-            {/* Photo placeholder */}
-            <div className="flex aspect-[3/4] items-center justify-center rounded-2xl bg-[#2563EB]/10">
-              <span className="text-5xl font-bold text-[#2563EB]/40">TS</span>
-            </div>
+            {/* Photo */}
+            <Image
+              src="/teresa-silleras.jpg"
+              alt="Teresa Silleras Martinez, presidenta del Colegio Oficial de Graduados Sociales de Madrid"
+              width={320}
+              height={427}
+              className="w-full rounded-2xl object-cover"
+              priority
+            />
 
             {/* Data card */}
             <Card hover={false} className="p-0 overflow-hidden">

@@ -44,21 +44,18 @@ const perfiles = [
     title: 'Colegiado/a',
     subtitle: 'Miembro del CGSM',
     price: 'Gratuito',
-    icon: '🎓',
   },
   {
     id: 'precolegiado' as const,
     title: 'Pre-Colegiado/a',
     subtitle: 'Estudiante Miembro',
     price: 'Gratuito',
-    icon: '📚',
   },
   {
     id: 'externo' as const,
     title: 'Externo',
     subtitle: 'NO perteneces al CGSM',
     price: '50 €',
-    icon: '👤',
   },
 ];
 
@@ -249,7 +246,9 @@ export function InscripcionForm({
                   : 'border-border bg-white hover:border-primary/30'
               }`}
             >
-              <span className="text-2xl">{p.icon}</span>
+              <div className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg ${perfil === p.id ? 'bg-primary/10' : 'bg-bg-alt'}`}>
+                <div className={`h-2.5 w-2.5 rounded-full ${perfil === p.id ? 'bg-primary' : 'bg-text-tertiary/30'}`} />
+              </div>
               <div className="flex-1">
                 <p className="text-sm font-bold text-text">{p.title}</p>
                 <p className="text-xs text-text-tertiary">{p.subtitle}</p>
@@ -460,8 +459,8 @@ export function InscripcionForm({
             <div className="rounded-xl border border-warning/20 bg-warning/5 p-3">
               <p className="text-xs text-text-secondary">
                 {pagoOnline
-                  ? '💳 Al confirmar seras redirigido a la pasarela de pago segura.'
-                  : '📧 Recibiras las instrucciones de pago por email tras confirmar la inscripcion.'}
+                  ? 'Al confirmar seras redirigido a la pasarela de pago segura.'
+                  : 'Recibiras las instrucciones de pago por email tras confirmar la inscripcion.'}
               </p>
             </div>
           )}
