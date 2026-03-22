@@ -1,6 +1,7 @@
+import Image from 'next/image';
 import {
   Scale, Users, Briefcase, ShieldCheck, Phone, Mail, MapPin,
-  ArrowRight, Clock, Building2, Handshake, GraduationCap,
+  ArrowRight, Clock, Building2, Handshake,
 } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
 import { Card } from '@/components/ui/Card';
@@ -76,12 +77,12 @@ const steps = [
 ];
 
 const partners = [
-  'Ayuntamiento de Madrid',
-  'Ayuntamiento de Colmenarejo',
-  'Mancomunidad de Servicios Sociales Sierra Norte',
-  'Asociacion Espanola de Microfinanzas',
-  'Trabajando en Positivo',
-  'SEDOAC (Servicio Domestico Activo)',
+  { name: 'Ayuntamiento de Madrid', logo: null },
+  { name: 'Ayuntamiento de Colmenarejo', logo: null },
+  { name: 'Mancomunidad de Servicios Sociales Sierra Norte', logo: '/partners/mancomunidad-sssn.jpg' },
+  { name: 'Asociacion Espanola de Microfinanzas', logo: '/partners/aem.png' },
+  { name: 'Trabajando en Positivo', logo: '/partners/trabajando-en-positivo.jpg' },
+  { name: 'SEDOAC (Servicio Domestico Activo)', logo: '/partners/sedoac.jpg' },
 ];
 
 export default function ClinicaJuridicaPage() {
@@ -252,11 +253,23 @@ export default function ClinicaJuridicaPage() {
             </p>
           </div>
 
-          <div className="mx-auto max-w-2xl grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <div className="mx-auto max-w-3xl grid grid-cols-2 gap-6 sm:grid-cols-3">
             {partners.map((p) => (
-              <div key={p} className="flex items-center gap-3 rounded-xl border border-[#E2E8F0] bg-white px-5 py-3">
-                <GraduationCap size={16} strokeWidth={1.5} className="shrink-0 text-[#2563EB]" />
-                <span className="text-sm text-[#475569]">{p}</span>
+              <div key={p.name} className="flex flex-col items-center justify-center rounded-2xl border border-[#E2E8F0] bg-white p-6 text-center">
+                {p.logo ? (
+                  <Image
+                    src={p.logo}
+                    alt={p.name}
+                    width={120}
+                    height={60}
+                    className="mb-3 h-[50px] w-auto object-contain grayscale opacity-70 transition-all hover:grayscale-0 hover:opacity-100"
+                  />
+                ) : (
+                  <div className="mb-3 flex h-[50px] w-[50px] items-center justify-center rounded-full bg-[#2563EB]/10">
+                    <Building2 size={24} strokeWidth={1.5} className="text-[#2563EB]" />
+                  </div>
+                )}
+                <span className="text-xs text-[#6B7280]">{p.name}</span>
               </div>
             ))}
           </div>
