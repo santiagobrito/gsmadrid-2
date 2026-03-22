@@ -119,24 +119,28 @@ const steps = [
 
 const faqs = [
   {
-    q: '¿Cuanto cuesta ser precolegiado?',
-    a: 'La precolegiacion es completamente gratuita durante todo el periodo de estudios. Se renueva anualmente con justificante de matricula.',
+    q: '¿Es obligatorio colegiarse para ejercer?',
+    a: 'Si. Para el ejercicio libre de la profesion de Graduado Social ante Juzgados y Tribunales es obligatorio estar colegiado. Es el requisito para acceder a Lexnet y actuar como profesional habilitado.',
   },
   {
-    q: '¿Que pasa cuando termino la carrera?',
-    a: 'Puedes pasar a colegiado profesional con bonificaciones preferenciales por haber sido precolegiado.',
+    q: '¿Que diferencia hay entre ejerciente libre y ejerciente en empresa?',
+    a: 'El ejerciente libre trabaja por cuenta propia ofreciendo servicios a clientes. El ejerciente en empresa ejerce por cuenta ajena dentro de una organizacion. Ambos tienen acceso a todos los servicios colegiales, aunque la poliza de RC es obligatoria solo para ejercientes libres.',
   },
   {
-    q: '¿Es obligatorio colegiarse?',
-    a: 'Para el ejercicio libre de la profesion es obligatorio estar colegiado. Para ejercientes por cuenta ajena o no ejercientes es voluntario, pero da acceso a todos los servicios.',
+    q: '¿Cuanto tarda el proceso de alta?',
+    a: 'Una vez presentada la documentacion completa, la Junta de Gobierno ratifica el alta en su siguiente reunion. El proceso habitual es de 2 a 4 semanas desde la entrega del expediente.',
   },
   {
-    q: '¿Que servicios tengo como precolegiado?',
-    a: 'Acceso a la mayoria de servicios del Colegio: formacion, biblioteca, bolsa de empleo, networking. Las funciones exclusivas de ejercicio se reservan para colegiados en activo.',
+    q: '¿Puedo colegiarme si tengo el titulo de otro pais?',
+    a: 'Si, siempre que el titulo este homologado por el Ministerio de Educacion. Necesitaras la credencial de homologacion ademas de la documentacion habitual.',
   },
   {
-    q: '¿Teneis bolsa de empleo?',
-    a: 'Si. Nuestra bolsa de empleo ofrece practicas y posiciones laborales con respaldo institucional del Colegio.',
+    q: '¿Que incluye la cuota colegial?',
+    a: 'La cuota cubre el acceso a todos los servicios: formacion bonificada, asesoria juridico-tecnica, bolsa de empleo, biblioteca, salas de reuniones, directorio profesional, convenios con entidades y representacion institucional.',
+  },
+  {
+    q: '¿Puedo darme de baja y volver a colegiarme?',
+    a: 'Si. Puedes solicitar la baja voluntaria en cualquier momento y reincorporarte cuando lo desees, presentando la documentacion actualizada.',
   },
 ];
 
@@ -188,21 +192,21 @@ export default function HazteColegiadoPage() {
       {/* ============================== */}
       {/* HERO */}
       {/* ============================== */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-[#0F172A] via-[#1E293B] to-[#0F172A] py-20 lg:py-28">
-        <div className="pointer-events-none absolute -left-40 -top-40 h-[500px] w-[500px] rounded-full bg-[#2563EB]/[0.07]" />
-        <div className="pointer-events-none absolute -bottom-20 -right-20 h-[400px] w-[400px] rounded-full bg-[#18B7B0]/[0.07]" />
+      <section className="relative overflow-hidden py-20 lg:py-28">
+        <div className="pointer-events-none absolute -left-40 -top-40 h-[500px] w-[500px] rounded-full bg-[#2563EB]/[0.04]" />
+        <div className="pointer-events-none absolute -bottom-20 -right-20 h-[400px] w-[400px] rounded-full bg-[#18B7B0]/[0.04]" />
 
         <Container className="relative">
           <div className="mx-auto max-w-3xl text-center">
-            <Badge color="formacion" className="mb-6 bg-[#2563EB]/20 text-[#60A5FA]">
+            <Badge color="formacion">
               Colegiacion
             </Badge>
 
-            <h1 className="text-3xl font-extrabold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl">
+            <h1 className="mt-6 text-3xl font-extrabold leading-tight tracking-tight text-[#0F172A] sm:text-4xl lg:text-5xl">
               El valor de tu carrera empieza con tu colegiacion
             </h1>
 
-            <p className="mt-6 text-lg font-light leading-relaxed text-[#94A3B8]">
+            <p className="mt-6 text-lg font-light leading-relaxed text-[#475569]">
               Unete al Colegio Oficial de Graduados Sociales de Madrid.
               Asegura tu ejercicio profesional, accede a Lexnet y forma parte
               de la red de mas de 3.000 expertos en Justicia Social.
@@ -212,7 +216,7 @@ export default function HazteColegiadoPage() {
               <Button variant="gradient" href="#proceso" className="text-base px-8 py-3">
                 Comenzar inscripcion <ArrowRight size={18} className="ml-1" />
               </Button>
-              <Button variant="outline" href="#beneficios" className="border-white/20 text-white hover:bg-white/10">
+              <Button variant="outline" href="#beneficios">
                 Ver beneficios
               </Button>
             </div>
@@ -220,18 +224,18 @@ export default function HazteColegiadoPage() {
             {/* Stats */}
             <div className="mt-12 flex items-center justify-center gap-8 sm:gap-12">
               <div>
-                <p className="text-3xl font-extrabold text-white">3.000+</p>
-                <p className="text-xs text-[#94A3B8]">Colegiados</p>
+                <p className="text-3xl font-extrabold text-[#2563EB]">3.000+</p>
+                <p className="text-xs text-[#6B7280]">Colegiados</p>
               </div>
-              <div className="h-10 w-px bg-white/20" />
+              <div className="h-10 w-px bg-[#E2E8F0]" />
               <div>
-                <p className="text-3xl font-extrabold text-white">50+</p>
-                <p className="text-xs text-[#94A3B8]">Anos de historia</p>
+                <p className="text-3xl font-extrabold text-[#2563EB]">50+</p>
+                <p className="text-xs text-[#6B7280]">Anos de historia</p>
               </div>
-              <div className="h-10 w-px bg-white/20" />
+              <div className="h-10 w-px bg-[#E2E8F0]" />
               <div>
-                <p className="text-3xl font-extrabold text-white">100+</p>
-                <p className="text-xs text-[#94A3B8]">Formaciones/ano</p>
+                <p className="text-3xl font-extrabold text-[#2563EB]">100+</p>
+                <p className="text-xs text-[#6B7280]">Formaciones/ano</p>
               </div>
             </div>
           </div>
@@ -455,13 +459,13 @@ export default function HazteColegiadoPage() {
       {/* ============================== */}
       {/* CTA FINAL */}
       {/* ============================== */}
-      <section className="bg-gradient-to-br from-[#0F172A] via-[#1E293B] to-[#0F172A] py-20">
+      <section className="bg-gradient-to-r from-[#2563EB]/[0.06] to-[#18B7B0]/[0.06] py-20">
         <Container>
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
+            <h2 className="text-3xl font-extrabold text-[#0F172A] sm:text-4xl">
               ¿Listo para dar el paso?
             </h2>
-            <p className="mt-4 text-lg font-light text-[#94A3B8]">
+            <p className="mt-4 text-lg font-light text-[#475569]">
               Contacta con nosotros y te guiaremos en todo el proceso de colegiacion.
             </p>
             <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
@@ -469,11 +473,11 @@ export default function HazteColegiadoPage() {
                 Solicitar colegiacion <ArrowRight size={18} className="ml-1" />
               </Button>
             </div>
-            <div className="mt-8 flex flex-col items-center gap-4 text-sm text-[#94A3B8] sm:flex-row sm:justify-center sm:gap-8">
-              <a href="tel:915230888" className="flex items-center gap-2 hover:text-white">
+            <div className="mt-8 flex flex-col items-center gap-4 text-sm text-[#6B7280] sm:flex-row sm:justify-center sm:gap-8">
+              <a href="tel:915230888" className="flex items-center gap-2 hover:text-[#2563EB]">
                 <Phone size={14} /> 91 523 08 88
               </a>
-              <a href="mailto:admon@graduadosocialmadrid.org" className="flex items-center gap-2 hover:text-white">
+              <a href="mailto:admon@graduadosocialmadrid.org" className="flex items-center gap-2 hover:text-[#2563EB]">
                 <Mail size={14} /> admon@graduadosocialmadrid.org
               </a>
               <span className="flex items-center gap-2">
