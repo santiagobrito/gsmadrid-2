@@ -5,6 +5,7 @@ import {
 import { Container } from '@/components/ui/Container';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
+import { Button } from '@/components/ui/Button';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { ColegiacionForm } from '@/components/sections/ColegiacionForm';
 import { createMetadata } from '@/lib/seo/metadata';
@@ -119,20 +120,59 @@ export default function ColegiadosPage() {
         ]}
       />
 
-      {/* Hero */}
-      <section className="py-20">
+      {/* Hero — split layout */}
+      <section className="py-20 lg:py-28">
         <Container>
-          <div className="mx-auto max-w-3xl text-center">
-            <Badge color="formacion">Colegiacion profesional</Badge>
+          <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
+            {/* Left: copy */}
+            <div>
+              <Badge color="formacion">Colegiacion profesional</Badge>
 
-            <h1 className="mt-6 text-3xl font-extrabold leading-tight text-[#0F172A] sm:text-4xl lg:text-5xl">
-              Elige la modalidad que se adapta a ti
-            </h1>
+              <h1 className="mt-6 text-3xl font-extrabold leading-tight text-[#0F172A] sm:text-4xl lg:text-5xl">
+                Elige la modalidad que se adapta a ti
+              </h1>
 
-            <p className="mt-6 text-lg font-light text-[#475569]">
-              Tres formas de colegiarte segun tu situacion profesional.
-              Todas incluyen formacion, networking y respaldo institucional.
-            </p>
+              <p className="mt-6 text-lg font-light text-[#475569]">
+                Tres formas de colegiarte segun tu situacion profesional.
+                Todas incluyen formacion, networking y respaldo institucional.
+              </p>
+
+              <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+                <Button variant="gradient" href="#formulario">
+                  Solicitar colegiacion <ArrowRight size={16} className="ml-1" />
+                </Button>
+                <Button variant="outline" href="#comparativa">
+                  Comparar modalidades
+                </Button>
+              </div>
+            </div>
+
+            {/* Right: visual — 3 mini cards */}
+            <div className="relative">
+              <div className="space-y-4">
+                {modalidades.map((m) => {
+                  const Icon = m.icon;
+                  return (
+                    <a key={m.id} href="#formulario" className="group flex items-center gap-4 rounded-2xl border border-[#E2E8F0] bg-white p-5 transition-all hover:border-[#2563EB]/30 hover:shadow-md">
+                      <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${m.color}`}>
+                        <Icon size={24} strokeWidth={1.5} className={m.textColor} />
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2">
+                          <h3 className="text-sm font-bold text-[#0F172A]">{m.title}</h3>
+                          {m.popular && (
+                            <span className="rounded-full bg-[#2563EB] px-2 py-0.5 text-[9px] font-bold uppercase text-white">Obligatorio</span>
+                          )}
+                        </div>
+                        <p className="text-xs text-[#6B7280]">{m.subtitle}</p>
+                      </div>
+                      <ArrowRight size={16} className="text-[#CBD5E1] transition-colors group-hover:text-[#2563EB]" />
+                    </a>
+                  );
+                })}
+              </div>
+              <div className="pointer-events-none absolute -bottom-6 -right-6 -z-10 h-[200px] w-[200px] rounded-full bg-[#2563EB]/[0.04]" />
+            </div>
           </div>
         </Container>
       </section>
@@ -181,7 +221,7 @@ export default function ColegiadosPage() {
       </section>
 
       {/* Comparison table */}
-      <section className="py-20">
+      <section id="comparativa" className="py-20">
         <Container>
           <div className="mb-12 text-center">
             <h2 className="text-3xl font-extrabold text-[#0F172A]">Comparativa de modalidades</h2>

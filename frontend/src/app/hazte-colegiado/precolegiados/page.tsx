@@ -84,26 +84,68 @@ export default function PrecolegiadosPage() {
         ]}
       />
 
-      {/* Hero */}
-      <section className="py-20">
+      {/* Hero — split layout */}
+      <section className="py-20 lg:py-28">
         <Container>
-          <div className="mx-auto max-w-3xl text-center">
-            <Badge color="activo">Gratuito</Badge>
+          <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
+            {/* Left: copy */}
+            <div>
+              <Badge color="activo">Gratuito</Badge>
 
-            <h1 className="mt-6 text-3xl font-extrabold leading-tight text-[#0F172A] sm:text-4xl lg:text-5xl">
-              Empieza tu carrera con el respaldo del Colegio
-            </h1>
+              <h1 className="mt-6 text-3xl font-extrabold leading-tight text-[#0F172A] sm:text-4xl lg:text-5xl">
+                Empieza tu carrera con el respaldo del Colegio
+              </h1>
 
-            <p className="mt-6 text-lg font-light text-[#475569]">
-              La precolegiacion es completamente gratuita durante todo tu periodo de estudios.
-              Sin cuotas, sin compromisos, con todos los beneficios.
-            </p>
+              <p className="mt-6 text-lg font-light text-[#475569]">
+                La precolegiacion es completamente gratuita durante todo tu periodo de estudios.
+                Sin cuotas, sin compromisos, con todos los beneficios.
+              </p>
 
-            <div className="mt-8 inline-flex items-center gap-3 rounded-2xl bg-[#10B981]/10 px-6 py-3">
-              <CheckCircle size={20} className="text-[#10B981]" />
-              <span className="text-sm font-semibold text-[#10B981]">
-                Sin cuota de alta — Sin cuota mensual — Sin costes ocultos
-              </span>
+              <div className="mt-8 inline-flex items-center gap-3 rounded-2xl bg-[#10B981]/10 px-6 py-3">
+                <CheckCircle size={20} className="text-[#10B981]" />
+                <span className="text-sm font-semibold text-[#10B981]">
+                  Sin cuota de alta — Sin cuota mensual — Sin costes ocultos
+                </span>
+              </div>
+
+              <div className="mt-8">
+                <Button variant="gradient" href="#formulario-precolegiado">
+                  Solicitar precolegiacion <ArrowRight size={16} className="ml-1" />
+                </Button>
+              </div>
+            </div>
+
+            {/* Right: visual card */}
+            <div className="relative">
+              <div className="rounded-2xl border border-[#E2E8F0] bg-gradient-to-br from-[#F7F8FA] to-white p-8 shadow-[0_12px_32px_rgba(15,23,42,0.06)]">
+                {/* Placeholder for future real image */}
+                <div className="mb-6 flex aspect-[4/3] items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-[#10B981]/10 to-[#059669]/5">
+                  <div className="text-center">
+                    <GraduationCap size={64} strokeWidth={1} className="mx-auto text-[#10B981]/30" />
+                    <p className="mt-3 text-sm font-medium text-[#10B981]/50">Foto: estudiantes del Colegio</p>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <CheckCircle size={16} className="shrink-0 text-[#10B981]" />
+                    <span className="text-sm text-[#475569]">Bolsa de empleo y practicas</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <CheckCircle size={16} className="shrink-0 text-[#10B981]" />
+                    <span className="text-sm text-[#475569]">Formacion con tarifa especial</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <CheckCircle size={16} className="shrink-0 text-[#10B981]" />
+                    <span className="text-sm text-[#475569]">Networking con profesionales</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <CheckCircle size={16} className="shrink-0 text-[#10B981]" />
+                    <span className="text-sm text-[#475569]">Transicion preferente a colegiado</span>
+                  </div>
+                </div>
+              </div>
+              {/* Decorative teal glow */}
+              <div className="pointer-events-none absolute -bottom-6 -right-6 -z-10 h-[200px] w-[200px] rounded-full bg-[#10B981]/[0.06]" />
             </div>
           </div>
         </Container>
@@ -183,7 +225,7 @@ export default function PrecolegiadosPage() {
       </section>
 
       {/* Form */}
-      <section className="bg-[#F7F8FA] py-20">
+      <section id="formulario-precolegiado" className="bg-[#F7F8FA] py-20">
         <Container>
           <div className="mx-auto max-w-2xl">
             <ColegiacionForm tipo="precolegiado" showUniversidad />
