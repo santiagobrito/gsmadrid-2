@@ -118,16 +118,15 @@ function DesktopDropdown({ group }: { group: MenuGroup }) {
 
   return (
     <div ref={ref} className="relative" onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
-      <button
+      <Link
+        href={group.href}
         className={cn(
-          'flex items-center gap-1 px-2 py-1 text-[13px] font-medium transition-colors',
+          'block px-2 py-1 text-[13px] font-medium transition-colors',
           open ? 'text-[#2563EB]' : 'text-[#475569] hover:text-[#2563EB]'
         )}
-        onClick={() => setOpen(!open)}
       >
         {group.label}
-        <ChevronDown size={14} strokeWidth={1.5} className={cn('transition-transform', open && 'rotate-180')} />
-      </button>
+      </Link>
 
       <div
         className={cn(
