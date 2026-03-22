@@ -107,8 +107,8 @@ export default function ClinicaJuridicaPage() {
 
               <p className="mt-6 text-lg font-light text-[#475569]">
                 Asesoramiento juridico laboral gratuito para personas y colectivos
-                en situacion de vulnerabilidad. Un compromiso del Colegio con la
-                sociedad, en colaboracion con las principales universidades de Madrid.
+                en situacion de vulnerabilidad. Un programa del Colegio en colaboracion
+                con la Universidad Carlos III de Madrid, formalizado en 2015.
               </p>
 
               <div className="mt-8 flex flex-col gap-4 sm:flex-row">

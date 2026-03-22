@@ -63,9 +63,7 @@ const MENU: MenuGroup[] = [
     children: [
       { label: 'Orientacion Juridica Gratuita', href: '/servicios-ciudadano/orientacion-juridica' },
       { label: 'Mediacion Laboral', href: '/servicios-ciudadano/mediacion-laboral' },
-      { label: 'Ventanilla Unica', href: '/servicios-ciudadano/ventanilla-unica' },
       { label: 'Clinica Juridica Laboral', href: '/servicios-ciudadano/clinica-juridica' },
-      { label: 'Otros Servicios', href: '/servicios-ciudadano/otros' },
     ],
   },
   {
