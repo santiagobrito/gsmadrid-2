@@ -67,7 +67,7 @@ export default function ElColegioPage() {
         </div>
 
         {/* Navigation cards */}
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
           {navCards.map((card) => {
             const Icon = card.icon;
             return (

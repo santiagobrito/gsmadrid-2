@@ -253,13 +253,13 @@ export default function HazteColegiadoPage() {
             <p className="mt-2 text-[#475569]">Selecciona el perfil que mejor se adapta a tu situacion profesional</p>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {paths.map((path) => {
               const Icon = path.icon;
               return (
                 <Link key={path.title} href={path.href} className="group relative block">
                   {path.popular && (
-                    <span className="absolute -top-2.5 right-4 z-10 rounded-full bg-[#18B7B0] px-3 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
+                    <span className="absolute -top-2.5 right-4 z-10 rounded-full bg-[#18B7B0] px-3 py-0.5 text-[10px] font-bold uppercase tracking-[0.08em] text-white">
                       Mas comun
                     </span>
                   )}
@@ -291,7 +291,7 @@ export default function HazteColegiadoPage() {
             <p className="mt-2 text-[#475569]">Todo lo que obtienes al formar parte del Colegio</p>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {benefits.map((item) => {
               const Icon = item.icon;
               return (
@@ -322,7 +322,7 @@ export default function HazteColegiadoPage() {
             <p className="mt-2 text-[#475569]">Acuerdos con entidades lideres para tu beneficio</p>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             {alliances.map((item) => {
               const Icon = item.icon;
               return (

@@ -152,7 +152,7 @@ export function FilteredEventos({ eventos }: FilteredEventosProps) {
         {pasados.length > 0 && (
           <div className="mt-20">
             <h2 className="mb-8 text-center text-2xl font-bold text-text">Eventos anteriores</h2>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
               {pasados.map((e) => {
                 const badge = tipoBadge[e.tipo] || tipoBadge.institucional;
                 return (

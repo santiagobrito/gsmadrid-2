@@ -166,7 +166,7 @@ export default function ClinicaJuridicaPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             {targetGroups.map((g) => {
               const Icon = g.icon;
               return (
@@ -191,7 +191,7 @@ export default function ClinicaJuridicaPage() {
             <h2 className="mt-4 text-3xl font-extrabold text-[#0F172A]">En que materias podemos orientarte</h2>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             {areas.map((a) => {
               const Icon = a.icon;
               return (

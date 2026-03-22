@@ -112,7 +112,7 @@ export default async function ActualidadPage() {
           subtitle="Noticias, publicaciones y novedades del Colegio"
         />
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {posts.map((post) => (
             <Link key={post.slug} href={`/actualidad/${post.slug}`} className="group">
               <Card className="flex h-full flex-col">

@@ -308,7 +308,7 @@ export default async function JuntaDeGobiernoPage() {
             subtitle="Miembros con responsabilidades ejecutivas en la gestion del Colegio."
             centered={false}
           />
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {restoDirectivos.map((m) => (
               <Card key={m.nombre} className="flex items-start gap-4">
                 {m.foto ? (

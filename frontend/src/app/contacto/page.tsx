@@ -138,7 +138,7 @@ export default function ContactoPage() {
 
             {/* Facilities */}
             <div>
-              <p className="mb-4 text-sm font-semibold uppercase tracking-wider text-[#6B7280]">
+              <p className="mb-4 text-sm font-semibold uppercase tracking-[0.08em] text-[#6B7280]">
                 Instalaciones
               </p>
               <div className="space-y-3">
@@ -239,7 +239,7 @@ export default function ContactoPage() {
             </div>
 
             <div>
-              <p className="mb-4 text-sm font-semibold uppercase tracking-wider text-[#6B7280]">
+              <p className="mb-4 text-sm font-semibold uppercase tracking-[0.08em] text-[#6B7280]">
                 Servicios
               </p>
               <div className="space-y-3">
@@ -275,7 +275,7 @@ export default function ContactoPage() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
             <Card hover={false}>
               <h3 className="text-lg font-bold text-[#0F172A]">
                 Horario general

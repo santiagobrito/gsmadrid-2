@@ -157,7 +157,7 @@ export default function OrientacionJuridicaPage() {
             <h2 className="mt-4 text-3xl font-extrabold text-[#0F172A]">¿Sobre que te podemos orientar?</h2>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             {/* Workers */}
             <Card hover={false}>
               <div className="mb-4 flex items-center gap-3">

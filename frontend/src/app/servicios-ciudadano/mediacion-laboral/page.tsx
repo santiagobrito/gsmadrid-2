@@ -159,7 +159,7 @@ export default function MediacionLaboralPage() {
             <h2 className="mt-4 text-3xl font-extrabold text-[#0F172A]">¿Por que mediar en vez de litigar?</h2>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
             {benefits.map((b) => {
               const Icon = b.icon;
               return (

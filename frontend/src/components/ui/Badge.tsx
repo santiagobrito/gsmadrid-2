@@ -15,12 +15,12 @@ interface BadgeProps {
 }
 
 const colorStyles: Record<BadgeColor, string> = {
-  institutional: 'bg-[#0E111B] text-white',
-  formacion: 'bg-[#2563EB]/10 text-[#2563EB]',
-  eventos: 'bg-[#2BD4C7]/10 text-[#0E111B]',
-  colegio: 'bg-[#1565C0]/10 text-[#1565C0]',
-  activo: 'bg-[#16A34A]/10 text-[#16A34A]',
-  pendiente: 'bg-[#D97706]/10 text-[#D97706]',
+  institutional: 'bg-[rgba(79,168,255,0.15)] text-[#4FA8FF]',
+  formacion: 'bg-[rgba(43,212,199,0.15)] text-[#2BD4C7]',
+  eventos: 'bg-[rgba(0,229,255,0.15)] text-[#00B8CC]',
+  colegio: 'bg-[rgba(21,101,192,0.12)] text-[#1565C0]',
+  activo: 'bg-[rgba(22,163,74,0.1)] text-[#16A34A]',
+  pendiente: 'bg-[rgba(217,119,6,0.1)] text-[#D97706]',
 };
 
 export function Badge({
@@ -31,7 +31,7 @@ export function Badge({
   return (
     <span
       className={cn(
-        'inline-flex items-center rounded-full px-3 py-1 text-[12px] font-semibold uppercase tracking-wider',
+        'inline-flex items-center rounded-full px-[14px] py-[5px] text-[12px] font-semibold uppercase tracking-[0.08em]',
         colorStyles[color],
         className
       )}

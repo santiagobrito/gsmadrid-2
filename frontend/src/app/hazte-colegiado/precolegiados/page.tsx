@@ -158,7 +158,7 @@ export default function PrecolegiadosPage() {
             <h2 className="text-3xl font-extrabold text-[#0F172A]">¿Que obtienes como precolegiado?</h2>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {benefits.map((item) => {
               const Icon = item.icon;
               return (

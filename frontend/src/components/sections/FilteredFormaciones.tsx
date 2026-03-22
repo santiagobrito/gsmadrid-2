@@ -149,7 +149,7 @@ export function FilteredFormaciones({ formaciones }: FilteredFormacionesProps) {
         {pasadas.length > 0 && (
           <div className="mt-20">
             <h2 className="mb-8 text-center text-2xl font-bold text-text">Formaciones anteriores</h2>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
               {pasadas.map((f) => (
                 <Link key={f.slug} href={`/formacion-eventos/${f.slug}`} className="group">
                   <Card className="flex h-full flex-col opacity-70 transition-opacity hover:opacity-100">

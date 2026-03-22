@@ -431,7 +431,7 @@ export function InscripcionForm({
 
           {/* Summary */}
           <div className="rounded-xl bg-bg-alt p-3 mt-3">
-            <p className="text-xs font-semibold uppercase tracking-wider text-text-tertiary mb-2">Resumen</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.08em] text-text-tertiary mb-2">Resumen</p>
             <div className="space-y-1 text-sm">
               <div className="flex justify-between">
                 <span className="text-text-secondary">Perfil</span>

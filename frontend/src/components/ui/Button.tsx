@@ -15,11 +15,11 @@ interface ButtonProps {
 
 const variantStyles: Record<ButtonVariant, string> = {
   gradient:
-    'bg-gradient-to-r from-[#2F5BEA] to-[#18B7B0] text-white hover:opacity-90 shadow-md hover:shadow-lg',
+    'bg-gradient-to-r from-[#2F5BEA] to-[#18B7B0] text-white shadow-[0_10px_25px_rgba(30,107,255,0.25)] hover:from-[#244FD1] hover:to-[#12A7A0] hover:-translate-y-[2px] hover:shadow-[0_8px_20px_rgba(0,0,0,0.15)]',
   outline:
-    'border-2 border-[#2563EB] text-[#2563EB] hover:bg-[#2563EB] hover:text-white',
+    'border-[1.5px] border-[#2563EB] text-[#2563EB] hover:bg-[#2563EB] hover:text-white',
   institutional:
-    'bg-[#0E111B] text-white hover:bg-[#1a1f2e]',
+    'bg-[#1565C0] text-white hover:bg-[#0D47A1]',
 };
 
 export function Button({
@@ -32,7 +32,7 @@ export function Button({
   type = 'button',
 }: ButtonProps) {
   const classes = cn(
-    'inline-flex items-center justify-center gap-2 rounded-[40px] px-7 py-3 text-sm font-semibold transition-all duration-200',
+    'inline-flex items-center justify-center gap-2 rounded-[40px] px-7 py-3 text-sm font-semibold transition-all duration-300',
     variantStyles[variant],
     disabled && 'opacity-50 cursor-not-allowed pointer-events-none',
     className

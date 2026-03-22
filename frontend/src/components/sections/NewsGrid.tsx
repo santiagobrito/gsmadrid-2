@@ -64,7 +64,7 @@ export function NewsGrid({ posts }: NewsGridProps) {
           subtitle="Mantente al dia con la ultima informacion del sector"
         />
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           {news.map((item) => (
             <Link key={item.slug} href={`/actualidad/${item.slug}`} className="group">
               <Card className="flex h-full flex-col">

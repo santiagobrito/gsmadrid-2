@@ -45,7 +45,7 @@ export function CalendarPreview() {
           subtitle="Formacion, jornadas y actividades del Colegio"
         />
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           {events.map((event) => (
             <Card key={event.title}>
               <Badge color={badgeColorMap[event.type]}>{event.type}</Badge>

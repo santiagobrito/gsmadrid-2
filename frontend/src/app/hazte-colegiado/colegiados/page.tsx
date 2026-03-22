@@ -186,7 +186,7 @@ export default function ColegiadosPage() {
               return (
                 <Card key={m.id} hover={false} className={`relative flex flex-col ${m.popular ? 'border-[#2563EB]/30 shadow-lg' : ''}`}>
                   {m.popular && (
-                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-[#2563EB] px-4 py-1 text-[11px] font-bold uppercase tracking-wider text-white">
+                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-[#2563EB] px-4 py-1 text-[11px] font-bold uppercase tracking-[0.08em] text-white">
                       Obligatorio para ejercer
                     </span>
                   )}

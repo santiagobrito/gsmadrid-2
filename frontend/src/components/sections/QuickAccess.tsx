@@ -80,7 +80,7 @@ export function QuickAccess() {
       {/* Quick access cards */}
       <section className="bg-[#F7F8FA] py-20">
         <Container>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             {quickCards.map((card) => {
               const Icon = card.icon;
               return (
@@ -109,7 +109,7 @@ export function QuickAccess() {
           <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
             {/* Left: value proposition */}
             <div>
-              <span className="mb-4 inline-block rounded-full bg-[#2563EB]/20 px-4 py-1.5 text-xs font-semibold tracking-wider text-[#60A5FA] uppercase">
+              <span className="mb-4 inline-block rounded-full bg-[#2563EB]/20 px-4 py-1.5 text-xs font-semibold tracking-[0.08em] text-[#60A5FA] uppercase">
                 Hazte Colegiado
               </span>
 
@@ -148,7 +148,7 @@ export function QuickAccess() {
                   <Link key={path.title} href={path.href} className="group">
                     <div className={`relative rounded-2xl border p-6 backdrop-blur-sm transition-all hover:bg-white/[0.08] ${path.popular ? 'border-[#2563EB]/40 bg-white/[0.06]' : 'border-white/10 bg-white/[0.04] hover:border-[#2563EB]/40'}`}>
                       {path.popular && (
-                        <span className="absolute -top-2.5 right-4 rounded-full bg-[#18B7B0] px-3 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
+                        <span className="absolute -top-2.5 right-4 rounded-full bg-[#18B7B0] px-3 py-0.5 text-[10px] font-bold uppercase tracking-[0.08em] text-white">
                           Mas comun
                         </span>
                       )}

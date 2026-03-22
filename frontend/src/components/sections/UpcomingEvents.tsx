@@ -55,7 +55,7 @@ export function UpcomingEvents({ items }: UpcomingEventsProps) {
           subtitle="Formaciones, eventos y actividades del Colegio. No te pierdas ninguna."
         />
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {upcoming.map((item) => {
             const config = typeConfig[item.type];
             const Icon = config.icon;

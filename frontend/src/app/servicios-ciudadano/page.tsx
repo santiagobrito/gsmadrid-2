@@ -56,7 +56,7 @@ export default function ServiciosCiudadanoPage() {
           subtitle="El Colegio esta a tu disposicion para garantizar la calidad de los servicios profesionales"
         />
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
           {services.map((service) => {
             const Icon = service.icon;
             return (

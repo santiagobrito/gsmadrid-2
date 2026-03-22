@@ -163,7 +163,7 @@ export function CalendarWidget({ events: eventsProp }: CalendarWidgetProps) {
         <Card hover={false} className="h-full">
           {selectedDate && selectedEvents.length > 0 ? (
             <div>
-              <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-text-tertiary">
+              <p className="mb-1 text-xs font-semibold uppercase tracking-[0.08em] text-text-tertiary">
                 {format(selectedDate, "EEEE, d 'de' MMMM", { locale: es })}
               </p>
               <div className="mt-4 space-y-5">

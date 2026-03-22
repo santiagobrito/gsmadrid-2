@@ -112,7 +112,7 @@ export default async function PostDetailPage({ params }: PageProps) {
               <div className="lg:sticky lg:top-24 space-y-6">
                 {/* Meta info */}
                 <Card hover={false} className="p-5">
-                  <h4 className="mb-4 text-xs font-semibold uppercase tracking-wider text-text-tertiary">
+                  <h4 className="mb-4 text-xs font-semibold uppercase tracking-[0.08em] text-text-tertiary">
                     Informacion
                   </h4>
                   <div className="space-y-3 text-sm text-text-secondary">
@@ -132,7 +132,7 @@ export default async function PostDetailPage({ params }: PageProps) {
                 {/* Attached document */}
                 {extra?.documentoAdjunto?.node && (
                   <Card hover={false} className="p-5">
-                    <h4 className="mb-3 text-xs font-semibold uppercase tracking-wider text-text-tertiary">
+                    <h4 className="mb-3 text-xs font-semibold uppercase tracking-[0.08em] text-text-tertiary">
                       Documento adjunto
                     </h4>
                     <a
@@ -150,7 +150,7 @@ export default async function PostDetailPage({ params }: PageProps) {
                 {/* External source */}
                 {extra?.fuenteExterna && (
                   <Card hover={false} className="p-5">
-                    <h4 className="mb-3 text-xs font-semibold uppercase tracking-wider text-text-tertiary">
+                    <h4 className="mb-3 text-xs font-semibold uppercase tracking-[0.08em] text-text-tertiary">
                       Fuente
                     </h4>
                     <a
@@ -226,7 +226,7 @@ export default async function PostDetailPage({ params }: PageProps) {
                     </div>
                   )}
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-wider text-text-tertiary">Publicado por</p>
+                    <p className="text-xs font-semibold uppercase tracking-[0.08em] text-text-tertiary">Publicado por</p>
                     <p className="text-base font-bold text-text">{authorName}</p>
                     <p className="text-xs text-text-tertiary">
                       Colegio Oficial de Graduados Sociales de Madrid — {dateFormatted}
@@ -246,7 +246,7 @@ export default async function PostDetailPage({ params }: PageProps) {
               {relatedPosts.length > 0 && (
                 <div className="mt-20">
                   <h2 className="mb-8 text-2xl font-bold text-text">Noticias relacionadas</h2>
-                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                  <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
                     {relatedPosts.map((rp) => (
                       <Link key={rp.slug} href={`/actualidad/${rp.slug}`} className="group">
                         <Card className="flex h-full flex-col p-5">

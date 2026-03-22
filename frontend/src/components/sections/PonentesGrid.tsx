@@ -21,7 +21,7 @@ export function PonentesGrid({ ponentes }: PonentesGridProps) {
   return (
     <div>
       <h2 className="mb-6 text-2xl font-bold text-text">Ponentes</h2>
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
         {ponentes.map((p) => (
           <Card key={p.nombre} className="flex items-start gap-4">
             {/* Photo */}

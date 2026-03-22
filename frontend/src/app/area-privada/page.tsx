@@ -71,7 +71,7 @@ export default function AreaPrivadaPage() {
               </button>
             </div>
 
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
               {/* Profile card */}
               {isProfesional && (
                 <Card className="flex flex-col">

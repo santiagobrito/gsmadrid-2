@@ -45,7 +45,7 @@ export function DirectorioSearch({ profesionales }: DirectorioSearchProps) {
       </div>
 
       {/* Results */}
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
         {filtered.map((profesional) => (
           <Link
             key={profesional.slug}
