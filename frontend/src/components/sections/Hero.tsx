@@ -122,9 +122,27 @@ export function Hero({ slides = defaultSlides }: HeroProps) {
             </h1>
 
             <p className="mt-6 max-w-[520px] text-lg font-light text-text-secondary">
-              Tu colegio profesional al servicio de los graduados sociales.
-              Formacion, servicios y comunidad para impulsar tu carrera.
+              Mas de 3.000 profesionales del ambito laboral confian en nosotros.
+              Formacion, empleo, asesoramiento y comunidad para impulsar tu carrera.
             </p>
+
+            {/* Social proof counter */}
+            <div className="mt-6 flex items-center gap-6">
+              <div>
+                <p className="text-2xl font-extrabold text-primary">3.000+</p>
+                <p className="text-xs text-text-tertiary">Colegiados activos</p>
+              </div>
+              <div className="h-8 w-px bg-border" />
+              <div>
+                <p className="text-2xl font-extrabold text-primary">50+</p>
+                <p className="text-xs text-text-tertiary">Anos de historia</p>
+              </div>
+              <div className="h-8 w-px bg-border" />
+              <div>
+                <p className="text-2xl font-extrabold text-primary">100+</p>
+                <p className="text-xs text-text-tertiary">Formaciones/ano</p>
+              </div>
+            </div>
 
             <div className="mt-10 flex flex-col gap-4 sm:flex-row">
               <Button variant="gradient" href="/hazte-colegiado">

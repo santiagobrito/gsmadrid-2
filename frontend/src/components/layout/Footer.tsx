@@ -7,8 +7,8 @@ const columns = [
     title: 'El Colegio',
     links: [
       { label: 'Sobre Nosotros', href: '/el-colegio' },
-      { label: 'Junta de Gobierno', href: '/el-colegio#junta' },
-      { label: 'Historia', href: '/el-colegio#historia' },
+      { label: 'Junta de Gobierno', href: '/el-colegio/junta-de-gobierno' },
+      { label: 'Transparencia', href: '/el-colegio/transparencia' },
       { label: 'Contacto', href: '/contacto' },
     ],
   },
@@ -25,8 +25,8 @@ const columns = [
     title: 'Colegiacion',
     links: [
       { label: 'Hazte Colegiado', href: '/hazte-colegiado' },
-      { label: 'Ventajas', href: '/hazte-colegiado#ventajas' },
-      { label: 'Requisitos', href: '/hazte-colegiado#requisitos' },
+      { label: 'Ejercientes Libres', href: '/hazte-colegiado/ejercientes-libres' },
+      { label: 'Precolegiados', href: '/hazte-colegiado/precolegiados' },
       { label: 'Area Privada', href: '/area-privada' },
     ],
   },
@@ -59,8 +59,8 @@ export function Footer() {
               Colegio Oficial de Graduados Sociales de Madrid
             </p>
             <address className="mt-4 text-sm not-italic leading-relaxed text-[#6B7280]">
-              C/ Flora 1<br />
-              28013 Madrid
+              C/ Jose Abascal, 44 — 5.a izq.<br />
+              28003 Madrid
             </address>
             {/* Social icons */}
             <div className="mt-6 flex gap-4">

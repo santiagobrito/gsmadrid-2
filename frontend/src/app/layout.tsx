@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Plus_Jakarta_Sans } from 'next/font/google';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
+import { Newsletter } from '@/components/sections/Newsletter';
 import '@/styles/globals.css';
 
 const plusJakarta = Plus_Jakarta_Sans({
@@ -33,6 +34,7 @@ export default function RootLayout({
       <body className="flex min-h-screen flex-col">
         <Header />
         <main className="flex-1">{children}</main>
+        <Newsletter />
         <Footer />
       </body>
     </html>

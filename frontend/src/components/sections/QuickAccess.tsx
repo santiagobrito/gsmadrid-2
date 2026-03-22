@@ -46,7 +46,7 @@ const benefits = [
 // Colegiation paths
 // ============================================================
 
-const paths = [
+const paths: { icon: typeof GraduationCap; title: string; subtitle: string; href: string; popular?: boolean }[] = [
   {
     icon: GraduationCap,
     title: 'Precolegiados',
@@ -58,6 +58,7 @@ const paths = [
     title: 'Ejercientes Libres',
     subtitle: 'Profesionales por cuenta propia',
     href: '/hazte-colegiado/ejercientes-libres',
+    popular: true,
   },
   {
     icon: BookOpen,
@@ -145,7 +146,12 @@ export function QuickAccess() {
                 const Icon = path.icon;
                 return (
                   <Link key={path.title} href={path.href} className="group">
-                    <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm transition-all hover:border-[#2563EB]/40 hover:bg-white/[0.08]">
+                    <div className={`relative rounded-2xl border p-6 backdrop-blur-sm transition-all hover:bg-white/[0.08] ${path.popular ? 'border-[#2563EB]/40 bg-white/[0.06]' : 'border-white/10 bg-white/[0.04] hover:border-[#2563EB]/40'}`}>
+                      {path.popular && (
+                        <span className="absolute -top-2.5 right-4 rounded-full bg-[#18B7B0] px-3 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
+                          Mas comun
+                        </span>
+                      )}
                       <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#2563EB]/20 to-[#18B7B0]/20">
                         <Icon size={24} strokeWidth={1.5} className="text-[#60A5FA]" />
                       </div>

@@ -3,7 +3,8 @@
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Menu, X, ChevronDown, LogIn, User, LogOut } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Menu, X, ChevronDown, LogIn, User, LogOut, Search } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
 import { Button } from '@/components/ui/Button';
 import { Container } from '@/components/ui/Container';
@@ -423,6 +424,62 @@ function MobileLogin({ onClose }: { onClose: () => void }) {
 }
 
 // ============================================================
+// Search bar
+// ============================================================
+
+function SearchButton() {
+  const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState('');
+  const router = useRouter();
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (open && inputRef.current) inputRef.current.focus();
+  }, [open]);
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!query.trim()) return;
+    router.push(`/buscar?q=${encodeURIComponent(query.trim())}`);
+    setOpen(false);
+    setQuery('');
+  }
+
+  return (
+    <div className="relative">
+      <button
+        onClick={() => setOpen(!open)}
+        className="flex h-9 w-9 items-center justify-center rounded-full border border-[#E2E8F0] text-[#6B7280] transition-colors hover:border-[#2563EB] hover:text-[#2563EB]"
+        aria-label="Buscar"
+      >
+        <Search size={16} strokeWidth={1.5} />
+      </button>
+
+      <div
+        className={cn(
+          'absolute right-0 top-full z-50 mt-2 w-[300px] transition-all',
+          open ? 'visible translate-y-0 opacity-100' : 'invisible -translate-y-2 opacity-0'
+        )}
+      >
+        <form onSubmit={handleSubmit} className="flex overflow-hidden rounded-xl border border-[#E2E8F0] bg-white shadow-lg">
+          <input
+            ref={inputRef}
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Buscar en la web..."
+            className="flex-1 px-4 py-2.5 text-sm text-[#0F172A] placeholder:text-[#6B7280] outline-none"
+          />
+          <button type="submit" className="px-3 text-[#6B7280] hover:text-[#2563EB]">
+            <Search size={16} strokeWidth={1.5} />
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+// ============================================================
 // Header
 // ============================================================
 
@@ -451,8 +508,9 @@ export function Header() {
           ))}
         </nav>
 
-        {/* Desktop Area Privada */}
-        <div className="hidden lg:block">
+        {/* Desktop: Search + Area Privada */}
+        <div className="hidden items-center gap-3 lg:flex">
+          <SearchButton />
           <LoginDropdown />
         </div>
 
