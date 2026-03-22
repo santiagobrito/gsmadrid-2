@@ -30,9 +30,9 @@ const MENU: MenuGroup[] = [
     label: 'El Colegio',
     href: '/el-colegio',
     children: [
-      { label: 'Carta de la Presidenta', href: '/carta-presidenta' },
-      { label: 'Junta de Gobierno', href: '/junta-de-gobierno' },
-      { label: 'Transparencia', href: '/transparencia' },
+      { label: 'Carta de la Presidenta', href: '/el-colegio/carta-presidenta' },
+      { label: 'Junta de Gobierno', href: '/el-colegio/junta-de-gobierno' },
+      { label: 'Transparencia', href: '/el-colegio/transparencia' },
       { label: 'Contacto', href: '/contacto' },
     ],
   },
