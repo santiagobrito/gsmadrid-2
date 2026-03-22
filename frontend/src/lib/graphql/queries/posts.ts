@@ -23,8 +23,10 @@ export const POST_FIELDS = gql`
     postExtraFields {
       subtitulo
       documentoAdjunto {
-        mediaItemUrl
-        title
+        node {
+          mediaItemUrl
+          title
+        }
       }
       fuenteExterna
       esDestacada

@@ -130,19 +130,19 @@ export default async function PostDetailPage({ params }: PageProps) {
                 </Card>
 
                 {/* Attached document */}
-                {extra?.documentoAdjunto && (
+                {extra?.documentoAdjunto?.node && (
                   <Card hover={false} className="p-5">
                     <h4 className="mb-3 text-xs font-semibold uppercase tracking-wider text-text-tertiary">
                       Documento adjunto
                     </h4>
                     <a
-                      href={extra.documentoAdjunto.mediaItemUrl}
+                      href={extra.documentoAdjunto.node.mediaItemUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
                     >
                       <Download size={14} strokeWidth={1.5} />
-                      {extra.documentoAdjunto.title || 'Descargar documento'}
+                      {extra.documentoAdjunto.node.title || 'Descargar documento'}
                     </a>
                   </Card>
                 )}

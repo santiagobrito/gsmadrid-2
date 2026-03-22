@@ -131,8 +131,10 @@ export interface Profesional extends WPNode {
 export interface PostExtraFields {
   subtitulo?: string;
   documentoAdjunto?: {
-    mediaItemUrl: string;
-    title: string;
+    node: {
+      mediaItemUrl: string;
+      title: string;
+    };
   };
   fuenteExterna?: string;
   esDestacada: boolean;
