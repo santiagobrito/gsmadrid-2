@@ -209,7 +209,33 @@ export default async function PostDetailPage({ params }: PageProps) {
                 />
               )}
 
-              <div className="mt-12">
+              {/* Author box (E-E-A-T) */}
+              {authorName && (
+                <div className="mt-12 flex items-center gap-4 rounded-2xl border border-border bg-bg-alt p-6">
+                  {post.author?.node?.avatar?.url ? (
+                    <Image
+                      src={post.author.node.avatar.url}
+                      alt={authorName}
+                      width={56}
+                      height={56}
+                      className="h-14 w-14 rounded-full object-cover"
+                    />
+                  ) : (
+                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#2F5BEA] to-[#18B7B0] text-lg font-bold text-white">
+                      {authorName.split(' ').slice(0, 2).map((n) => n[0]).join('')}
+                    </div>
+                  )}
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-wider text-text-tertiary">Publicado por</p>
+                    <p className="text-base font-bold text-text">{authorName}</p>
+                    <p className="text-xs text-text-tertiary">
+                      Colegio Oficial de Graduados Sociales de Madrid — {dateFormatted}
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              <div className="mt-8">
                 <Button variant="outline" href="/actualidad">
                   <ArrowLeft size={16} strokeWidth={1.5} />
                   Volver a Actualidad

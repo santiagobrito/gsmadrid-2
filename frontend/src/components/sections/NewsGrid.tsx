@@ -88,9 +88,11 @@ export function NewsGrid({ posts }: NewsGridProps) {
                   )}
                 </div>
 
-                <Badge color={badgeColorMap[item.category || ''] || 'institutional'}>
-                  {item.category || 'Noticia'}
-                </Badge>
+                <div>
+                  <Badge color={badgeColorMap[item.category || ''] || 'institutional'}>
+                    {item.category || 'Noticia'}
+                  </Badge>
+                </div>
                 <h3 className="mt-4 text-lg font-bold text-[#0F172A] transition-colors group-hover:text-primary">
                   {item.title}
                 </h3>

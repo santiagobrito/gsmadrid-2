@@ -41,10 +41,8 @@ const MENU: MenuGroup[] = [
     label: 'Hazte Colegiado',
     href: '/hazte-colegiado',
     children: [
+      { label: 'Colegiados', href: '/hazte-colegiado/colegiados' },
       { label: 'Precolegiados', href: '/hazte-colegiado/precolegiados' },
-      { label: 'Ejercientes Libres', href: '/hazte-colegiado/ejercientes-libres' },
-      { label: 'Ejercientes en Empresa', href: '/hazte-colegiado/ejercientes-empresa' },
-      { label: 'No Ejercientes', href: '/hazte-colegiado/no-ejercientes' },
     ],
   },
   {

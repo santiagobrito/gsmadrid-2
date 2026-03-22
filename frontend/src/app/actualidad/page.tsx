@@ -136,7 +136,7 @@ export default async function ActualidadPage() {
                   )}
                 </div>
 
-                <Badge color={badgeColorMap[post.category] || 'institutional'}>{post.category}</Badge>
+                <div><Badge color={badgeColorMap[post.category] || 'institutional'}>{post.category}</Badge></div>
                 <h3 className="mt-4 text-lg font-bold text-[#0F172A] transition-colors group-hover:text-primary">
                   {post.title}
                 </h3>
