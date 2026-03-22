@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import {
-  Shield, BookOpen, Users, Award, GraduationCap, CheckCircle,
+  Shield, BookOpen, Users, Award, GraduationCap,
   Scale, Briefcase, FileText, ArrowRight, ChevronRight,
-  Building2, Laptop, BadgeCheck, Handshake, BookMarked,
-  CreditCard, Phone, Mail, MapPin,
+  Building2, Laptop, BadgeCheck,
+  Phone, Mail, MapPin,
 } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
 import { Card } from '@/components/ui/Card';
@@ -55,33 +55,6 @@ const benefits = [
     title: 'Directorio Oficial',
     description: 'Visibilidad en el directorio profesional para que ciudadanos y empresas te encuentren.',
   },
-];
-
-const alliances = [
-  {
-    icon: BookMarked,
-    title: 'Lefebvre — Bases de Datos',
-    description: 'Acceso a bases de datos juridicas con condiciones preferenciales.',
-  },
-  {
-    icon: CreditCard,
-    title: 'Banca Colectiva',
-    description: 'Acuerdos con Sabadell y Santander: cuentas profesionales sin comisiones.',
-  },
-  {
-    icon: Handshake,
-    title: 'Aon / Sanitas',
-    description: 'Seguro de RC colectivo y cobertura sanitaria con primas reducidas.',
-  },
-];
-
-const dailyServices = [
-  'Revista del colegiado y actualizaciones laborales',
-  'Biblioteca y salas de reuniones en la sede',
-  'Servicio de colocacion y bolsa de empleo',
-  'Gestion del Turno de Oficio',
-  'Material formativo y merchandising oficial',
-  'Programa anual de honores y reconocimientos',
 ];
 
 const academicDocs = [
@@ -157,7 +130,7 @@ const paths = [
     icon: Briefcase,
     title: 'Ejercientes Libres',
     subtitle: 'Profesionales por cuenta propia',
-    href: '/hazte-colegiado/ejercientes-libres',
+    href: '/hazte-colegiado/colegiados',
     color: 'from-[#2563EB]/20 to-[#1D4ED8]/20',
     textColor: 'text-[#2563EB]',
     popular: true,
@@ -166,7 +139,7 @@ const paths = [
     icon: Building2,
     title: 'Ejercientes en Empresa',
     subtitle: 'Profesionales por cuenta ajena',
-    href: '/hazte-colegiado/ejercientes-empresa',
+    href: '/hazte-colegiado/colegiados',
     color: 'from-[#8B5CF6]/20 to-[#7C3AED]/20',
     textColor: 'text-[#7C3AED]',
   },
@@ -174,7 +147,7 @@ const paths = [
     icon: Award,
     title: 'No Ejercientes',
     subtitle: 'Titulados sin ejercicio activo',
-    href: '/hazte-colegiado/no-ejercientes',
+    href: '/hazte-colegiado/colegiados',
     color: 'from-[#F59E0B]/20 to-[#D97706]/20',
     textColor: 'text-[#D97706]',
   },
@@ -312,47 +285,6 @@ export default function HazteColegiadoPage() {
       </section>
 
       {/* ============================== */}
-      {/* ALIANZAS */}
-      {/* ============================== */}
-      <section className="bg-[#F7F8FA] py-20">
-        <Container>
-          <div className="mb-12 text-center">
-            <Badge color="institutional">Alianzas</Badge>
-            <h2 className="mt-4 text-3xl font-extrabold text-[#0F172A]">Alianzas estrategicas</h2>
-            <p className="mt-2 text-[#475569]">Acuerdos con entidades lideres para tu beneficio</p>
-          </div>
-
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-            {alliances.map((item) => {
-              const Icon = item.icon;
-              return (
-                <Card key={item.title}>
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#2F5BEA]/10 to-[#18B7B0]/10">
-                    <Icon size={24} strokeWidth={1.5} className="text-[#2563EB]" />
-                  </div>
-                  <h3 className="text-base font-bold text-[#0F172A]">{item.title}</h3>
-                  <p className="mt-2 text-sm text-[#475569]">{item.description}</p>
-                </Card>
-              );
-            })}
-          </div>
-
-          {/* Daily services */}
-          <div className="mt-12 rounded-2xl border border-[#E2E8F0] bg-white p-8">
-            <h3 className="mb-6 text-xl font-bold text-[#0F172A]">Comprometidos con tu dia a dia</h3>
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-              {dailyServices.map((s) => (
-                <div key={s} className="flex items-start gap-3">
-                  <CheckCircle size={16} strokeWidth={2} className="mt-0.5 shrink-0 text-[#18B7B0]" />
-                  <span className="text-sm text-[#475569]">{s}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </Container>
-      </section>
-
-      {/* ============================== */}
       {/* PROCESO EN 3 PASOS */}
       {/* ============================== */}
       <section id="proceso" className="py-20">
@@ -375,7 +307,7 @@ export default function HazteColegiadoPage() {
           </div>
 
           <div className="mt-12 text-center">
-            <Button variant="gradient" href="/contacto" className="text-base px-8 py-3">
+            <Button variant="gradient" href="/hazte-colegiado/colegiados" className="text-base px-8 py-3">
               Comenzar inscripcion <ArrowRight size={18} className="ml-1" />
             </Button>
           </div>
@@ -469,7 +401,7 @@ export default function HazteColegiadoPage() {
               Contacta con nosotros y te guiaremos en todo el proceso de colegiacion.
             </p>
             <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-              <Button variant="gradient" href="/contacto" className="text-base px-8 py-3">
+              <Button variant="gradient" href="/hazte-colegiado/colegiados" className="text-base px-8 py-3">
                 Solicitar colegiacion <ArrowRight size={18} className="ml-1" />
               </Button>
             </div>

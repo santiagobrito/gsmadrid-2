@@ -147,29 +147,33 @@ export default function ColegiadosPage() {
               </div>
             </div>
 
-            {/* Right: visual — 3 mini cards */}
+            {/* Right: visual card */}
             <div className="relative">
-              <div className="space-y-4">
-                {modalidades.map((m) => {
-                  const Icon = m.icon;
-                  return (
-                    <a key={m.id} href="#formulario" className="group flex items-center gap-4 rounded-2xl border border-[#E2E8F0] bg-white p-5 transition-all hover:border-[#2563EB]/30 hover:shadow-md">
-                      <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${m.color}`}>
-                        <Icon size={24} strokeWidth={1.5} className={m.textColor} />
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2">
-                          <h3 className="text-sm font-bold text-[#0F172A]">{m.title}</h3>
-                          {m.popular && (
-                            <span className="rounded-full bg-[#2563EB] px-2 py-0.5 text-[9px] font-bold uppercase text-white">Obligatorio</span>
-                          )}
-                        </div>
-                        <p className="text-xs text-[#6B7280]">{m.subtitle}</p>
-                      </div>
-                      <ArrowRight size={16} className="text-[#CBD5E1] transition-colors group-hover:text-[#2563EB]" />
-                    </a>
-                  );
-                })}
+              <div className="rounded-2xl border border-[#E2E8F0] bg-gradient-to-br from-[#F7F8FA] to-white p-8 shadow-[0_12px_32px_rgba(15,23,42,0.06)]">
+                <div className="mb-6 flex aspect-[4/3] items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-[#2563EB]/10 to-[#18B7B0]/5">
+                  <div className="text-center">
+                    <Briefcase size={64} strokeWidth={1} className="mx-auto text-[#2563EB]/30" />
+                    <p className="mt-3 text-sm font-medium text-[#2563EB]/50">Foto: profesionales del Colegio</p>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <CheckCircle size={16} className="shrink-0 text-[#18B7B0]" />
+                    <span className="text-sm text-[#475569]">Acceso a Lexnet y firma digital</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <CheckCircle size={16} className="shrink-0 text-[#18B7B0]" />
+                    <span className="text-sm text-[#475569]">Formacion bonificada exclusiva</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <CheckCircle size={16} className="shrink-0 text-[#18B7B0]" />
+                    <span className="text-sm text-[#475569]">Asesoria juridico-tecnica</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <CheckCircle size={16} className="shrink-0 text-[#18B7B0]" />
+                    <span className="text-sm text-[#475569]">Red de 3.000+ profesionales</span>
+                  </div>
+                </div>
               </div>
               <div className="pointer-events-none absolute -bottom-6 -right-6 -z-10 h-[200px] w-[200px] rounded-full bg-[#2563EB]/[0.04]" />
             </div>
