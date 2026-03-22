@@ -12,15 +12,17 @@ export function organizationSchema() {
       'Colegio Oficial de Graduados Sociales de Madrid. Representamos y defendemos los intereses de los Graduados Sociales colegiados.',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: 'C/ Flora 1',
+      streetAddress: 'C/ Jose Abascal, 44 — 5.a izq.',
       addressLocality: 'Madrid',
-      postalCode: '28013',
+      postalCode: '28003',
       addressCountry: 'ES',
     },
+    telephone: '+34915230888',
+    email: 'admon@graduadosocialmadrid.org',
     geo: {
       '@type': 'GeoCoordinates',
-      latitude: 40.4189,
-      longitude: -3.7074,
+      latitude: 40.4367,
+      longitude: -3.6936,
     },
     sameAs: [
       'https://twitter.com/GSMadrid',
