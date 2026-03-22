@@ -1,23 +1,43 @@
+import { notFound } from 'next/navigation';
+import Image from 'next/image';
 import { Calendar, Clock, MapPin, Users, ArrowLeft, BookOpen, Award } from 'lucide-react';
 import { PonentesGrid } from '@/components/sections/PonentesGrid';
-import type { Ponente } from '@/components/sections/PonentesGrid';
 import { Container } from '@/components/ui/Container';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { InscripcionForm } from '@/components/sections/InscripcionForm';
 import { createMetadata } from '@/lib/seo/metadata';
+import { fetchGraphQL } from '@/lib/graphql/client';
+import { GET_FORMACION_BY_SLUG, GET_FORMACION_SLUGS } from '@/lib/graphql/queries/formacion';
+import type { Formacion } from '@/lib/types';
 import type { Metadata } from 'next';
-// import { fetchGraphQL } from '@/lib/graphql/client';
-// import { GET_FORMACION_BY_SLUG, GET_FORMACION_SLUGS } from '@/lib/graphql/queries/formacion';
 
 type PageProps = {
   params: Promise<{ slug: string }>;
 };
 
+interface FormacionBySlugResponse {
+  formacion: Formacion | null;
+}
+
+interface FormacionSlugsResponse {
+  formaciones: { nodes: { slug: string }[] };
+}
+
+async function getFormacion(slug: string): Promise<Formacion | null> {
+  try {
+    const data = await fetchGraphQL<FormacionBySlugResponse>(GET_FORMACION_BY_SLUG, { slug });
+    return data.formacion;
+  } catch {
+    return null;
+  }
+}
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const title = slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+  const formacion = await getFormacion(slug);
+  const title = formacion?.title || slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
   return createMetadata({
     title: `${title} | Formacion`,
     description: `Informacion e inscripcion para ${title} del Colegio Oficial de Graduados Sociales de Madrid.`,
@@ -25,55 +45,77 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   });
 }
 
-// export async function generateStaticParams() {
-//   const data = await fetchGraphQL(GET_FORMACION_SLUGS);
-//   return data.formaciones.nodes.map((f) => ({ slug: f.slug }));
-// }
+export async function generateStaticParams() {
+  try {
+    const data = await fetchGraphQL<FormacionSlugsResponse>(GET_FORMACION_SLUGS);
+    return data.formaciones.nodes.map((f) => ({ slug: f.slug }));
+  } catch {
+    return [];
+  }
+}
 
 export const revalidate = 60;
 
-export default async function FormacionDetailPage({ params }: PageProps) {
-  const { slug } = await params;
+function determineModalidad(lugar?: string | null): string {
+  if (!lugar) return 'Presencial';
+  const lower = lugar.toLowerCase();
+  if (lower.includes('online') || lower.includes('webinar') || lower.includes('virtual')) return 'Online';
+  return 'Presencial';
+}
 
-  // TODO: Replace with actual GraphQL fetch
-  // const data = await fetchGraphQL(GET_FORMACION_BY_SLUG, { slug });
-  // if (!data.formacion) notFound();
+type FormacionEstado = 'Abierta' | 'Finalizada' | 'Completa' | 'Cancelada';
 
-  const title = slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+function determineEstado(estado?: string | null, fechaInicio?: string | null): FormacionEstado {
+  if (estado) {
+    const raw = Array.isArray(estado) ? estado[0] : estado;
+    const lower = raw.toLowerCase();
+    if (lower.includes('completa')) return 'Completa';
+    if (lower.includes('cancelada')) return 'Cancelada';
+    if (lower.includes('cerrada') || lower.includes('finalizada')) return 'Finalizada';
+    if (lower.includes('abierta')) return 'Abierta';
+  }
+  if (fechaInicio && new Date(fechaInicio) < new Date()) return 'Finalizada';
+  return 'Abierta';
+}
 
-  // Placeholder data — will come from WordPress
-  const formacion = {
-    estado: 'Abierta' as const,
-    fechaInicio: '2026-03-28',
-    fechaFin: '2026-03-28',
-    horario: '10:00 - 14:00',
-    lugar: 'Sede del Colegio, C/ Jose Abascal 44, Madrid',
-    plazas: 50,
-    horasLectivas: 4,
-    esGratuito: false,
-    modalidad: 'Presencial',
+function extractPrices(precios?: { tipo: string; importe: number; descripcion?: string }[] | null) {
+  const defaults = { presencial: 0, online: 0 };
+  if (!precios || precios.length === 0) return { colegiado: defaults, precolegiado: defaults, externo: defaults };
+
+  const byTipo = (tipo: string) => {
+    const p = precios.find((pr) => pr.tipo?.toLowerCase().includes(tipo));
+    return p ? p.importe : 0;
   };
 
-  // Placeholder ponentes — will come from ACF repeater via GraphQL
-  const ponentes: Ponente[] = [
-    {
-      nombre: 'Dr. Carlos Martinez Lopez',
-      cargo: 'Magistrado del Tribunal Superior de Justicia de Madrid',
-      bio: 'Especialista en derecho laboral con mas de 20 anos de experiencia en la jurisdiccion social.',
-    },
-    {
-      nombre: 'Maria Garcia Fernandez',
-      cargo: 'Inspectora de Trabajo y Seguridad Social',
-      bio: 'Experta en prevencion de riesgos laborales y regulacion de condiciones de trabajo.',
-    },
-  ];
+  return {
+    colegiado: { presencial: byTipo('colegiado'), online: byTipo('colegiado') },
+    precolegiado: { presencial: byTipo('precolegiado'), online: byTipo('precolegiado') },
+    externo: { presencial: byTipo('externo') || byTipo('general'), online: byTipo('externo') || byTipo('general') },
+  };
+}
+
+export default async function FormacionDetailPage({ params }: PageProps) {
+  const { slug } = await params;
+  const formacion = await getFormacion(slug);
+
+  if (!formacion) notFound();
+
+  const f = formacion.formacionFields;
+  const modalidad = determineModalidad(f.lugar);
+  const estado = determineEstado(f.estado, f.fechaInicio);
+  const prices = extractPrices(f.precios);
+  const isPast = estado === 'Finalizada' || estado === 'Completa' || estado === 'Cancelada';
+
+  const fechaDisplay = f.fechaInicio
+    ? new Date(f.fechaInicio).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })
+    : '';
 
   return (
     <>
       <Breadcrumbs
         items={[
           { label: 'Formacion y Eventos', href: '/formacion-eventos' },
-          { label: title, href: `/formacion-eventos/${slug}` },
+          { label: formacion.title, href: `/formacion-eventos/${slug}` },
         ]}
       />
 
@@ -84,89 +126,120 @@ export default async function FormacionDetailPage({ params }: PageProps) {
             <div className="lg:col-span-2">
               {/* Header */}
               <div className="mb-6 flex flex-wrap items-center gap-2">
-                <Badge color="formacion">{formacion.modalidad}</Badge>
-                <Badge color={formacion.estado === 'Abierta' ? 'activo' : 'pendiente'}>
-                  {formacion.estado}
+                <Badge color="formacion">{modalidad}</Badge>
+                <Badge color={isPast ? 'pendiente' : 'activo'}>
+                  {estado}
                 </Badge>
-                {formacion.esGratuito && <Badge color="eventos">Gratuito</Badge>}
+                {f.esGratuito && <Badge color="eventos">Gratuito</Badge>}
               </div>
 
               <h1 className="text-3xl font-extrabold tracking-tight text-text sm:text-4xl">
-                {title}
+                {formacion.title}
               </h1>
 
               {/* Info grid */}
               <div className="mt-8 grid grid-cols-1 gap-4 rounded-2xl border border-border bg-bg-alt p-6 sm:grid-cols-2">
-                <div className="flex items-center gap-3">
-                  <Calendar size={20} strokeWidth={1.5} className="text-primary" />
-                  <div>
-                    <p className="text-xs font-semibold uppercase text-text-tertiary">Fecha</p>
-                    <p className="text-sm font-medium text-text">{formacion.fechaInicio}</p>
+                {fechaDisplay && (
+                  <div className="flex items-center gap-3">
+                    <Calendar size={20} strokeWidth={1.5} className="text-primary" />
+                    <div>
+                      <p className="text-xs font-semibold uppercase text-text-tertiary">Fecha</p>
+                      <p className="text-sm font-medium text-text">{fechaDisplay}</p>
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Clock size={20} strokeWidth={1.5} className="text-primary" />
-                  <div>
-                    <p className="text-xs font-semibold uppercase text-text-tertiary">Horario</p>
-                    <p className="text-sm font-medium text-text">{formacion.horario}</p>
+                )}
+                {f.horario && (
+                  <div className="flex items-center gap-3">
+                    <Clock size={20} strokeWidth={1.5} className="text-primary" />
+                    <div>
+                      <p className="text-xs font-semibold uppercase text-text-tertiary">Horario</p>
+                      <p className="text-sm font-medium text-text">{f.horario}</p>
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <MapPin size={20} strokeWidth={1.5} className="text-primary" />
-                  <div>
-                    <p className="text-xs font-semibold uppercase text-text-tertiary">Lugar</p>
-                    <p className="text-sm font-medium text-text">{formacion.lugar}</p>
+                )}
+                {f.lugar && (
+                  <div className="flex items-center gap-3">
+                    <MapPin size={20} strokeWidth={1.5} className="text-primary" />
+                    <div>
+                      <p className="text-xs font-semibold uppercase text-text-tertiary">Lugar</p>
+                      <p className="text-sm font-medium text-text">{f.lugar}</p>
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Users size={20} strokeWidth={1.5} className="text-primary" />
-                  <div>
-                    <p className="text-xs font-semibold uppercase text-text-tertiary">Plazas</p>
-                    <p className="text-sm font-medium text-text">{formacion.plazas} disponibles</p>
+                )}
+                {f.plazas != null && f.plazas > 0 && (
+                  <div className="flex items-center gap-3">
+                    <Users size={20} strokeWidth={1.5} className="text-primary" />
+                    <div>
+                      <p className="text-xs font-semibold uppercase text-text-tertiary">Plazas</p>
+                      <p className="text-sm font-medium text-text">{f.plazas} disponibles</p>
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <BookOpen size={20} strokeWidth={1.5} className="text-primary" />
-                  <div>
-                    <p className="text-xs font-semibold uppercase text-text-tertiary">Duracion</p>
-                    <p className="text-sm font-medium text-text">{formacion.horasLectivas} horas lectivas</p>
+                )}
+                {f.horasLectivas != null && f.horasLectivas > 0 && (
+                  <div className="flex items-center gap-3">
+                    <BookOpen size={20} strokeWidth={1.5} className="text-primary" />
+                    <div>
+                      <p className="text-xs font-semibold uppercase text-text-tertiary">Duracion</p>
+                      <p className="text-sm font-medium text-text">{f.horasLectivas} horas lectivas</p>
+                    </div>
                   </div>
-                </div>
-                {!formacion.esGratuito && (
+                )}
+                {f.diploma?.emiteDiploma && (
                   <div className="flex items-center gap-3">
                     <Award size={20} strokeWidth={1.5} className="text-primary" />
                     <div>
                       <p className="text-xs font-semibold uppercase text-text-tertiary">Certificado</p>
-                      <p className="text-sm font-medium text-text">Diploma del Colegio</p>
+                      <p className="text-sm font-medium text-text">
+                        {f.diploma.entidadEmisora || 'Diploma del Colegio'}
+                        {f.diploma.horasConvalidables ? ` (${f.diploma.horasConvalidables}h)` : ''}
+                      </p>
                     </div>
                   </div>
                 )}
               </div>
 
-              {/* Featured image placeholder */}
-              <div className="mt-8 flex aspect-video items-center justify-center rounded-2xl bg-bg-alt border border-border">
-                <p className="text-sm text-text-tertiary">Imagen de la formacion</p>
-              </div>
+              {/* Featured image */}
+              {formacion.featuredImage ? (
+                <div className="mt-8 overflow-hidden rounded-2xl border border-border">
+                  <Image
+                    src={formacion.featuredImage.node.sourceUrl}
+                    alt={formacion.featuredImage.node.altText || formacion.title}
+                    width={formacion.featuredImage.node.mediaDetails?.width || 800}
+                    height={formacion.featuredImage.node.mediaDetails?.height || 450}
+                    className="w-full object-cover"
+                  />
+                </div>
+              ) : (
+                <div className="mt-8 flex aspect-video items-center justify-center rounded-2xl bg-bg-alt border border-border">
+                  <p className="text-sm text-text-tertiary">Imagen de la formacion</p>
+                </div>
+              )}
 
-              {/* Content */}
-              <div className="prose prose-slate mt-10 max-w-none">
-                <h2>Descripcion</h2>
-                <p className="text-text-secondary font-light">
-                  Contenido del evento formativo. Esta seccion se rellenara automaticamente con los datos
-                  del backend de WordPress cuando se complete la integracion con GraphQL.
-                </p>
+              {/* Content from WordPress editor */}
+              {formacion.content && (
+                <div
+                  className="prose prose-slate mt-10 max-w-none"
+                  dangerouslySetInnerHTML={{ __html: formacion.content }}
+                />
+              )}
 
-                <h2>Programa</h2>
-                <p className="text-text-secondary font-light">
-                  El programa detallado se cargara desde WordPress. Incluira los temas, ponentes y
-                  horarios de cada bloque.
-                </p>
-              </div>
+              {/* Programa from ACF field */}
+              {f.programa && (
+                <div className="mt-10">
+                  <h2 className="mb-4 text-2xl font-bold text-text">Programa</h2>
+                  <div
+                    className="prose prose-slate max-w-none"
+                    dangerouslySetInnerHTML={{ __html: f.programa }}
+                  />
+                </div>
+              )}
 
-              {/* Ponentes — loaded from ACF repeater via GraphQL */}
-              <div className="mt-10">
-                <PonentesGrid ponentes={ponentes} />
-              </div>
+              {/* Ponentes from ACF repeater */}
+              {f.ponentes && f.ponentes.length > 0 && (
+                <div className="mt-10">
+                  <PonentesGrid ponentes={f.ponentes.map((p) => ({ ...p, cargo: p.cargo || '' }))} />
+                </div>
+              )}
 
               {/* Back button */}
               <div className="mt-10">
@@ -180,15 +253,15 @@ export default async function FormacionDetailPage({ params }: PageProps) {
             {/* Sidebar — 1/3 */}
             <div className="lg:col-span-1">
               <div className="sticky top-[102px] space-y-6">
-                {/* Inscription form with automatic past event blocking */}
                 <InscripcionForm
-                  estado={formacion.estado}
-                  plazas={formacion.plazas}
-                  fechaFin={formacion.fechaFin}
-                  precioColegiado={{ presencial: 0, online: 0 }}
-                  precioPrecolegiado={{ presencial: 0, online: 0 }}
-                  precioExterno={{ presencial: 50, online: 40 }}
-                  modalidadesDisponibles={['presencial', 'online']}
+                  formacionSlug={slug}
+                  estado={estado}
+                  plazas={f.plazas || 0}
+                  fechaFin={f.fechaFin || f.fechaInicio}
+                  precioColegiado={prices.colegiado}
+                  precioPrecolegiado={prices.precolegiado}
+                  precioExterno={prices.externo}
+                  modalidadesDisponibles={modalidad === 'Online' ? ['online'] : ['presencial', 'online']}
                 />
 
                 {/* Share */}

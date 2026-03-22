@@ -2,11 +2,12 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Container } from '@/components/ui/Container';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
-import { Calendar, Clock, MapPin, ArrowRight, Lock, Users } from 'lucide-react';
+import { Calendar, Clock, MapPin, ArrowRight, Lock, Users, Megaphone } from 'lucide-react';
 
 export interface EventoItem {
   slug: string;
@@ -17,6 +18,7 @@ export interface EventoItem {
   tipo: string;
   estado: 'Abierto' | 'Finalizado';
   soloColegiados: boolean;
+  imageUrl?: string;
 }
 
 type FilterType = 'todos' | 'institucional' | 'networking' | 'asamblea';
@@ -85,8 +87,23 @@ export function FilteredEventos({ eventos }: FilteredEventosProps) {
               return (
                 <Link key={e.slug} href={`/eventos/${e.slug}`} className="group">
                   <Card className="flex h-full flex-col">
-                    <div className="-mx-7 -mt-7 mb-5 flex aspect-[3/2] items-center justify-center overflow-hidden rounded-t-2xl bg-bg-alt">
-                      <p className="text-xs text-text-tertiary">Imagen del evento</p>
+                    <div className="-mx-7 -mt-7 mb-5 overflow-hidden rounded-t-2xl">
+                      {e.imageUrl ? (
+                        <Image
+                          src={e.imageUrl}
+                          alt={e.title}
+                          width={400}
+                          height={267}
+                          className="aspect-[3/2] w-full object-cover"
+                        />
+                      ) : (
+                        <div className="flex aspect-[3/2] items-center justify-center bg-gradient-to-br from-[#2F5BEA]/10 to-[#18B7B0]/10">
+                          <div className="text-center">
+                            <Megaphone size={32} strokeWidth={1} className="mx-auto text-primary/40" />
+                            <p className="mt-2 text-xs text-text-tertiary">Evento</p>
+                          </div>
+                        </div>
+                      )}
                     </div>
 
                     <div className="mb-3 flex flex-wrap items-center gap-2">

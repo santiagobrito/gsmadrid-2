@@ -12,13 +12,12 @@ import {
   Presentation,
   Video,
   Scale,
-  Send,
 } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
 import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
-import { Button } from '@/components/ui/Button';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
+import { ContactForm } from '@/components/sections/ContactForm';
 import { createMetadata } from '@/lib/seo/metadata';
 
 export const metadata: Metadata = createMetadata({
@@ -316,123 +315,8 @@ export default function ContactoPage() {
         </div>
 
         {/* === CONTACT FORM === */}
-        {/* Note: This form is visual only. Backend integration pending. */}
-        <div className="mt-12 rounded-2xl border border-[#E2E8F0] bg-white p-8 sm:p-10">
-          <h2 className="text-2xl font-bold tracking-tight text-[#0F172A]">
-            Escribenos directamente
-          </h2>
-          <p className="mt-2 text-[#475569]">
-            Rellena el formulario y te responderemos lo antes posible. Para
-            consultas urgentes, te recomendamos llamar por telefono.
-          </p>
-
-          <form className="mt-8 space-y-6" onSubmit={undefined}>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-              {/* Nombre */}
-              <div>
-                <label
-                  htmlFor="nombre"
-                  className="mb-1.5 block text-sm font-semibold text-[#0F172A]"
-                >
-                  Nombre completo <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  id="nombre"
-                  name="nombre"
-                  required
-                  className="w-full rounded-xl border border-[#E2E8F0] bg-[#F7F8FA] px-4 py-3 text-sm text-[#0F172A] placeholder:text-[#6B7280] outline-none transition-colors focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20"
-                  placeholder="Tu nombre"
-                />
-              </div>
-
-              {/* Email */}
-              <div>
-                <label
-                  htmlFor="email"
-                  className="mb-1.5 block text-sm font-semibold text-[#0F172A]"
-                >
-                  Email <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  required
-                  className="w-full rounded-xl border border-[#E2E8F0] bg-[#F7F8FA] px-4 py-3 text-sm text-[#0F172A] placeholder:text-[#6B7280] outline-none transition-colors focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20"
-                  placeholder="tu@email.com"
-                />
-              </div>
-
-              {/* Telefono */}
-              <div>
-                <label
-                  htmlFor="telefono"
-                  className="mb-1.5 block text-sm font-semibold text-[#0F172A]"
-                >
-                  Telefono{' '}
-                  <span className="text-xs font-normal text-[#6B7280]">
-                    (opcional)
-                  </span>
-                </label>
-                <input
-                  type="tel"
-                  id="telefono"
-                  name="telefono"
-                  className="w-full rounded-xl border border-[#E2E8F0] bg-[#F7F8FA] px-4 py-3 text-sm text-[#0F172A] placeholder:text-[#6B7280] outline-none transition-colors focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20"
-                  placeholder="600 000 000"
-                />
-              </div>
-
-              {/* Asunto */}
-              <div>
-                <label
-                  htmlFor="asunto"
-                  className="mb-1.5 block text-sm font-semibold text-[#0F172A]"
-                >
-                  Asunto <span className="text-red-500">*</span>
-                </label>
-                <select
-                  id="asunto"
-                  name="asunto"
-                  required
-                  className="w-full rounded-xl border border-[#E2E8F0] bg-[#F7F8FA] px-4 py-3 text-sm text-[#0F172A] outline-none transition-colors focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20"
-                >
-                  <option value="">Selecciona un asunto</option>
-                  <option value="colegiacion">Colegiacion</option>
-                  <option value="formacion">Formacion</option>
-                  <option value="sala-togas">Sala de Togas</option>
-                  <option value="gestiones">Gestiones</option>
-                  <option value="otros">Otros</option>
-                </select>
-              </div>
-            </div>
-
-            {/* Mensaje */}
-            <div>
-              <label
-                htmlFor="mensaje"
-                className="mb-1.5 block text-sm font-semibold text-[#0F172A]"
-              >
-                Mensaje <span className="text-red-500">*</span>
-              </label>
-              <textarea
-                id="mensaje"
-                name="mensaje"
-                rows={5}
-                required
-                className="w-full rounded-xl border border-[#E2E8F0] bg-[#F7F8FA] px-4 py-3 text-sm text-[#0F172A] placeholder:text-[#6B7280] outline-none transition-colors focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20 resize-none"
-                placeholder="Escribe tu consulta..."
-              />
-            </div>
-
-            <div>
-              <Button type="submit" variant="gradient">
-                Enviar mensaje
-                <Send size={16} strokeWidth={2} />
-              </Button>
-            </div>
-          </form>
+        <div className="mt-12">
+          <ContactForm />
         </div>
 
         {/* === SOCIAL MEDIA === */}

@@ -17,6 +17,11 @@ const EVENTOS_QUERY = `{
     nodes {
       slug
       title
+      featuredImage {
+        node {
+          sourceUrl
+        }
+      }
       eventoFields {
         fechaInicio
         horario
@@ -89,6 +94,7 @@ function determineEstado(estado: string | null, fechaInicio: string | null): 'Ab
 interface WpEventoNode {
   slug: string;
   title: string;
+  featuredImage: { node: { sourceUrl: string } } | null;
   eventoFields: {
     fechaInicio: string | null;
     horario: string | null;
@@ -127,6 +133,7 @@ export default async function EventosPage() {
           tipo,
           estado: determineEstado(fields.estado, fechaInicio),
           soloColegiados: fields.soloColegiados || false,
+          imageUrl: e.featuredImage?.node?.sourceUrl || undefined,
         };
       });
     }

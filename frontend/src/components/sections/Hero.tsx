@@ -30,7 +30,7 @@ const defaultSlides: HeroSlide[] = [
     href: '/formacion-eventos/jornada-actualizacion-laboral-2026',
     date: '28 Mar 2026',
     pinned: true,
-    image: '/placeholder-news.jpg',
+    image: '/placeholder-news.svg',
   },
   {
     id: '2',
@@ -39,7 +39,7 @@ const defaultSlides: HeroSlide[] = [
     excerpt: 'El Colegio estrena nuevas instalaciones con sala de togas, biblioteca y espacios de coworking.',
     href: '/actualidad/nueva-sede-colegio',
     date: '20 Mar 2026',
-    image: '/placeholder-news.jpg',
+    image: '/placeholder-news.svg',
   },
   {
     id: '3',
@@ -48,7 +48,7 @@ const defaultSlides: HeroSlide[] = [
     excerpt: 'Repaso completo a las ultimas reformas y su impacto en el ambito laboral.',
     href: '/formacion-eventos/webinar-seguridad-social',
     date: '2 Abr 2026',
-    image: '/placeholder-news.jpg',
+    image: '/placeholder-news.svg',
   },
   {
     id: '4',
@@ -57,7 +57,7 @@ const defaultSlides: HeroSlide[] = [
     excerpt: 'Acuerdo de colaboracion para practicas y formacion continua de graduados sociales.',
     href: '/actualidad/convenio-ucm',
     date: '15 Mar 2026',
-    image: '/placeholder-news.jpg',
+    image: '/placeholder-news.svg',
   },
 ];
 

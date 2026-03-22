@@ -588,7 +588,254 @@ function gsmadrid_validate_auth_token($user_id) {
 }
 
 // ============================================================
-// 14. ADMIN: Add profesional user management columns
+// 14. REST API: Inscripcion Form
+// ============================================================
+
+add_action('rest_api_init', 'gsmadrid_register_inscripcion_route');
+
+function gsmadrid_register_inscripcion_route() {
+    register_rest_route('gsmadrid/v1', '/inscripcion', [
+        'methods'             => 'POST',
+        'callback'            => 'gsmadrid_handle_inscripcion',
+        'permission_callback' => '__return_true',
+        'args' => [
+            'formacion_slug' => ['required' => true, 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field'],
+            'perfil'         => ['required' => true, 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field'],
+            'nombre'         => ['required' => true, 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field'],
+            'email'          => ['required' => true, 'type' => 'string', 'sanitize_callback' => 'sanitize_email'],
+            'telefono'       => ['required' => false, 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field'],
+            'empresa'        => ['required' => false, 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field'],
+            'numero_colegiado' => ['required' => false, 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field'],
+            'modalidad'      => ['required' => false, 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field'],
+            'precio'         => ['required' => false, 'type' => 'number'],
+        ],
+    ]);
+}
+
+function gsmadrid_handle_inscripcion($request) {
+    $params = $request->get_json_params();
+
+    $formacion_slug   = sanitize_text_field($params['formacion_slug'] ?? '');
+    $perfil           = sanitize_text_field($params['perfil'] ?? '');
+    $nombre           = sanitize_text_field($params['nombre'] ?? '');
+    $email            = sanitize_email($params['email'] ?? '');
+    $telefono         = sanitize_text_field($params['telefono'] ?? '');
+    $empresa          = sanitize_text_field($params['empresa'] ?? '');
+    $numero_colegiado = sanitize_text_field($params['numero_colegiado'] ?? '');
+    $modalidad        = sanitize_text_field($params['modalidad'] ?? 'presencial');
+    $precio           = floatval($params['precio'] ?? 0);
+
+    // Validate required fields
+    if (empty($formacion_slug) || empty($perfil) || empty($nombre) || empty($email)) {
+        return new WP_REST_Response([
+            'success' => false,
+            'message' => 'Faltan campos obligatorios (formacion, perfil, nombre, email).',
+        ], 400);
+    }
+
+    if (!is_email($email)) {
+        return new WP_REST_Response([
+            'success' => false,
+            'message' => 'El email proporcionado no es valido.',
+        ], 400);
+    }
+
+    // Find the formacion/evento post
+    $formacion_post = get_page_by_path($formacion_slug, OBJECT, ['formacion', 'evento', 'curso']);
+    $formacion_title = $formacion_post ? $formacion_post->post_title : $formacion_slug;
+    $formacion_id = $formacion_post ? $formacion_post->ID : 0;
+
+    // Store inscription as post meta on the formacion (array of inscriptions)
+    if ($formacion_id) {
+        $inscripciones = get_post_meta($formacion_id, '_inscripciones', true);
+        if (!is_array($inscripciones)) {
+            $inscripciones = [];
+        }
+
+        // Check for duplicate email
+        foreach ($inscripciones as $insc) {
+            if (isset($insc['email']) && $insc['email'] === $email) {
+                return new WP_REST_Response([
+                    'success' => false,
+                    'message' => 'Ya existe una inscripcion con este email para esta formacion.',
+                ], 409);
+            }
+        }
+
+        $inscripcion = [
+            'nombre'           => $nombre,
+            'email'            => $email,
+            'telefono'         => $telefono,
+            'empresa'          => $empresa,
+            'perfil'           => $perfil,
+            'numero_colegiado' => $numero_colegiado,
+            'modalidad'        => $modalidad,
+            'precio'           => $precio,
+            'fecha'            => current_time('mysql'),
+            'estado'           => 'pendiente',
+        ];
+
+        $inscripciones[] = $inscripcion;
+        update_post_meta($formacion_id, '_inscripciones', $inscripciones);
+    }
+
+    // Email to admin
+    $admin_email = get_option('admin_email');
+    $perfilLabel = ucfirst($perfil);
+    $precioLabel = $precio > 0 ? "{$precio} EUR" : 'Gratuito';
+
+    $admin_subject = "[CGSM] Nueva inscripcion: {$formacion_title}";
+    $admin_body = "Nueva inscripcion recibida:\n\n";
+    $admin_body .= "Formacion: {$formacion_title}\n";
+    $admin_body .= "Nombre: {$nombre}\n";
+    $admin_body .= "Email: {$email}\n";
+    if ($telefono) $admin_body .= "Telefono: {$telefono}\n";
+    $admin_body .= "Perfil: {$perfilLabel}\n";
+    if ($numero_colegiado) $admin_body .= "N. Colegiado: {$numero_colegiado}\n";
+    if ($empresa) $admin_body .= "Empresa: {$empresa}\n";
+    $admin_body .= "Modalidad: {$modalidad}\n";
+    $admin_body .= "Precio: {$precioLabel}\n";
+    $admin_body .= "Fecha: " . current_time('d/m/Y H:i') . "\n";
+
+    wp_mail($admin_email, $admin_subject, $admin_body);
+
+    // Also send to the dedicated email
+    wp_mail('admon@graduadosocialmadrid.org', $admin_subject, $admin_body);
+
+    // Confirmation email to user
+    $user_subject = "Confirmacion de inscripcion — {$formacion_title}";
+    $user_body = "Estimado/a {$nombre},\n\n";
+    $user_body .= "Su inscripcion ha sido registrada correctamente.\n\n";
+    $user_body .= "Datos de la inscripcion:\n";
+    $user_body .= "- Actividad: {$formacion_title}\n";
+    $user_body .= "- Modalidad: {$modalidad}\n";
+    $user_body .= "- Perfil: {$perfilLabel}\n";
+    $user_body .= "- Importe: {$precioLabel}\n\n";
+    if ($precio > 0) {
+        $user_body .= "Recibira las instrucciones de pago por email en las proximas 24 horas habiles.\n\n";
+    }
+    $user_body .= "Un saludo,\n";
+    $user_body .= "Colegio Oficial de Graduados Sociales de Madrid\n";
+    $user_body .= "C/ Jose Abascal, 44 — 28003 Madrid\n";
+    $user_body .= "Tel: 91 523 08 88\n";
+
+    $headers = ['From: CGSM <admon@graduadosocialmadrid.org>'];
+    wp_mail($email, $user_subject, $user_body, $headers);
+
+    return new WP_REST_Response([
+        'success' => true,
+        'message' => 'Inscripcion registrada correctamente. Se ha enviado un email de confirmacion.',
+    ], 200);
+}
+
+// ============================================================
+// 15. REST API: Contact Form
+// ============================================================
+
+add_action('rest_api_init', 'gsmadrid_register_contacto_route');
+
+function gsmadrid_register_contacto_route() {
+    register_rest_route('gsmadrid/v1', '/contacto', [
+        'methods'             => 'POST',
+        'callback'            => 'gsmadrid_handle_contacto',
+        'permission_callback' => '__return_true',
+        'args' => [
+            'nombre'   => ['required' => true, 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field'],
+            'email'    => ['required' => true, 'type' => 'string', 'sanitize_callback' => 'sanitize_email'],
+            'telefono' => ['required' => false, 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field'],
+            'asunto'   => ['required' => true, 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field'],
+            'mensaje'  => ['required' => true, 'type' => 'string'],
+        ],
+    ]);
+}
+
+function gsmadrid_handle_contacto($request) {
+    $params = $request->get_json_params();
+
+    $nombre   = sanitize_text_field($params['nombre'] ?? '');
+    $email    = sanitize_email($params['email'] ?? '');
+    $telefono = sanitize_text_field($params['telefono'] ?? '');
+    $asunto   = sanitize_text_field($params['asunto'] ?? '');
+    $mensaje  = wp_kses_post($params['mensaje'] ?? '');
+
+    if (empty($nombre) || empty($email) || empty($asunto) || empty($mensaje)) {
+        return new WP_REST_Response([
+            'success' => false,
+            'message' => 'Faltan campos obligatorios.',
+        ], 400);
+    }
+
+    if (!is_email($email)) {
+        return new WP_REST_Response([
+            'success' => false,
+            'message' => 'El email proporcionado no es valido.',
+        ], 400);
+    }
+
+    // Rate limiting: simple check via transient (1 submission per email per 60 seconds)
+    $rate_key = 'contacto_' . md5($email);
+    if (get_transient($rate_key)) {
+        return new WP_REST_Response([
+            'success' => false,
+            'message' => 'Por favor, espera un momento antes de enviar otro mensaje.',
+        ], 429);
+    }
+    set_transient($rate_key, true, 60);
+
+    // Map asunto to label
+    $asuntoLabels = [
+        'colegiacion' => 'Colegiacion',
+        'formacion'   => 'Formacion',
+        'sala-togas'  => 'Sala de Togas',
+        'gestiones'   => 'Gestiones',
+        'otros'       => 'Otros',
+    ];
+    $asuntoLabel = $asuntoLabels[$asunto] ?? $asunto;
+
+    // Determine recipient based on subject
+    $to = 'admon@graduadosocialmadrid.org';
+    if ($asunto === 'sala-togas') {
+        $to = 'saladgraduados@graduadosocialmadrid.org';
+    }
+
+    // Send email to admin
+    $subject = "[Web CGSM] Contacto: {$asuntoLabel}";
+    $body = "Nuevo mensaje desde el formulario de contacto:\n\n";
+    $body .= "Nombre: {$nombre}\n";
+    $body .= "Email: {$email}\n";
+    if ($telefono) $body .= "Telefono: {$telefono}\n";
+    $body .= "Asunto: {$asuntoLabel}\n\n";
+    $body .= "Mensaje:\n{$mensaje}\n\n";
+    $body .= "---\n";
+    $body .= "Enviado desde: graduadosocialmadrid.org\n";
+    $body .= "Fecha: " . current_time('d/m/Y H:i') . "\n";
+
+    $admin_headers = [
+        "Reply-To: {$nombre} <{$email}>",
+    ];
+
+    wp_mail($to, $subject, $body, $admin_headers);
+
+    // Auto-reply to user
+    $reply_subject = "Hemos recibido tu mensaje — Colegio de Graduados Sociales de Madrid";
+    $reply_body = "Estimado/a {$nombre},\n\n";
+    $reply_body .= "Hemos recibido tu consulta sobre \"{$asuntoLabel}\" y la atenderemos lo antes posible.\n\n";
+    $reply_body .= "Si tu consulta es urgente, te recomendamos llamarnos al 91 523 08 88.\n\n";
+    $reply_body .= "Un saludo,\n";
+    $reply_body .= "Colegio Oficial de Graduados Sociales de Madrid\n";
+    $reply_body .= "C/ Jose Abascal, 44 — 28003 Madrid\n";
+
+    $reply_headers = ['From: CGSM <admon@graduadosocialmadrid.org>'];
+    wp_mail($email, $reply_subject, $reply_body, $reply_headers);
+
+    return new WP_REST_Response([
+        'success' => true,
+        'message' => 'Mensaje enviado correctamente. Te responderemos lo antes posible.',
+    ], 200);
+}
+
+// ============================================================
+// 16. ADMIN: Add profesional user management columns
 // ============================================================
 
 add_filter('manage_profesional_posts_columns', 'gsmadrid_profesional_admin_columns');

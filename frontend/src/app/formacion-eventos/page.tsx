@@ -17,6 +17,11 @@ const FORMACIONES_QUERY = `{
     nodes {
       slug
       title
+      featuredImage {
+        node {
+          sourceUrl
+        }
+      }
       formacionFields {
         fechaInicio
         fechaFin
@@ -124,6 +129,7 @@ function determineEstado(estado: string | null, fechaInicio: string | null): 'Ab
 interface WpFormacionNode {
   slug: string;
   title: string;
+  featuredImage: { node: { sourceUrl: string } } | null;
   formacionFields: {
     fechaInicio: string | null;
     fechaFin: string | null;
@@ -162,6 +168,7 @@ export default async function FormacionEventosPage() {
           estado: determineEstado(fields.estado, fechaInicio),
           plazas: fields.plazas || 0,
           esGratuito: fields.esGratuito || false,
+          imageUrl: f.featuredImage?.node?.sourceUrl || undefined,
         };
       });
     }

@@ -17,6 +17,7 @@ import {
 import { es } from 'date-fns/locale';
 import { ChevronLeft, ChevronRight, MapPin, Clock, ArrowRight } from 'lucide-react';
 import { Card } from '@/components/ui/Card';
+import { Badge } from '@/components/ui/Badge';
 
 interface CalendarEvent {
   date: string;
@@ -24,6 +25,7 @@ interface CalendarEvent {
   time: string;
   location: string;
   href: string;
+  type?: 'formacion' | 'evento';
 }
 
 // Placeholder events — used as fallback if no data from GraphQL
@@ -167,6 +169,11 @@ export function CalendarWidget({ events: eventsProp }: CalendarWidgetProps) {
               <div className="mt-4 space-y-5">
                 {selectedEvents.map((event) => (
                   <div key={event.href} className="space-y-3">
+                    {event.type && (
+                      <Badge color={event.type === 'formacion' ? 'formacion' : 'colegio'}>
+                        {event.type === 'formacion' ? 'Formacion' : 'Evento'}
+                      </Badge>
+                    )}
                     <h4 className="text-base font-bold text-text">{event.title}</h4>
                     <div className="space-y-1.5 text-sm text-text-secondary">
                       <div className="flex items-center gap-2">

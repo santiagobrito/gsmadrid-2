@@ -24,6 +24,7 @@ interface InscripcionFormProps {
   plazas?: number;
   urlExterna?: string;
   fechaFin?: string;
+  formacionSlug?: string;
   // Pricing config from ACF — prices per profile and modality
   precioColegiado?: PrecioModalidad;
   precioPrecolegiado?: PrecioModalidad;
@@ -63,11 +64,14 @@ const perfiles = [
 // Component
 // ============================================================
 
+const WP_API = process.env.NEXT_PUBLIC_WORDPRESS_URL || '';
+
 export function InscripcionForm({
   estado,
   plazas,
   urlExterna,
   fechaFin,
+  formacionSlug,
   precioColegiado,
   precioPrecolegiado,
   precioExterno,
@@ -86,6 +90,8 @@ export function InscripcionForm({
   });
   const [privacidad, setPrivacidad] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Derived state
   const isPast = fechaFin ? new Date(fechaFin) < new Date() : estado === 'Finalizada';
@@ -472,18 +478,50 @@ export function InscripcionForm({
             <Button
               variant="gradient"
               className="flex-1"
-              onClick={() => {
-                if (modalidadesDisponibles.length === 1) {
-                  setModalidad(modalidadesDisponibles[0]);
+              disabled={(modalidadesDisponibles.length > 1 && !modalidad) || submitting}
+              onClick={async () => {
+                const finalModalidad = modalidadesDisponibles.length === 1 ? modalidadesDisponibles[0] : modalidad;
+                if (modalidadesDisponibles.length === 1) setModalidad(finalModalidad);
+                setSubmitting(true);
+                setError(null);
+                try {
+                  const res = await fetch(`${WP_API}/wp-json/gsmadrid/v1/inscripcion`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                      formacion_slug: formacionSlug || '',
+                      perfil,
+                      nombre: datos.nombre,
+                      email: datos.email,
+                      telefono: datos.telefono,
+                      empresa: datos.empresa,
+                      numero_colegiado: numeroColegiado,
+                      modalidad: finalModalidad || 'presencial',
+                      precio: getPrice(),
+                    }),
+                  });
+                  const data = await res.json();
+                  if (data.success) {
+                    setSubmitted(true);
+                  } else {
+                    setError(data.message || 'Error al procesar la inscripcion.');
+                  }
+                } catch {
+                  setError('Error de conexion. Intentalo de nuevo.');
+                } finally {
+                  setSubmitting(false);
                 }
-                setSubmitted(true);
-                // TODO: Send to WordPress REST API / payment gateway
               }}
-              disabled={modalidadesDisponibles.length > 1 && !modalidad}
             >
-              {getPrice() > 0 ? 'Confirmar y pagar' : 'Confirmar inscripcion'}
+              {submitting ? 'Enviando...' : getPrice() > 0 ? 'Confirmar y pagar' : 'Confirmar inscripcion'}
             </Button>
           </div>
+
+          {error && (
+            <div className="mt-3 rounded-xl border border-red-200 bg-red-50 p-3">
+              <p className="text-xs text-red-600">{error}</p>
+            </div>
+          )}
         </div>
       )}
     </Card>

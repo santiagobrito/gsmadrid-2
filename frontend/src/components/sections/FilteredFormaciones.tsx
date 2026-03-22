@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Container } from '@/components/ui/Container';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { Card } from '@/components/ui/Card';
@@ -18,6 +19,7 @@ export interface FormacionItem {
   estado: 'Abierta' | 'Finalizada';
   plazas: number;
   esGratuito: boolean;
+  imageUrl?: string;
 }
 
 type FilterType = 'todos' | 'presencial' | 'online' | 'gratuito';
@@ -79,9 +81,24 @@ export function FilteredFormaciones({ formaciones }: FilteredFormacionesProps) {
             {filteredAbiertas.map((f) => (
               <Link key={f.slug} href={`/formacion-eventos/${f.slug}`} className="group">
                 <Card className="flex h-full flex-col">
-                  {/* Image placeholder */}
-                  <div className="-mx-7 -mt-7 mb-5 flex aspect-[3/2] items-center justify-center overflow-hidden rounded-t-2xl bg-bg-alt">
-                    <p className="text-xs text-text-tertiary">Imagen de la formacion</p>
+                  {/* Image */}
+                  <div className="-mx-7 -mt-7 mb-5 overflow-hidden rounded-t-2xl">
+                    {f.imageUrl ? (
+                      <Image
+                        src={f.imageUrl}
+                        alt={f.title}
+                        width={400}
+                        height={267}
+                        className="aspect-[3/2] w-full object-cover"
+                      />
+                    ) : (
+                      <div className="flex aspect-[3/2] items-center justify-center bg-gradient-to-br from-[#2F5BEA]/10 to-[#18B7B0]/10">
+                        <div className="text-center">
+                          <Calendar size={32} strokeWidth={1} className="mx-auto text-primary/40" />
+                          <p className="mt-2 text-xs text-text-tertiary">Formacion</p>
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   <div className="flex flex-wrap items-center gap-2 mb-3">
