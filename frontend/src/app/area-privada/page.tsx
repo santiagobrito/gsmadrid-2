@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/Badge';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { login, isAuthenticated, getStoredUser, logout } from '@/lib/auth';
 import type { AuthUser } from '@/lib/auth';
-import { User, Settings, Eye, LogOut, BookOpen, FileText, Lock } from 'lucide-react';
+import { User, Settings, Eye, LogOut, BookOpen, FileText, Lock, GraduationCap, ArrowRight } from 'lucide-react';
 
 export default function AreaPrivadaPage() {
   const [user, setUser] = useState<AuthUser | null>(null);
@@ -48,6 +48,13 @@ export default function AreaPrivadaPage() {
   // Logged in — Dashboard
   if (user) {
     const isProfesional = user.roles.includes('profesional');
+    const isPrecolegiado = user.roles.includes('precolegiado');
+
+    const roleLabel = isProfesional
+      ? 'Profesional Colegiado'
+      : isPrecolegiado
+        ? 'Precolegiado'
+        : 'Bienvenido al area privada';
 
     return (
       <>
@@ -60,7 +67,7 @@ export default function AreaPrivadaPage() {
                   Hola, {user.displayName}
                 </h1>
                 <p className="mt-1 text-text-secondary font-light">
-                  {isProfesional ? 'Profesional Colegiado' : 'Bienvenido al area privada'}
+                  {roleLabel}
                 </p>
               </div>
               <button
@@ -141,6 +148,22 @@ export default function AreaPrivadaPage() {
                 </p>
                 <Badge color="institutional">Proximamente</Badge>
               </Card>
+
+              {/* CTA Colegiarse — solo precolegiados */}
+              {isPrecolegiado && (
+                <Card className="flex flex-col border-primary/20 bg-gradient-to-br from-primary/[0.03] to-teal/[0.03]">
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-primary/10 to-teal/10">
+                    <GraduationCap size={24} className="text-primary" strokeWidth={1.5} />
+                  </div>
+                  <h3 className="mb-2 text-lg font-bold text-text">Hazte Colegiado</h3>
+                  <p className="mb-4 flex-1 text-sm font-light text-text-secondary">
+                    Da el paso y accede a todos los servicios: directorio profesional, mentoring, bolsa de empleo, convenios y mucho mas.
+                  </p>
+                  <Button variant="gradient" href="/hazte-colegiado/colegiados" className="self-start text-sm">
+                    Quiero colegiarme <ArrowRight size={14} className="ml-1" />
+                  </Button>
+                </Card>
+              )}
             </div>
           </Container>
         </section>

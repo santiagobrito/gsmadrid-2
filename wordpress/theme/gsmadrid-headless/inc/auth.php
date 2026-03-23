@@ -4,16 +4,24 @@
  * REST routes (login, me, profile update), admin columns
  */
 
-// ---- Role: Profesional ----
+// ---- Roles ----
 
-add_action('init', 'gsmadrid_register_profesional_role');
-function gsmadrid_register_profesional_role() {
+add_action('init', 'gsmadrid_register_roles');
+function gsmadrid_register_roles() {
     if (!get_role('profesional')) {
         add_role('profesional', 'Profesional Colegiado', [
             'read'         => true,
             'edit_posts'   => false,
             'delete_posts' => false,
             'upload_files' => true,
+        ]);
+    }
+    if (!get_role('precolegiado')) {
+        add_role('precolegiado', 'Precolegiado', [
+            'read'         => true,
+            'edit_posts'   => false,
+            'delete_posts' => false,
+            'upload_files' => false,
         ]);
     }
 }
