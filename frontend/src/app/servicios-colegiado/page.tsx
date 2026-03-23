@@ -1,4 +1,8 @@
-import { Shield, BookOpen, Briefcase, Scale, Monitor, HeartHandshake } from 'lucide-react';
+import {
+  Briefcase, Users, Heart, Handshake, BookOpen, Monitor,
+  ArrowRight,
+} from 'lucide-react';
+import Link from 'next/link';
 import { Container } from '@/components/ui/Container';
 import { Card } from '@/components/ui/Card';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
@@ -8,46 +12,52 @@ import { createMetadata } from '@/lib/seo/metadata';
 export const metadata = createMetadata({
   title: 'Servicios para Colegiados',
   description:
-    'Servicios exclusivos para colegiados: formacion, asesoramiento juridico, bolsa de empleo, certificados y mucho mas.',
+    'Servicios exclusivos para colegiados: empleo, mentoring, ayudas, convenios, recursos y tramitacion online.',
   path: '/servicios-colegiado',
 });
 
 const services = [
   {
-    icon: Shield,
-    title: 'Seguro de Responsabilidad Civil',
+    icon: Briefcase,
+    title: 'Empleo',
     description:
-      'Cobertura profesional completa para tu actividad como Graduado Social. Incluido en la cuota colegial.',
+      'Ofertas de trabajo y oportunidades de colaboracion exclusivas para graduados sociales colegiados.',
+    href: '/servicios-colegiado/empleo',
+  },
+  {
+    icon: Users,
+    title: 'Mentoring',
+    description:
+      'Programa de acompanamiento profesional. Colegiados experimentados guian a los nuevos.',
+    href: '/servicios-colegiado/mentoring',
+  },
+  {
+    icon: Heart,
+    title: 'Ayudas, Becas y Subvenciones',
+    description:
+      'Ayudas economicas, becas de formacion y prestaciones sociales para colegiados.',
+    href: '/servicios-colegiado/ayudas-becas',
+  },
+  {
+    icon: Handshake,
+    title: 'Acuerdos y Convenios',
+    description:
+      'Descuentos y condiciones especiales con empresas y entidades colaboradoras.',
+    href: '/servicios-colegiado/acuerdos-convenios',
   },
   {
     icon: BookOpen,
-    title: 'Formacion Especializada',
+    title: 'Recursos y Herramientas',
     description:
-      'Cursos, jornadas y talleres con tarifas reducidas. Formacion continua obligatoria y voluntaria.',
-  },
-  {
-    icon: Briefcase,
-    title: 'Bolsa de Empleo',
-    description:
-      'Accede a ofertas de empleo y oportunidades de colaboracion exclusivas para colegiados.',
-  },
-  {
-    icon: Scale,
-    title: 'Asesoramiento Juridico',
-    description:
-      'Consultas juridicas gratuitas en materia laboral, fiscal y de Seguridad Social para tu ejercicio profesional.',
+      'Bases de datos, modelos, calculadoras y herramientas para tu ejercicio profesional.',
+    href: '/servicios-colegiado/recursos',
   },
   {
     icon: Monitor,
-    title: 'Servicios Digitales',
+    title: 'Servicios en Linea',
     description:
-      'Area privada, tramitacion online, certificados electronicos y herramientas digitales para tu despacho.',
-  },
-  {
-    icon: HeartHandshake,
-    title: 'Convenios y Descuentos',
-    description:
-      'Acuerdos con empresas y entidades que ofrecen condiciones especiales para nuestros colegiados.',
+      'Certificados, pago de cuotas, tramites colegiales y firma electronica desde cualquier lugar.',
+    href: '/servicios-colegiado/servicios-en-linea',
   },
 ];
 
@@ -71,17 +81,24 @@ export default function ServiciosColegiadoPage() {
           {services.map((service) => {
             const Icon = service.icon;
             return (
-              <Card key={service.title}>
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#2F5BEA]/10 to-[#18B7B0]/10">
-                  <Icon size={24} strokeWidth={1.5} className="text-[#2563EB]" />
-                </div>
-                <h3 className="text-lg font-bold text-[#0F172A]">
-                  {service.title}
-                </h3>
-                <p className="mt-2 text-sm text-[#475569]">
-                  {service.description}
-                </p>
-              </Card>
+              <Link key={service.title} href={service.href} className="group">
+                <Card className="flex h-full flex-col">
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#2F5BEA]/10 to-[#18B7B0]/10">
+                    <Icon size={24} strokeWidth={1.5} className="text-[#2563EB]" />
+                  </div>
+                  <h3 className="text-lg font-bold text-[#0F172A] transition-colors group-hover:text-[#2563EB]">
+                    {service.title}
+                  </h3>
+                  <p className="mt-2 text-sm text-[#475569]">
+                    {service.description}
+                  </p>
+                  <div className="mt-auto pt-4">
+                    <span className="inline-flex items-center gap-1 text-sm font-semibold text-[#2563EB] transition-colors group-hover:text-[#1565C0]">
+                      Ver mas <ArrowRight size={14} strokeWidth={1.5} />
+                    </span>
+                  </div>
+                </Card>
+              </Link>
             );
           })}
         </div>

@@ -213,9 +213,8 @@ bash scripts/deploy-frontend.sh
 - [x] Servicios ciudadano: Orientacion Juridica, Mediacion Laboral, Clinica Juridica
 - [x] Hazte Colegiado: landing conversion + colegiados (3 modalities) + precolegiados
 - [x] Deploy en EasyPanel funcionando
-- [ ] Paginas de Servicios Colegiado (empleo, mentoring, etc.)
-- [ ] Subpaginas de Actualidad (galeria, revista)
+- [x] Paginas de Servicios Colegiado (empleo, mentoring, ayudas-becas, acuerdos-convenios, recursos, servicios-en-linea)
+- [x] Subpaginas de Actualidad (galeria, revista)
 - [ ] Newsletter backend
 - [ ] Imagenes reales (depende del cliente)
 - [ ] SMTP plugin para emails
-- [ ] UpcomingEvents: convertir a tira de 3 con slide
