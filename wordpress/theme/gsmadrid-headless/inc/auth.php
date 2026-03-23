@@ -183,7 +183,18 @@ function gsmadrid_profile_update($request) {
                 $value = $field_name === 'visible_directorio'
                     ? (bool) $params[$field_name]
                     : sanitize_text_field($params[$field_name]);
-                if ($field_name === 'bio') $value = wp_kses_post($params[$field_name]);
+                if ($field_name === 'bio') {
+                    // Only allow basic formatting, no links/embeds/iframes
+                    $value = wp_kses($params[$field_name], [
+                        'p'      => [],
+                        'br'     => [],
+                        'strong' => [],
+                        'em'     => [],
+                        'ul'     => [],
+                        'ol'     => [],
+                        'li'     => [],
+                    ]);
+                }
                 update_field($field_name, $value, $profesional_post_id);
                 $updated[] = $field_name;
             }

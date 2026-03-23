@@ -58,6 +58,18 @@ export async function generateStaticParams() {
 
 export const revalidate = 60;
 
+function stripHtmlToText(html: string): string {
+  return html
+    .replace(/<iframe[^>]*>[\s\S]*?<\/iframe>/gi, '')
+    .replace(/<blockquote[^>]*>[\s\S]*?<\/blockquote>/gi, '')
+    .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
+    .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
+    .replace(/<[^>]+>/g, '')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
 export default async function ProfesionalDetailPage({ params }: PageProps) {
   const { slug } = await params;
   const profesional = await getProfesional(slug);
@@ -73,9 +85,34 @@ export default async function ProfesionalDetailPage({ params }: PageProps) {
     .join('');
 
   const idiomas: string[] = Array.isArray(p.idiomas) ? p.idiomas : [];
+  const bioClean = p.bio ? stripHtmlToText(p.bio) : '';
+
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: nombre,
+    jobTitle: 'Graduado Social',
+    memberOf: {
+      '@type': 'Organization',
+      name: 'Colegio Oficial de Graduados Sociales de Madrid',
+      url: 'https://graduadosocialmadrid.org',
+    },
+    ...(p.despacho && { worksFor: { '@type': 'Organization', name: p.despacho } }),
+    ...(p.direccion && { address: { '@type': 'PostalAddress', streetAddress: p.direccion, ...(p.codigoPostal && { postalCode: p.codigoPostal }), addressLocality: 'Madrid', addressCountry: 'ES' } }),
+    ...(p.telefono && { telephone: p.telefono }),
+    ...(p.email && { email: p.email }),
+    ...(p.web && { url: p.web }),
+    ...(p.linkedin && { sameAs: [p.linkedin] }),
+    ...(p.foto && { image: p.foto.node.sourceUrl }),
+    ...(bioClean && { description: bioClean.slice(0, 300) }),
+  };
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
       <Breadcrumbs
         items={[
           { label: 'Directorio', href: '/directorio' },
@@ -158,11 +195,11 @@ export default async function ProfesionalDetailPage({ params }: PageProps) {
 
             {/* Main content area */}
             <div className="lg:col-span-2">
-              {p.bio && (
+              {bioClean && (
                 <>
                   <h2 className="text-2xl font-bold text-[#0F172A]">Sobre el profesional</h2>
-                  <div className="prose prose-slate mt-6 max-w-none">
-                    <p>{p.bio}</p>
+                  <div className="mt-6 text-[#475569] leading-relaxed whitespace-pre-line">
+                    {bioClean}
                   </div>
                 </>
               )}
