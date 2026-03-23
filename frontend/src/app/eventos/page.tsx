@@ -78,9 +78,10 @@ const fallbackEventos: EventoItem[] = [
   },
 ];
 
-function determineEstado(estado: string | null, fechaInicio: string | null): 'Abierto' | 'Finalizado' {
-  if (estado) {
-    const lower = estado.toLowerCase();
+function determineEstado(estado: string | string[] | null, fechaInicio: string | null): 'Abierto' | 'Finalizado' {
+  const estadoStr = Array.isArray(estado) ? estado[0] : estado;
+  if (estadoStr) {
+    const lower = estadoStr.toLowerCase();
     if (lower.includes('finalizado') || lower.includes('cancelado')) return 'Finalizado';
     if (lower.includes('abierto') || lower.includes('programado') || lower.includes('completo')) return 'Abierto';
   }
@@ -100,7 +101,7 @@ interface WpEventoNode {
     horario: string | null;
     lugar: string | null;
     tipoEvento: string | string[] | null;
-    estado: string | null;
+    estado: string | string[] | null;
     soloColegiados: boolean | null;
   } | null;
 }

@@ -101,6 +101,12 @@ function gsmadrid_register_auth_routes() {
         'callback'            => 'gsmadrid_profile_update',
         'permission_callback' => 'is_user_logged_in',
     ]);
+
+    register_rest_route('gsmadrid/v1', '/profile/upload-photo', [
+        'methods'             => 'POST',
+        'callback'            => 'gsmadrid_profile_upload_photo',
+        'permission_callback' => 'is_user_logged_in',
+    ]);
 }
 
 function gsmadrid_auth_login($request) {
@@ -189,6 +195,68 @@ function gsmadrid_profile_update($request) {
     }
 
     return new WP_REST_Response(['success' => true, 'updatedFields' => $updated, 'message' => 'Perfil actualizado correctamente.'], 200);
+}
+
+function gsmadrid_profile_upload_photo($request) {
+    $user = wp_get_current_user();
+    $profesional_post_id = get_user_meta($user->ID, '_profesional_post_id', true);
+
+    if (!$profesional_post_id) {
+        return new WP_REST_Response(['success' => false, 'message' => 'No tienes un perfil profesional vinculado.'], 403);
+    }
+
+    if (!in_array('profesional', $user->roles, true) && !current_user_can('manage_options')) {
+        return new WP_REST_Response(['success' => false, 'message' => 'No tienes permisos.'], 403);
+    }
+
+    $files = $request->get_file_params();
+    if (empty($files['photo'])) {
+        return new WP_REST_Response(['success' => false, 'message' => 'No se ha recibido ninguna imagen.'], 400);
+    }
+
+    $file = $files['photo'];
+
+    // Validate file type
+    $allowed = ['image/jpeg', 'image/png', 'image/webp'];
+    if (!in_array($file['type'], $allowed, true)) {
+        return new WP_REST_Response(['success' => false, 'message' => 'Formato no permitido. Usa JPG, PNG o WebP.'], 400);
+    }
+
+    // Max 2MB
+    if ($file['size'] > 2 * 1024 * 1024) {
+        return new WP_REST_Response(['success' => false, 'message' => 'La imagen no puede superar los 2 MB.'], 400);
+    }
+
+    require_once ABSPATH . 'wp-admin/includes/image.php';
+    require_once ABSPATH . 'wp-admin/includes/file.php';
+    require_once ABSPATH . 'wp-admin/includes/media.php';
+
+    // Upload to media library
+    $attachment_id = media_handle_sideload([
+        'name'     => sanitize_file_name($file['name']),
+        'tmp_name' => $file['tmp_name'],
+        'type'     => $file['type'],
+        'size'     => $file['size'],
+        'error'    => $file['error'],
+    ], $profesional_post_id);
+
+    if (is_wp_error($attachment_id)) {
+        return new WP_REST_Response(['success' => false, 'message' => 'Error al subir la imagen: ' . $attachment_id->get_error_message()], 500);
+    }
+
+    // Update ACF foto field
+    if (function_exists('update_field')) {
+        update_field('foto', $attachment_id, $profesional_post_id);
+    }
+
+    $url = wp_get_attachment_url($attachment_id);
+
+    return new WP_REST_Response([
+        'success'      => true,
+        'message'      => 'Foto actualizada correctamente.',
+        'attachmentId' => $attachment_id,
+        'url'          => $url,
+    ], 200);
 }
 
 // ---- Admin columns for profesional CPT ----

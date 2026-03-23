@@ -7,9 +7,10 @@ import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
-import { isAuthenticated, getStoredUser, fetchMe, updateProfile } from '@/lib/auth';
+import { isAuthenticated, getStoredUser, fetchMe, updateProfile, uploadProfilePhoto } from '@/lib/auth';
 import type { AuthUser, ProfesionalProfile } from '@/lib/auth';
-import { Save, ArrowLeft, Eye, EyeOff, CheckCircle } from 'lucide-react';
+import Image from 'next/image';
+import { Save, ArrowLeft, Eye, EyeOff, CheckCircle, Camera, Loader2 } from 'lucide-react';
 
 export default function PerfilPage() {
   const router = useRouter();
@@ -19,6 +20,8 @@ export default function PerfilPage() {
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState('');
+  const [photoUrl, setPhotoUrl] = useState<string | null>(null);
+  const [uploadingPhoto, setUploadingPhoto] = useState(false);
 
   useEffect(() => {
     if (!isAuthenticated()) {
@@ -33,6 +36,10 @@ export default function PerfilPage() {
         setUser(data.user);
         if (data.profile) {
           setProfile(data.profile);
+          const foto = data.profile.foto;
+          if (foto && typeof foto === 'object' && foto.url) {
+            setPhotoUrl(foto.sizes?.medium || foto.url);
+          }
         }
       } else {
         router.push('/area-privada');
@@ -63,6 +70,30 @@ export default function PerfilPage() {
 
   const updateField = (field: string, value: string | boolean) => {
     setProfile((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 2 * 1024 * 1024) {
+      setError('La imagen no puede superar los 2 MB.');
+      return;
+    }
+
+    setUploadingPhoto(true);
+    setError('');
+    try {
+      const result = await uploadProfilePhoto(file);
+      if (result.success && result.url) {
+        setPhotoUrl(result.url);
+      } else {
+        setError(result.message || 'Error al subir la foto.');
+      }
+    } catch {
+      setError('Error al subir la foto.');
+    }
+    setUploadingPhoto(false);
   };
 
   if (loading) {
@@ -104,6 +135,48 @@ export default function PerfilPage() {
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
             {/* Main form */}
             <div className="space-y-6 lg:col-span-2">
+              {/* Photo */}
+              <Card hover={false}>
+                <h2 className="mb-4 text-lg font-bold text-text">Foto de perfil</h2>
+                <div className="flex items-center gap-6">
+                  <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-2xl border border-border bg-bg-alt">
+                    {photoUrl ? (
+                      <Image
+                        src={photoUrl}
+                        alt="Foto de perfil"
+                        fill
+                        className="object-cover"
+                      />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center">
+                        <Camera size={28} className="text-text-tertiary" strokeWidth={1.5} />
+                      </div>
+                    )}
+                    {uploadingPhoto && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-white/80">
+                        <Loader2 size={20} className="animate-spin text-primary" />
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    <label className="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-border px-4 py-2.5 text-sm font-medium text-text transition hover:border-primary hover:text-primary">
+                      <Camera size={16} />
+                      {photoUrl ? 'Cambiar foto' : 'Subir foto'}
+                      <input
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp"
+                        onChange={handlePhotoUpload}
+                        className="hidden"
+                        disabled={uploadingPhoto}
+                      />
+                    </label>
+                    <p className="mt-2 text-xs text-text-tertiary">
+                      JPG, PNG o WebP. Maximo 2 MB.
+                    </p>
+                  </div>
+                </div>
+              </Card>
+
               {/* Datos basicos (read-only) */}
               <Card hover={false}>
                 <h2 className="mb-4 text-lg font-bold text-text">Datos de colegiacion</h2>

@@ -13,6 +13,7 @@ export interface AuthUser {
 export interface ProfesionalProfile {
   numero_colegiado: string;
   nombre_completo: string;
+  foto: { url: string; sizes?: { medium?: string; thumbnail?: string } } | null;
   despacho: string;
   direccion: string;
   codigo_postal: string;
@@ -118,6 +119,26 @@ export async function updateProfile(fields: Partial<ProfesionalProfile>): Promis
   const res = await authFetch('/profile/update', {
     method: 'POST',
     body: JSON.stringify(fields),
+  });
+  return res.json();
+}
+
+export interface UploadPhotoResponse {
+  success: boolean;
+  message: string;
+  attachmentId?: number;
+  url?: string;
+}
+
+export async function uploadProfilePhoto(file: File): Promise<UploadPhotoResponse> {
+  const token = getToken();
+  const formData = new FormData();
+  formData.append('photo', file);
+
+  const res = await fetch(`${API_BASE}/profile/upload-photo`, {
+    method: 'POST',
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+    body: formData,
   });
   return res.json();
 }
