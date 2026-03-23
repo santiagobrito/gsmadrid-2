@@ -57,6 +57,7 @@ export async function generateStaticParams() {
 }
 
 export const revalidate = 60;
+export const dynamicParams = true;
 
 function stripHtmlToText(html: string): string {
   return html

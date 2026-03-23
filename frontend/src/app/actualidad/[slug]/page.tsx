@@ -77,6 +77,7 @@ export async function generateStaticParams() {
 }
 
 export const revalidate = 60;
+export const dynamicParams = true;
 
 export default async function PostDetailPage({ params }: PageProps) {
   const { slug } = await params;

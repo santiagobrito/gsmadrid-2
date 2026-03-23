@@ -55,6 +55,7 @@ export async function generateStaticParams() {
 }
 
 export const revalidate = 60;
+export const dynamicParams = true;
 
 function determineModalidad(lugar?: string | null): string {
   if (!lugar) return 'Presencial';
