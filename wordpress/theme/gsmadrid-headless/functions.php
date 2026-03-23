@@ -21,6 +21,9 @@ require_once __DIR__ . '/inc/headless.php';
 // Auth: roles, user↔profesional linking, token validation, login/me/profile routes
 require_once __DIR__ . '/inc/auth.php';
 
+// Email de bienvenida al publicar ficha de profesional
+require_once __DIR__ . '/inc/email-bienvenida.php';
+
 // REST API endpoints
 require_once __DIR__ . '/inc/api/inscripcion.php';
 require_once __DIR__ . '/inc/api/contacto.php';
