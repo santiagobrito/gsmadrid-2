@@ -104,7 +104,7 @@ export default async function ProfesionalDetailPage({ params }: PageProps) {
     ...(p.email && { email: p.email }),
     ...(p.web && { url: p.web }),
     ...(p.linkedin && { sameAs: [p.linkedin] }),
-    ...(p.foto && { image: p.foto.node.sourceUrl }),
+    ...(p.foto?.node?.sourceUrl && { image: p.foto.node.sourceUrl }),
     ...(bioClean && { description: bioClean.slice(0, 300) }),
   };
 
@@ -127,7 +127,7 @@ export default async function ProfesionalDetailPage({ params }: PageProps) {
             <div className="lg:col-span-1">
               <Card hover={false} className="sticky top-[102px]">
                 {/* Avatar / Photo */}
-                {p.foto ? (
+                {p.foto?.node?.sourceUrl ? (
                   <div className="mx-auto h-24 w-24 overflow-hidden rounded-full">
                     <Image
                       src={p.foto.node.sourceUrl}
