@@ -35,41 +35,6 @@ const FORMACIONES_QUERY = `{
   }
 }`;
 
-const fallbackFormaciones: FormacionItem[] = [
-  {
-    slug: 'jornada-actualizacion-laboral-2026',
-    title: 'Jornada de Actualizacion Laboral 2026',
-    date: '28 Mar 2026',
-    time: '10:00 - 14:00',
-    location: 'Sede del Colegio',
-    modalidad: 'Presencial',
-    estado: 'Abierta',
-    plazas: 8,
-    esGratuito: false,
-  },
-  {
-    slug: 'webinar-seguridad-social',
-    title: 'Webinar: Novedades en Seguridad Social',
-    date: '2 Abr 2026',
-    time: '17:00 - 19:00',
-    location: 'Online',
-    modalidad: 'Online',
-    estado: 'Abierta',
-    plazas: 200,
-    esGratuito: true,
-  },
-  {
-    slug: 'taller-mediacion-arbitraje',
-    title: 'Taller de Mediacion y Arbitraje Laboral',
-    date: '7 Abr 2026',
-    time: '09:00 - 14:00',
-    location: 'Sede del Colegio',
-    modalidad: 'Presencial',
-    estado: 'Abierta',
-    plazas: 30,
-    esGratuito: false,
-  },
-];
 
 function determineModalidad(lugar: string | null): string {
   if (!lugar) return 'Presencial';
@@ -78,9 +43,10 @@ function determineModalidad(lugar: string | null): string {
   return 'Presencial';
 }
 
-function determineEstado(estado: string | null, fechaInicio: string | null): 'Abierta' | 'Finalizada' {
-  if (estado) {
-    const lower = estado.toLowerCase();
+function determineEstado(estado: string | string[] | null, fechaInicio: string | null): 'Abierta' | 'Finalizada' {
+  const raw = Array.isArray(estado) ? estado[0] : estado;
+  if (raw) {
+    const lower = raw.toLowerCase();
     if (lower.includes('finalizada') || lower.includes('cerrada') || lower.includes('pasada')) return 'Finalizada';
     if (lower.includes('abierta') || lower.includes('activa')) return 'Abierta';
   }
@@ -102,7 +68,7 @@ interface WpFormacionNode {
     lugar: string | null;
     plazas: number | null;
     esGratuito: boolean | null;
-    estado: string | null;
+    estado: string | string[] | null;
   } | null;
 }
 
@@ -111,7 +77,7 @@ interface FormacionesResponse {
 }
 
 export default async function FormacionPage() {
-  let formaciones: FormacionItem[] = fallbackFormaciones;
+  let formaciones: FormacionItem[] = [];
 
   try {
     const data = await fetchGraphQL<FormacionesResponse>(FORMACIONES_QUERY);

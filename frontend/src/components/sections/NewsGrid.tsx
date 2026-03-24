@@ -16,33 +16,6 @@ export interface NewsPost {
   imageUrl?: string;
 }
 
-const fallbackNews: NewsPost[] = [
-  {
-    slug: 'nueva-normativa-laboral-2026',
-    category: 'Normativa',
-    title: 'Principales novedades de la reforma laboral 2026',
-    excerpt:
-      'Analizamos los cambios mas significativos de la nueva normativa laboral que entra en vigor este trimestre.',
-    date: '18 de marzo de 2026',
-  },
-  {
-    slug: 'convenio-universidad-complutense',
-    category: 'Colegio',
-    title: 'Nuevo convenio con la Universidad Complutense',
-    excerpt:
-      'El Colegio firma un acuerdo de colaboracion con la UCM para practicas y formacion continua.',
-    date: '12 de marzo de 2026',
-  },
-  {
-    slug: 'guia-cotizacion-2026',
-    category: 'Formacion',
-    title: 'Guia practica de cotizacion a la Seguridad Social 2026',
-    excerpt:
-      'Descarga la guia actualizada con las bases y tipos de cotizacion vigentes para este ejercicio.',
-    date: '5 de marzo de 2026',
-  },
-];
-
 const badgeColorMap: Record<string, 'colegio' | 'formacion' | 'institutional'> = {
   Normativa: 'institutional',
   Colegio: 'colegio',
@@ -54,7 +27,7 @@ interface NewsGridProps {
 }
 
 export function NewsGrid({ posts }: NewsGridProps) {
-  const news = posts && posts.length > 0 ? posts : fallbackNews;
+  const news = posts || [];
   return (
     <section className="bg-[#F7F8FA] py-20">
       <Container>

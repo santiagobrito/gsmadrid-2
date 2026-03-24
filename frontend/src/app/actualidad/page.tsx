@@ -40,34 +40,6 @@ interface DisplayPost {
   imageUrl?: string;
 }
 
-// Fallback posts in case GraphQL is unavailable
-const fallbackPosts: DisplayPost[] = [
-  {
-    slug: 'nueva-normativa-laboral-2026',
-    category: 'Normativa',
-    title: 'Principales novedades de la reforma laboral 2026',
-    excerpt:
-      'Analizamos los cambios mas significativos de la nueva normativa laboral que entra en vigor este trimestre.',
-    date: '18 de marzo de 2026',
-  },
-  {
-    slug: 'convenio-universidad-complutense',
-    category: 'Colegio',
-    title: 'Nuevo convenio con la Universidad Complutense',
-    excerpt:
-      'El Colegio firma un acuerdo de colaboracion con la UCM para practicas y formacion continua de los colegiados.',
-    date: '12 de marzo de 2026',
-  },
-  {
-    slug: 'guia-cotizacion-2026',
-    category: 'Formacion',
-    title: 'Guia practica de cotizacion a la Seguridad Social 2026',
-    excerpt:
-      'Descarga la guia actualizada con las bases y tipos de cotizacion vigentes para este ejercicio.',
-    date: '5 de marzo de 2026',
-  },
-];
-
 interface WpPost {
   slug: string;
   title: string;
@@ -82,7 +54,7 @@ interface PostsResponse {
 }
 
 export default async function ActualidadPage() {
-  let posts: DisplayPost[] = fallbackPosts;
+  let posts: DisplayPost[] = [];
   try {
     const data = await fetchGraphQL<PostsResponse>(POSTS_QUERY);
     if (data.posts?.nodes?.length > 0) {
@@ -96,7 +68,7 @@ export default async function ActualidadPage() {
       }));
     }
   } catch {
-    // Use fallback posts
+    // GraphQL unavailable — posts remains empty
   }
 
   return (

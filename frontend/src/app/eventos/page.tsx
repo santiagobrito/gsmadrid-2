@@ -34,50 +34,6 @@ const EVENTOS_QUERY = `{
   }
 }`;
 
-// Fallback data if GraphQL is unavailable
-const fallbackEventos: EventoItem[] = [
-  {
-    slug: 'asamblea-general-ordinaria-2026',
-    title: 'Asamblea General Ordinaria 2026',
-    date: '15 Abr 2026',
-    time: '18:00 - 20:00',
-    location: 'Salon de Actos, C/ Jose Abascal 44',
-    tipo: 'asamblea',
-    estado: 'Abierto',
-    soloColegiados: true,
-  },
-  {
-    slug: 'networking-jovenes-graduados',
-    title: 'Networking: Jovenes Graduados Sociales',
-    date: '22 Abr 2026',
-    time: '19:00 - 21:00',
-    location: 'Sede del Colegio',
-    tipo: 'networking',
-    estado: 'Abierto',
-    soloColegiados: false,
-  },
-  {
-    slug: 'acto-dia-graduado-social',
-    title: 'Dia del Graduado Social 2026',
-    date: '3 May 2026',
-    time: '12:00 - 14:00',
-    location: 'Salon de Actos, C/ Jose Abascal 44',
-    tipo: 'institucional',
-    estado: 'Abierto',
-    soloColegiados: false,
-  },
-  {
-    slug: 'cena-navidad-2025',
-    title: 'Cena de Navidad del Colegio 2025',
-    date: '20 Dic 2025',
-    time: '21:00',
-    location: 'Hotel Palace, Madrid',
-    tipo: 'institucional',
-    estado: 'Finalizado',
-    soloColegiados: true,
-  },
-];
-
 function determineEstado(estado: string | string[] | null, fechaInicio: string | null): 'Abierto' | 'Finalizado' {
   const estadoStr = Array.isArray(estado) ? estado[0] : estado;
   if (estadoStr) {
@@ -111,7 +67,7 @@ interface EventosResponse {
 }
 
 export default async function EventosPage() {
-  let eventos: EventoItem[] = fallbackEventos;
+  let eventos: EventoItem[] = [];
 
   try {
     const data = await fetchGraphQL<EventosResponse>(EVENTOS_QUERY);
@@ -139,7 +95,7 @@ export default async function EventosPage() {
       });
     }
   } catch {
-    // Use fallback data
+    // GraphQL unavailable — eventos remains empty
   }
 
   return (

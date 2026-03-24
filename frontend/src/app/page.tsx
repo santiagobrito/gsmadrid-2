@@ -53,7 +53,7 @@ interface WpFormacion {
     fechaInicio: string | null;
     horario: string | null;
     lugar: string | null;
-    estado: string | null;
+    estado: string | string[] | null;
   };
 }
 

@@ -54,74 +54,6 @@ interface Miembro {
   linkedin?: string;
 }
 
-// Fallback data — used if GraphQL is unavailable
-const fallbackMiembros: Miembro[] = [
-  {
-    nombre: 'Teresa Silleras Martinez',
-    cargo: 'Presidenta',
-    tipo: 'directivo',
-    bio: 'Graduada Social colegiada desde 2006, Universidad Carlos III de Madrid. Fundadora y directora de Silleras Asesores Juridicos (51 empleados, 17 graduados sociales). Docente universitaria de Derecho del Trabajo.',
-    cita: 'Tu futuro, nuestro compromiso.',
-    initials: 'TS',
-    destacado: true,
-    foto: '/junta/TERESA_SILLERAS.jpg',
-  },
-  {
-    nombre: 'Manuel Rodriguez Noguera',
-    cargo: 'Vicepresidente 1.o',
-    tipo: 'directivo',
-    bio: 'Graduado social en activo con larga trayectoria en el sector laboral madrileno.',
-    initials: 'MR',
-    foto: '/junta/manuel_rodriguez_noguera1.jpg',
-  },
-  {
-    nombre: 'Amaya Segovia Mahillo',
-    cargo: 'Secretaria General',
-    tipo: 'directivo',
-    bio: 'Responsable de la gestion documental, las actas de la Junta y la coordinacion interna del Colegio.',
-    initials: 'AS',
-    foto: '/junta/amaya_segovia_mahillo1.jpg',
-  },
-  {
-    nombre: 'Monica Esteban Amate',
-    cargo: 'Vicesecretaria',
-    tipo: 'directivo',
-    bio: 'Apoyo a la Secretaria General en la gestion institucional y coordinacion con los organos de representacion.',
-    initials: 'ME',
-    foto: '/junta/MONICA_ESTEBAN1.jpg',
-  },
-  {
-    nombre: 'Ana Maria Cerezo Rodriguez',
-    cargo: 'Tesorera',
-    tipo: 'directivo',
-    bio: 'Responsable de la gestion economica y presupuestaria del Colegio.',
-    initials: 'AC',
-    foto: '/junta/ana_maria_cerezo_rodriguez1.jpg',
-  },
-  {
-    nombre: 'Jose Luis Perea Prieto',
-    cargo: 'Vicetesorero',
-    tipo: 'directivo',
-    bio: 'Supervision de cuentas y control financiero del Colegio.',
-    initials: 'JP',
-    foto: '/junta/jose_luis_perea_prieto1.jpg',
-  },
-  { nombre: 'Raul Bachot Ruiz', cargo: 'Vocal Ejerciente', tipo: 'vocal_ejerciente', initials: 'RB', foto: '/junta/raul_bachot_ruiz1.jpg' },
-  { nombre: 'Jose Antonio Juarez Rodriguez', cargo: 'Vocal Ejerciente', tipo: 'vocal_ejerciente', initials: 'JJ', foto: '/junta/JOSE_ANTONIO_JUAREZ1.jpg' },
-  { nombre: 'Juan Jose Carmelo Santana', cargo: 'Vocal Ejerciente', tipo: 'vocal_ejerciente', initials: 'JC', foto: '/junta/JUAN_JOSE_CARMELO1.jpg' },
-  { nombre: 'M.a Luisa Martin Bardera', cargo: 'Vocal Ejerciente', tipo: 'vocal_ejerciente', initials: 'LM', foto: '/junta/M_LUISA_MARTIN_BARDERA1.jpg' },
-  { nombre: 'Elena Tolbanos Cobo', cargo: 'Vocal Ejerciente', tipo: 'vocal_ejerciente', initials: 'ET', foto: '/junta/elena_tolbanos_cobo1.jpg' },
-  { nombre: 'Jose Carlos Astudillo Agudo', cargo: 'Vocal No Ejerciente', tipo: 'vocal_no_ejerciente', initials: 'JA', foto: '/junta/JoseCarlosAstudillo1.jpg' },
-  { nombre: 'Alvaro Rueda Sanchez', cargo: 'Vocal No Ejerciente', tipo: 'vocal_no_ejerciente', initials: 'AR', foto: '/junta/alvaro_rueda_sanchez1.jpg' },
-  { nombre: 'Francisco Javier Cerrajero Mendez', cargo: 'Vocal No Ejerciente', tipo: 'vocal_no_ejerciente', initials: 'FC', foto: '/junta/F_JAVIER_CERRAJERO1.jpg' },
-];
-
-// Map from fallback name to fallback foto for matching WP members that lack featuredImage
-const fallbackFotoMap: Record<string, string> = {};
-for (const m of fallbackMiembros) {
-  if (m.foto) fallbackFotoMap[m.nombre] = m.foto;
-}
-
 function getInitials(name: string): string {
   return name
     .split(' ')
@@ -162,9 +94,7 @@ function transformWpMiembro(node: WpMiembroNode): Miembro {
   const tipoRaw = fields.tipo;
   const tipo = (Array.isArray(tipoRaw) ? tipoRaw[0] : (tipoRaw || 'directivo')) as Miembro['tipo'];
 
-  // Photo: prefer WP featuredImage, fallback to local /junta/ photos
   const wpFoto = node.featuredImage?.node?.sourceUrl || null;
-  const localFoto = fallbackFotoMap[nombre] || null;
 
   return {
     nombre,
@@ -174,7 +104,7 @@ function transformWpMiembro(node: WpMiembroNode): Miembro {
     cita: fields.cita || undefined,
     initials: getInitials(nombre),
     destacado: fields.destacado || false,
-    foto: wpFoto || localFoto || undefined,
+    foto: wpFoto || undefined,
     orden: fields.orden || 99,
     email: fields.email || undefined,
     linkedin: fields.linkedin || undefined,
@@ -195,7 +125,7 @@ function AvatarPlaceholder({ initials, size = 'md' }: { initials: string; size?:
 }
 
 export default async function JuntaDeGobiernoPage() {
-  let miembros: Miembro[] = fallbackMiembros;
+  let miembros: Miembro[] = [];
 
   try {
     const data = await fetchGraphQL<MiembrosResponse>(MIEMBROS_QUERY);
@@ -205,7 +135,7 @@ export default async function JuntaDeGobiernoPage() {
         .sort((a, b) => (a.orden || 99) - (b.orden || 99));
     }
   } catch {
-    // Use fallback data
+    // GraphQL unavailable — miembros remains empty
   }
 
   const directivos = miembros.filter((m) => m.tipo === 'directivo');
