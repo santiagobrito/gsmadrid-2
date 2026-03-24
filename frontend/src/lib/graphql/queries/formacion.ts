@@ -35,18 +35,11 @@ export const FORMACION_FIELDS = gql`
       tipoAcceso
       esGratuito
       precios {
-        tipo
         importe
-        descripcion
       }
       programa
       urlInscripcion
       estado
-      diploma {
-        emiteDiploma
-        entidadEmisora
-        horasConvalidables
-      }
     }
     categorias {
       nodes {
