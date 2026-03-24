@@ -388,7 +388,7 @@ export function Header() {
             alt="Colegio Oficial de Graduados Sociales de Madrid"
             width={180}
             height={49}
-            className="h-auto w-[140px] lg:w-[160px] xl:w-[180px]"
+            className="h-auto w-[160px] lg:w-[180px] xl:w-[200px]"
             priority
           />
         </Link>
