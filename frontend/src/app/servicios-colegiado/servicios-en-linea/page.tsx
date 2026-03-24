@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import {
   Monitor, FileCheck, CreditCard, ClipboardList, KeyRound,
   ArrowRight, Phone, Mail, ShieldCheck, Lock, Globe,
@@ -137,11 +138,14 @@ export default function ServiciosEnLineaPage() {
             {/* Right: info card */}
             <div className="relative">
               <div className="rounded-2xl border border-[#E2E8F0] bg-gradient-to-br from-[#F7F8FA] to-white p-8 shadow-[0_12px_32px_rgba(15,23,42,0.06)]">
-                <div className="mb-6 flex aspect-[4/3] items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-[#2563EB]/10 to-[#2563EB]/5">
-                  <div className="text-center">
-                    <Monitor size={64} strokeWidth={1} className="mx-auto text-[#2563EB]/30" />
-                    <p className="mt-3 text-sm font-medium text-[#2563EB]/50">Servicios Digitales</p>
-                  </div>
+                <div className="mb-6 overflow-hidden rounded-xl">
+                  <Image
+                    src="/images/servicios-en-linea.jpg"
+                    alt="Servicios en linea y tramitacion digital del Colegio de Graduados Sociales"
+                    width={1200}
+                    height={675}
+                    className="aspect-[4/3] w-full object-cover"
+                  />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="rounded-xl bg-[#F7F8FA] p-4 text-center">
