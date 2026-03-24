@@ -35,8 +35,8 @@ const resources = [
     icon: Calculator,
     title: 'Calculadoras profesionales',
     description: 'Herramientas de calculo de cotizaciones, indemnizaciones, IRPF y prestaciones.',
-    color: 'bg-[#10B981]/10',
-    iconColor: 'text-[#059669]',
+    color: 'bg-[#2BD4C7]/10',
+    iconColor: 'text-[#18B7B0]',
   },
   {
     icon: BookOpen,

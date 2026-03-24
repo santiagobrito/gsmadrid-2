@@ -102,9 +102,9 @@ export default function PrecolegiadosPage() {
                 Sin cuotas, sin compromisos, con todos los beneficios.
               </p>
 
-              <div className="mt-8 inline-flex items-center gap-3 rounded-2xl bg-[#10B981]/10 px-6 py-3">
-                <CheckCircle size={20} className="text-[#10B981]" />
-                <span className="text-sm font-semibold text-[#10B981]">
+              <div className="mt-8 inline-flex items-center gap-3 rounded-2xl bg-[#2BD4C7]/10 px-6 py-3">
+                <CheckCircle size={20} className="text-[#2BD4C7]" />
+                <span className="text-sm font-semibold text-[#2BD4C7]">
                   Sin cuota de alta — Sin cuota mensual — Sin costes ocultos
                 </span>
               </div>
@@ -130,25 +130,25 @@ export default function PrecolegiadosPage() {
                 </div>
                 <div className="space-y-3">
                   <div className="flex items-center gap-3">
-                    <CheckCircle size={16} className="shrink-0 text-[#10B981]" />
+                    <CheckCircle size={16} className="shrink-0 text-[#2BD4C7]" />
                     <span className="text-sm text-[#475569]">Bolsa de empleo y practicas</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <CheckCircle size={16} className="shrink-0 text-[#10B981]" />
+                    <CheckCircle size={16} className="shrink-0 text-[#2BD4C7]" />
                     <span className="text-sm text-[#475569]">Formacion con tarifa especial</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <CheckCircle size={16} className="shrink-0 text-[#10B981]" />
+                    <CheckCircle size={16} className="shrink-0 text-[#2BD4C7]" />
                     <span className="text-sm text-[#475569]">Networking con profesionales</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <CheckCircle size={16} className="shrink-0 text-[#10B981]" />
+                    <CheckCircle size={16} className="shrink-0 text-[#2BD4C7]" />
                     <span className="text-sm text-[#475569]">Transicion preferente a colegiado</span>
                   </div>
                 </div>
               </div>
               {/* Decorative teal glow */}
-              <div className="pointer-events-none absolute -bottom-6 -right-6 -z-10 h-[200px] w-[200px] rounded-full bg-[#10B981]/[0.06]" />
+              <div className="pointer-events-none absolute -bottom-6 -right-6 -z-10 h-[200px] w-[200px] rounded-full bg-[#2BD4C7]/[0.06]" />
             </div>
           </div>
         </Container>
@@ -166,8 +166,8 @@ export default function PrecolegiadosPage() {
               const Icon = item.icon;
               return (
                 <Card key={item.title}>
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#10B981]/10 to-[#059669]/10">
-                    <Icon size={24} strokeWidth={1.5} className="text-[#059669]" />
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#2BD4C7]/10 to-[#18B7B0]/10">
+                    <Icon size={24} strokeWidth={1.5} className="text-[#18B7B0]" />
                   </div>
                   <h3 className="text-base font-bold text-[#0F172A]">{item.title}</h3>
                   <p className="mt-2 text-sm text-[#475569]">{item.description}</p>

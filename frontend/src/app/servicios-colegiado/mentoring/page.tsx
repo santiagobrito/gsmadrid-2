@@ -204,8 +204,8 @@ export default function MentoringPage() {
 
             <Card hover={false}>
               <div className="mb-4 flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#10B981]/10">
-                  <Award size={20} className="text-[#059669]" />
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#2BD4C7]/10">
+                  <Award size={20} className="text-[#18B7B0]" />
                 </div>
                 <h3 className="text-lg font-bold text-[#0F172A]">Mentores</h3>
               </div>

@@ -182,15 +182,15 @@ export default function MediacionLaboralPage() {
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             <Card hover={false}>
               <div className="mb-4 flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#10B981]/10">
-                  <CheckCircle size={20} className="text-[#10B981]" />
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#2BD4C7]/10">
+                  <CheckCircle size={20} className="text-[#2BD4C7]" />
                 </div>
                 <h3 className="text-lg font-bold text-[#0F172A]">Asuntos mediables</h3>
               </div>
               <ul className="space-y-3">
                 {canMediate.map((c) => (
                   <li key={c} className="flex items-start gap-2.5">
-                    <CheckCircle size={14} strokeWidth={2} className="mt-0.5 shrink-0 text-[#10B981]" />
+                    <CheckCircle size={14} strokeWidth={2} className="mt-0.5 shrink-0 text-[#2BD4C7]" />
                     <span className="text-sm text-[#475569]">{c}</span>
                   </li>
                 ))}

@@ -253,7 +253,7 @@ export default function ColegiadosPage() {
                     {[f.libre, f.empresa, f.noEjerciente].map((val, i) => (
                       <td key={i} className="py-3 text-center">
                         {val === true ? (
-                          <CheckCircle size={16} className="mx-auto text-[#10B981]" />
+                          <CheckCircle size={16} className="mx-auto text-[#2BD4C7]" />
                         ) : val === false ? (
                           <XIcon size={16} className="mx-auto text-[#CBD5E1]" />
                         ) : (

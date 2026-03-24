@@ -123,8 +123,8 @@ const paths = [
     title: 'Precolegiados',
     subtitle: 'Estudiantes de Grado o Master',
     href: '/hazte-colegiado/precolegiados',
-    color: 'from-[#10B981]/20 to-[#059669]/20',
-    textColor: 'text-[#059669]',
+    color: 'from-[#2BD4C7]/20 to-[#18B7B0]/20',
+    textColor: 'text-[#18B7B0]',
   },
   {
     icon: Briefcase,

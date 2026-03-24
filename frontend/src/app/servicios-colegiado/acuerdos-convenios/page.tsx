@@ -35,8 +35,8 @@ const categories = [
     icon: BookOpen,
     title: 'Formacion',
     description: 'Tarifas reducidas en universidades, escuelas de negocio y centros de formacion especializados.',
-    color: 'bg-[#10B981]/10',
-    iconColor: 'text-[#059669]',
+    color: 'bg-[#2BD4C7]/10',
+    iconColor: 'text-[#18B7B0]',
   },
   {
     icon: Building2,

@@ -35,8 +35,8 @@ const services = [
     icon: ClipboardList,
     title: 'Tramites colegiales',
     description: 'Altas, bajas, cambios de datos, solicitud de carnet profesional y otras gestiones.',
-    color: 'bg-[#10B981]/10',
-    iconColor: 'text-[#059669]',
+    color: 'bg-[#2BD4C7]/10',
+    iconColor: 'text-[#18B7B0]',
   },
   {
     icon: KeyRound,
