@@ -33,7 +33,12 @@ export const EVENTO_FIELDS = gql`
       urlInscripcion
       organizador
       programa
-      documento
+      documento {
+        node {
+          mediaItemUrl
+          title
+        }
+      }
       soloColegiados
     }
   }
