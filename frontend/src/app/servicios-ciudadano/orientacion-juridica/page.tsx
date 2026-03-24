@@ -1,5 +1,6 @@
+import Image from 'next/image';
 import {
-  Scale, Briefcase, Heart, Globe, Phone, Mail, MapPin,
+  Briefcase, Heart, Globe, Phone, Mail, MapPin,
   ArrowRight, Clock, Building2, ShieldCheck,
 } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
@@ -112,11 +113,14 @@ export default function OrientacionJuridicaPage() {
             {/* Right: info card */}
             <div className="relative">
               <div className="rounded-2xl border border-[#E2E8F0] bg-gradient-to-br from-[#F7F8FA] to-white p-8 shadow-[0_12px_32px_rgba(15,23,42,0.06)]">
-                <div className="mb-6 flex aspect-[4/3] items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-[#2563EB]/10 to-[#18B7B0]/5">
-                  <div className="text-center">
-                    <Scale size={64} strokeWidth={1} className="mx-auto text-[#2563EB]/30" />
-                    <p className="mt-3 text-sm font-medium text-[#2563EB]/50">Foto: atencion en la sede</p>
-                  </div>
+                <div className="mb-6 overflow-hidden rounded-xl">
+                  <Image
+                    src="/images/orientacion-juridica.jpg"
+                    alt="Servicio de orientacion juridica del Colegio"
+                    width={1200}
+                    height={675}
+                    className="aspect-[4/3] w-full object-cover"
+                  />
                 </div>
                 <div className="space-y-4">
                   <div className="flex items-center gap-3">

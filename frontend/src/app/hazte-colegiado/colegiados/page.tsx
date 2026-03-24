@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import {
   Briefcase, Building2, Award, CheckCircle, X as XIcon,
   FileText, ArrowRight, Phone, Mail, MapPin,
@@ -150,11 +151,14 @@ export default function ColegiadosPage() {
             {/* Right: visual card */}
             <div className="relative">
               <div className="rounded-2xl border border-[#E2E8F0] bg-gradient-to-br from-[#F7F8FA] to-white p-8 shadow-[0_12px_32px_rgba(15,23,42,0.06)]">
-                <div className="mb-6 flex aspect-[4/3] items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-[#2563EB]/10 to-[#18B7B0]/5">
-                  <div className="text-center">
-                    <Briefcase size={64} strokeWidth={1} className="mx-auto text-[#2563EB]/30" />
-                    <p className="mt-3 text-sm font-medium text-[#2563EB]/50">Foto: profesionales del Colegio</p>
-                  </div>
+                <div className="mb-6 overflow-hidden rounded-xl">
+                  <Image
+                    src="/images/colegiados-hero.jpg"
+                    alt="Profesionales del Colegio de Graduados Sociales de Madrid"
+                    width={1200}
+                    height={675}
+                    className="aspect-[4/3] w-full object-cover"
+                  />
                 </div>
                 <div className="space-y-3">
                   <div className="flex items-center gap-3">
