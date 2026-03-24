@@ -35,8 +35,8 @@ const services = [
     icon: ClipboardList,
     title: 'Tramites colegiales',
     description: 'Altas, bajas, cambios de datos, solicitud de carnet profesional y otras gestiones.',
-    color: 'bg-[#2BD4C7]/10',
-    iconColor: 'text-[#18B7B0]',
+    color: 'bg-[#2563EB]/10',
+    iconColor: 'text-[#2563EB]',
   },
   {
     icon: KeyRound,
@@ -137,7 +137,7 @@ export default function ServiciosEnLineaPage() {
             {/* Right: info card */}
             <div className="relative">
               <div className="rounded-2xl border border-[#E2E8F0] bg-gradient-to-br from-[#F7F8FA] to-white p-8 shadow-[0_12px_32px_rgba(15,23,42,0.06)]">
-                <div className="mb-6 flex aspect-[4/3] items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-[#2563EB]/10 to-[#18B7B0]/5">
+                <div className="mb-6 flex aspect-[4/3] items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-[#2563EB]/10 to-[#2563EB]/5">
                   <div className="text-center">
                     <Monitor size={64} strokeWidth={1} className="mx-auto text-[#2563EB]/30" />
                     <p className="mt-3 text-sm font-medium text-[#2563EB]/50">Servicios Digitales</p>
@@ -211,7 +211,7 @@ export default function ServiciosEnLineaPage() {
               <ul className="space-y-3">
                 {onlineFeatures.map((f) => (
                   <li key={f} className="flex items-start gap-2.5">
-                    <ShieldCheck size={14} strokeWidth={2} className="mt-0.5 shrink-0 text-[#18B7B0]" />
+                    <ShieldCheck size={14} strokeWidth={2} className="mt-0.5 shrink-0 text-[#2563EB]" />
                     <span className="text-sm text-[#475569]">{f}</span>
                   </li>
                 ))}
@@ -246,7 +246,7 @@ export default function ServiciosEnLineaPage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-gradient-to-r from-[#2563EB]/[0.06] to-[#18B7B0]/[0.06] py-20">
+      <section className="bg-gradient-to-r from-[#2563EB]/[0.06] to-[#2563EB]/[0.06] py-20">
         <Container>
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-3xl font-extrabold text-[#0F172A]">

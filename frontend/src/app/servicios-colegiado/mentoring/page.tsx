@@ -120,7 +120,7 @@ export default function MentoringPage() {
             {/* Right: info card */}
             <div className="relative">
               <div className="rounded-2xl border border-[#E2E8F0] bg-gradient-to-br from-[#F7F8FA] to-white p-8 shadow-[0_12px_32px_rgba(15,23,42,0.06)]">
-                <div className="mb-6 flex aspect-[4/3] items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-[#2563EB]/10 to-[#18B7B0]/5">
+                <div className="mb-6 flex aspect-[4/3] items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-[#2563EB]/10 to-[#2563EB]/5">
                   <div className="text-center">
                     <Users size={64} strokeWidth={1} className="mx-auto text-[#2563EB]/30" />
                     <p className="mt-3 text-sm font-medium text-[#2563EB]/50">Programa de Mentoring</p>
@@ -164,7 +164,7 @@ export default function MentoringPage() {
               const Icon = b.icon;
               return (
                 <Card key={b.title}>
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#2F5BEA]/10 to-[#18B7B0]/10">
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#2F5BEA]/10 to-[#2563EB]/10">
                     <Icon size={24} strokeWidth={1.5} className="text-[#2563EB]" />
                   </div>
                   <h3 className="text-base font-bold text-[#0F172A]">{b.title}</h3>
@@ -195,7 +195,7 @@ export default function MentoringPage() {
               <ul className="space-y-3">
                 {forMentees.map((item) => (
                   <li key={item} className="flex items-start gap-2.5">
-                    <UserCheck size={14} strokeWidth={2} className="mt-0.5 shrink-0 text-[#18B7B0]" />
+                    <UserCheck size={14} strokeWidth={2} className="mt-0.5 shrink-0 text-[#2563EB]" />
                     <span className="text-sm text-[#475569]">{item}</span>
                   </li>
                 ))}
@@ -204,15 +204,15 @@ export default function MentoringPage() {
 
             <Card hover={false}>
               <div className="mb-4 flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#2BD4C7]/10">
-                  <Award size={20} className="text-[#18B7B0]" />
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#2563EB]/10">
+                  <Award size={20} className="text-[#2563EB]" />
                 </div>
                 <h3 className="text-lg font-bold text-[#0F172A]">Mentores</h3>
               </div>
               <ul className="space-y-3">
                 {forMentors.map((item) => (
                   <li key={item} className="flex items-start gap-2.5">
-                    <UserCheck size={14} strokeWidth={2} className="mt-0.5 shrink-0 text-[#18B7B0]" />
+                    <UserCheck size={14} strokeWidth={2} className="mt-0.5 shrink-0 text-[#2563EB]" />
                     <span className="text-sm text-[#475569]">{item}</span>
                   </li>
                 ))}
@@ -247,7 +247,7 @@ export default function MentoringPage() {
       </section>
 
       {/* CTA */}
-      <section id="inscripcion" className="bg-gradient-to-r from-[#2563EB]/[0.06] to-[#18B7B0]/[0.06] py-20">
+      <section id="inscripcion" className="bg-gradient-to-r from-[#2563EB]/[0.06] to-[#2563EB]/[0.06] py-20">
         <Container>
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-3xl font-extrabold text-[#0F172A]">

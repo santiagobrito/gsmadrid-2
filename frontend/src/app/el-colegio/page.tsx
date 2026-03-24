@@ -73,7 +73,7 @@ export default function ElColegioPage() {
             return (
               <Link key={card.title} href={card.href} className="group">
                 <Card className="flex h-full flex-col">
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#2F5BEA]/10 to-[#18B7B0]/10">
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#2F5BEA]/10 to-[#2563EB]/10">
                     <Icon
                       size={24}
                       strokeWidth={1.5}

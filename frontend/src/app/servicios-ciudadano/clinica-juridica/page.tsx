@@ -125,7 +125,7 @@ export default function ClinicaJuridicaPage() {
             {/* Right: key facts */}
             <div className="relative">
               <div className="rounded-2xl border border-[#E2E8F0] bg-gradient-to-br from-[#F7F8FA] to-white p-8 shadow-[0_12px_32px_rgba(15,23,42,0.06)]">
-                <div className="mb-6 flex aspect-[4/3] items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-[#2563EB]/10 to-[#18B7B0]/5">
+                <div className="mb-6 flex aspect-[4/3] items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-[#2563EB]/10 to-[#2563EB]/5">
                   <div className="text-center">
                     <Scale size={64} strokeWidth={1} className="mx-auto text-[#2563EB]/30" />
                     <p className="mt-3 text-sm font-medium text-[#2563EB]/50">Foto: sesion de la Clinica</p>
@@ -172,7 +172,7 @@ export default function ClinicaJuridicaPage() {
               const Icon = g.icon;
               return (
                 <Card key={g.title}>
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#2F5BEA]/10 to-[#18B7B0]/10">
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#2F5BEA]/10 to-[#2563EB]/10">
                     <Icon size={24} strokeWidth={1.5} className="text-[#2563EB]" />
                   </div>
                   <h3 className="text-base font-bold text-[#0F172A]">{g.title}</h3>
@@ -197,8 +197,8 @@ export default function ClinicaJuridicaPage() {
               const Icon = a.icon;
               return (
                 <Card key={a.title}>
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#2F5BEA]/10 to-[#18B7B0]/10">
-                    <Icon size={24} strokeWidth={1.5} className="text-[#18B7B0]" />
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#2F5BEA]/10 to-[#2563EB]/10">
+                    <Icon size={24} strokeWidth={1.5} className="text-[#2563EB]" />
                   </div>
                   <h3 className="text-base font-bold text-[#0F172A]">{a.title}</h3>
                   <p className="mt-2 text-sm text-[#475569]">{a.description}</p>
@@ -277,7 +277,7 @@ export default function ClinicaJuridicaPage() {
       </section>
 
       {/* CTA Contacto */}
-      <section id="solicitar" className="bg-gradient-to-r from-[#2563EB]/[0.06] to-[#18B7B0]/[0.06] py-20">
+      <section id="solicitar" className="bg-gradient-to-r from-[#2563EB]/[0.06] to-[#2563EB]/[0.06] py-20">
         <Container>
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-3xl font-extrabold text-[#0F172A]">

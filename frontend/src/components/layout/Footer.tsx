@@ -2,7 +2,13 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Container } from '@/components/ui/Container';
 
-const columns = [
+interface FooterLink {
+  label: string;
+  href: string;
+  external?: boolean;
+}
+
+const columns: { title: string; links: FooterLink[] }[] = [
   {
     title: 'El Colegio',
     links: [
@@ -37,6 +43,7 @@ const columns = [
       { label: 'Politica de Privacidad', href: '/politica-privacidad' },
       { label: 'Politica de Cookies', href: '/politica-cookies' },
       { label: 'Accesibilidad', href: '/accesibilidad' },
+      { label: 'Canal de Denuncias', href: 'https://graduadosocialmadrid.complylaw-canaletico.es/public/57fcaca13c67254362c30a7428d7cf2d/formulario', external: true },
     ],
   },
 ];
@@ -103,12 +110,23 @@ export function Footer() {
               <ul className="mt-4 space-y-3">
                 {col.links.map((link) => (
                   <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      className="text-sm text-[#6B7280] transition-colors hover:text-[#2BD4C7]"
-                    >
-                      {link.label}
-                    </Link>
+                    {link.external ? (
+                      <a
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-[#6B7280] transition-colors hover:text-[#2BD4C7]"
+                      >
+                        {link.label}
+                      </a>
+                    ) : (
+                      <Link
+                        href={link.href}
+                        className="text-sm text-[#6B7280] transition-colors hover:text-[#2BD4C7]"
+                      >
+                        {link.label}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>

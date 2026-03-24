@@ -35,8 +35,8 @@ const categories = [
     icon: BookOpen,
     title: 'Formacion',
     description: 'Tarifas reducidas en universidades, escuelas de negocio y centros de formacion especializados.',
-    color: 'bg-[#2BD4C7]/10',
-    iconColor: 'text-[#18B7B0]',
+    color: 'bg-[#2563EB]/10',
+    iconColor: 'text-[#2563EB]',
   },
   {
     icon: Building2,
@@ -185,7 +185,7 @@ export default function AcuerdosConveniosPage() {
               <ul className="space-y-3">
                 {highlights.map((h) => (
                   <li key={h} className="flex items-start gap-2.5">
-                    <ShieldCheck size={14} strokeWidth={2} className="mt-0.5 shrink-0 text-[#18B7B0]" />
+                    <ShieldCheck size={14} strokeWidth={2} className="mt-0.5 shrink-0 text-[#2563EB]" />
                     <span className="text-sm text-[#475569]">{h}</span>
                   </li>
                 ))}
@@ -196,7 +196,7 @@ export default function AcuerdosConveniosPage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-gradient-to-r from-[#2563EB]/[0.06] to-[#18B7B0]/[0.06] py-20">
+      <section className="bg-gradient-to-r from-[#2563EB]/[0.06] to-[#2563EB]/[0.06] py-20">
         <Container>
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-3xl font-extrabold text-[#0F172A]">

@@ -76,7 +76,7 @@ export default function GaleriaPage() {
                 className="group overflow-hidden rounded-2xl border border-[#E2E8F0] bg-white shadow-[0_2px_8px_rgba(15,23,42,0.04)] transition-all duration-400 hover:-translate-y-1.5 hover:shadow-[0_12px_32px_rgba(15,23,42,0.08)]"
               >
                 {/* Placeholder image */}
-                <div className="flex aspect-[16/9] items-center justify-center bg-gradient-to-br from-[#2F5BEA]/10 to-[#18B7B0]/10 transition-transform group-hover:scale-105">
+                <div className="flex aspect-[16/9] items-center justify-center bg-gradient-to-br from-[#2F5BEA]/10 to-[#2563EB]/10 transition-transform group-hover:scale-105">
                   <div className="text-center">
                     <Camera size={40} strokeWidth={1} className="mx-auto text-[#2563EB]/30" />
                     <p className="mt-2 text-xs text-[#2563EB]/40">{album.count} fotos</p>

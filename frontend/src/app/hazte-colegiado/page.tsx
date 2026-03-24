@@ -123,8 +123,8 @@ const paths = [
     title: 'Precolegiados',
     subtitle: 'Estudiantes de Grado o Master',
     href: '/hazte-colegiado/precolegiados',
-    color: 'from-[#2BD4C7]/20 to-[#18B7B0]/20',
-    textColor: 'text-[#18B7B0]',
+    color: 'from-[#2563EB]/20 to-[#2563EB]/20',
+    textColor: 'text-[#2563EB]',
   },
   {
     icon: Briefcase,
@@ -232,7 +232,7 @@ export default function HazteColegiadoPage() {
               return (
                 <Link key={path.title} href={path.href} className="group relative block">
                   {path.popular && (
-                    <span className="absolute -top-2.5 right-4 z-10 rounded-full bg-[#18B7B0] px-3 py-0.5 text-[10px] font-bold uppercase tracking-[0.08em] text-white">
+                    <span className="absolute -top-2.5 right-4 z-10 rounded-full bg-[#2563EB] px-3 py-0.5 text-[10px] font-bold uppercase tracking-[0.08em] text-white">
                       Mas comun
                     </span>
                   )}
@@ -269,7 +269,7 @@ export default function HazteColegiadoPage() {
               const Icon = item.icon;
               return (
                 <Card key={item.title} className={item.highlight ? 'border-[#2563EB]/20 bg-[#2563EB]/[0.02]' : ''}>
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#2F5BEA]/10 to-[#18B7B0]/10">
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#2F5BEA]/10 to-[#2563EB]/10">
                     <Icon size={24} strokeWidth={1.5} className="text-[#2563EB]" />
                   </div>
                   <h3 className="text-lg font-bold text-[#0F172A]">{item.title}</h3>
@@ -346,15 +346,15 @@ export default function HazteColegiadoPage() {
             {/* Admin */}
             <Card hover={false}>
               <div className="mb-4 flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#18B7B0]/10">
-                  <FileText size={20} className="text-[#18B7B0]" />
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#2563EB]/10">
+                  <FileText size={20} className="text-[#2563EB]" />
                 </div>
                 <h3 className="text-lg font-bold text-[#0F172A]">Requisitos administrativos</h3>
               </div>
               <ul className="space-y-3">
                 {adminDocs.map((doc) => (
                   <li key={doc} className="flex items-start gap-3">
-                    <BadgeCheck size={16} strokeWidth={2} className="mt-0.5 shrink-0 text-[#18B7B0]" />
+                    <BadgeCheck size={16} strokeWidth={2} className="mt-0.5 shrink-0 text-[#2563EB]" />
                     <span className="text-sm text-[#475569]">{doc}</span>
                   </li>
                 ))}
@@ -391,7 +391,7 @@ export default function HazteColegiadoPage() {
       {/* ============================== */}
       {/* CTA FINAL */}
       {/* ============================== */}
-      <section className="bg-gradient-to-r from-[#2563EB]/[0.06] to-[#18B7B0]/[0.06] py-20">
+      <section className="bg-gradient-to-r from-[#2563EB]/[0.06] to-[#2563EB]/[0.06] py-20">
         <Container>
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-3xl font-extrabold text-[#0F172A] sm:text-4xl">

@@ -162,19 +162,19 @@ export default function ColegiadosPage() {
                 </div>
                 <div className="space-y-3">
                   <div className="flex items-center gap-3">
-                    <CheckCircle size={16} className="shrink-0 text-[#18B7B0]" />
+                    <CheckCircle size={16} className="shrink-0 text-[#2563EB]" />
                     <span className="text-sm text-[#475569]">Acceso a Lexnet y firma digital</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <CheckCircle size={16} className="shrink-0 text-[#18B7B0]" />
+                    <CheckCircle size={16} className="shrink-0 text-[#2563EB]" />
                     <span className="text-sm text-[#475569]">Formacion bonificada exclusiva</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <CheckCircle size={16} className="shrink-0 text-[#18B7B0]" />
+                    <CheckCircle size={16} className="shrink-0 text-[#2563EB]" />
                     <span className="text-sm text-[#475569]">Asesoria juridico-tecnica</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <CheckCircle size={16} className="shrink-0 text-[#18B7B0]" />
+                    <CheckCircle size={16} className="shrink-0 text-[#2563EB]" />
                     <span className="text-sm text-[#475569]">Red de 3.000+ profesionales</span>
                   </div>
                 </div>
@@ -210,7 +210,7 @@ export default function ColegiadosPage() {
                   <div className="mt-6 space-y-2.5 flex-1">
                     {m.highlights.map((h) => (
                       <div key={h} className="flex items-start gap-2.5">
-                        <CheckCircle size={15} strokeWidth={2} className="mt-0.5 shrink-0 text-[#18B7B0]" />
+                        <CheckCircle size={15} strokeWidth={2} className="mt-0.5 shrink-0 text-[#2563EB]" />
                         <span className="text-sm text-[#475569]">{h}</span>
                       </div>
                     ))}
@@ -253,7 +253,7 @@ export default function ColegiadosPage() {
                     {[f.libre, f.empresa, f.noEjerciente].map((val, i) => (
                       <td key={i} className="py-3 text-center">
                         {val === true ? (
-                          <CheckCircle size={16} className="mx-auto text-[#2BD4C7]" />
+                          <CheckCircle size={16} className="mx-auto text-[#2563EB]" />
                         ) : val === false ? (
                           <XIcon size={16} className="mx-auto text-[#CBD5E1]" />
                         ) : (

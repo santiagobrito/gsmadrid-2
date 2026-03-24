@@ -127,7 +127,7 @@ export default async function ActualidadPage() {
                       className="aspect-[16/9] w-full object-cover transition-transform group-hover:scale-105"
                     />
                   ) : (
-                    <div className="flex aspect-[16/9] items-center justify-center bg-gradient-to-br from-[#2F5BEA]/10 to-[#18B7B0]/10">
+                    <div className="flex aspect-[16/9] items-center justify-center bg-gradient-to-br from-[#2F5BEA]/10 to-[#2563EB]/10">
                       <div className="text-center">
                         <FileText size={32} strokeWidth={1} className="mx-auto text-primary/40" />
                         <p className="mt-2 text-xs text-text-tertiary">Noticia</p>

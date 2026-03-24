@@ -74,7 +74,7 @@ export default function RevistaPage() {
           {/* Latest issue highlight */}
           <div className="mb-12 rounded-2xl border border-[#E2E8F0] bg-gradient-to-br from-[#F7F8FA] to-white p-8 shadow-[0_12px_32px_rgba(15,23,42,0.06)]">
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-              <div className="flex aspect-[3/4] items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-[#2563EB]/10 to-[#18B7B0]/5">
+              <div className="flex aspect-[3/4] items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-[#2563EB]/10 to-[#2563EB]/5">
                 <div className="text-center">
                   <BookOpen size={64} strokeWidth={1} className="mx-auto text-[#2563EB]/30" />
                   <p className="mt-3 text-lg font-bold text-[#2563EB]/40">N.o {issues[0].number}</p>
@@ -90,7 +90,7 @@ export default function RevistaPage() {
                 <ul className="mt-4 space-y-2">
                   {issues[0].highlights.map((h) => (
                     <li key={h} className="flex items-center gap-2 text-sm text-[#475569]">
-                      <FileText size={14} className="shrink-0 text-[#18B7B0]" />
+                      <FileText size={14} className="shrink-0 text-[#2563EB]" />
                       {h}
                     </li>
                   ))}
@@ -113,7 +113,7 @@ export default function RevistaPage() {
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {issues.slice(1).map((issue) => (
               <Card key={issue.number}>
-                <div className="-mx-7 -mt-7 mb-5 flex aspect-[4/3] items-center justify-center overflow-hidden rounded-t-2xl bg-gradient-to-br from-[#2F5BEA]/10 to-[#18B7B0]/10">
+                <div className="-mx-7 -mt-7 mb-5 flex aspect-[4/3] items-center justify-center overflow-hidden rounded-t-2xl bg-gradient-to-br from-[#2F5BEA]/10 to-[#2563EB]/10">
                   <div className="text-center">
                     <BookOpen size={32} strokeWidth={1} className="mx-auto text-[#2563EB]/30" />
                     <p className="mt-2 text-lg font-bold text-[#2563EB]/40">N.o {issue.number}</p>
@@ -131,7 +131,7 @@ export default function RevistaPage() {
                 <ul className="mt-3 space-y-1.5">
                   {issue.highlights.map((h) => (
                     <li key={h} className="flex items-center gap-2 text-xs text-[#475569]">
-                      <FileText size={10} className="shrink-0 text-[#18B7B0]" />
+                      <FileText size={10} className="shrink-0 text-[#2563EB]" />
                       {h}
                     </li>
                   ))}
@@ -146,7 +146,7 @@ export default function RevistaPage() {
           </div>
 
           {/* Subscription CTA */}
-          <div className="mt-12 rounded-2xl bg-gradient-to-r from-[#2563EB]/[0.06] to-[#18B7B0]/[0.06] p-8 text-center">
+          <div className="mt-12 rounded-2xl bg-gradient-to-r from-[#2563EB]/[0.06] to-[#2563EB]/[0.06] p-8 text-center">
             <h3 className="text-xl font-extrabold text-[#0F172A]">
               ¿Quieres recibir la revista?
             </h3>

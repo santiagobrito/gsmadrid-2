@@ -173,7 +173,7 @@ export default function OrientacionJuridicaPage() {
               <ul className="space-y-2.5">
                 {areasWorkers.map((a) => (
                   <li key={a} className="flex items-start gap-2.5">
-                    <ShieldCheck size={14} strokeWidth={2} className="mt-0.5 shrink-0 text-[#18B7B0]" />
+                    <ShieldCheck size={14} strokeWidth={2} className="mt-0.5 shrink-0 text-[#2563EB]" />
                     <span className="text-sm text-[#475569]">{a}</span>
                   </li>
                 ))}
@@ -191,7 +191,7 @@ export default function OrientacionJuridicaPage() {
               <ul className="space-y-2.5">
                 {areasCompanies.map((a) => (
                   <li key={a} className="flex items-start gap-2.5">
-                    <ShieldCheck size={14} strokeWidth={2} className="mt-0.5 shrink-0 text-[#18B7B0]" />
+                    <ShieldCheck size={14} strokeWidth={2} className="mt-0.5 shrink-0 text-[#2563EB]" />
                     <span className="text-sm text-[#475569]">{a}</span>
                   </li>
                 ))}
@@ -209,7 +209,7 @@ export default function OrientacionJuridicaPage() {
               <ul className="space-y-2.5">
                 {areasImmigration.map((a) => (
                   <li key={a} className="flex items-start gap-2.5">
-                    <ShieldCheck size={14} strokeWidth={2} className="mt-0.5 shrink-0 text-[#18B7B0]" />
+                    <ShieldCheck size={14} strokeWidth={2} className="mt-0.5 shrink-0 text-[#2563EB]" />
                     <span className="text-sm text-[#475569]">{a}</span>
                   </li>
                 ))}
@@ -219,15 +219,15 @@ export default function OrientacionJuridicaPage() {
             {/* Seguridad Social */}
             <Card hover={false}>
               <div className="mb-4 flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#2BD4C7]/10">
-                  <Heart size={20} className="text-[#18B7B0]" />
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#2563EB]/10">
+                  <Heart size={20} className="text-[#2563EB]" />
                 </div>
                 <h3 className="text-lg font-bold text-[#0F172A]">Seguridad Social</h3>
               </div>
               <ul className="space-y-2.5">
                 {areasSS.map((a) => (
                   <li key={a} className="flex items-start gap-2.5">
-                    <ShieldCheck size={14} strokeWidth={2} className="mt-0.5 shrink-0 text-[#18B7B0]" />
+                    <ShieldCheck size={14} strokeWidth={2} className="mt-0.5 shrink-0 text-[#2563EB]" />
                     <span className="text-sm text-[#475569]">{a}</span>
                   </li>
                 ))}
@@ -287,7 +287,7 @@ export default function OrientacionJuridicaPage() {
       </section>
 
       {/* CTA */}
-      <section id="cita" className="bg-gradient-to-r from-[#2563EB]/[0.06] to-[#18B7B0]/[0.06] py-20">
+      <section id="cita" className="bg-gradient-to-r from-[#2563EB]/[0.06] to-[#2563EB]/[0.06] py-20">
         <Container>
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-3xl font-extrabold text-[#0F172A]">

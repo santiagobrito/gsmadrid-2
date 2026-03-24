@@ -164,7 +164,7 @@ export default function MediacionLaboralPage() {
               const Icon = b.icon;
               return (
                 <Card key={b.title}>
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#2F5BEA]/10 to-[#18B7B0]/10">
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#2F5BEA]/10 to-[#2563EB]/10">
                     <Icon size={24} strokeWidth={1.5} className="text-[#2563EB]" />
                   </div>
                   <h3 className="text-base font-bold text-[#0F172A]">{b.title}</h3>
@@ -182,15 +182,15 @@ export default function MediacionLaboralPage() {
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             <Card hover={false}>
               <div className="mb-4 flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#2BD4C7]/10">
-                  <CheckCircle size={20} className="text-[#2BD4C7]" />
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#2563EB]/10">
+                  <CheckCircle size={20} className="text-[#2563EB]" />
                 </div>
                 <h3 className="text-lg font-bold text-[#0F172A]">Asuntos mediables</h3>
               </div>
               <ul className="space-y-3">
                 {canMediate.map((c) => (
                   <li key={c} className="flex items-start gap-2.5">
-                    <CheckCircle size={14} strokeWidth={2} className="mt-0.5 shrink-0 text-[#2BD4C7]" />
+                    <CheckCircle size={14} strokeWidth={2} className="mt-0.5 shrink-0 text-[#2563EB]" />
                     <span className="text-sm text-[#475569]">{c}</span>
                   </li>
                 ))}
@@ -258,7 +258,7 @@ export default function MediacionLaboralPage() {
       </section>
 
       {/* CTA */}
-      <section id="solicitar" className="bg-gradient-to-r from-[#2563EB]/[0.06] to-[#18B7B0]/[0.06] py-20">
+      <section id="solicitar" className="bg-gradient-to-r from-[#2563EB]/[0.06] to-[#2563EB]/[0.06] py-20">
         <Container>
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-3xl font-extrabold text-[#0F172A]">
