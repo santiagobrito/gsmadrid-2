@@ -334,30 +334,12 @@ function LoginDropdown() {
 
 function MobileLogin({ onClose }: { onClose: () => void }) {
   const [user, setUser] = useState<AuthUser | null>(null);
-  const [showForm, setShowForm] = useState(false);
-  const [form, setForm] = useState({ username: '', password: '' });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
 
   useEffect(() => {
     if (isAuthenticated()) {
       setUser(getStoredUser());
     }
   }, []);
-
-  async function handleLogin(e: React.FormEvent) {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-    const res = await login(form.username, form.password);
-    setLoading(false);
-    if (res.success && res.user) {
-      setUser(res.user);
-      setShowForm(false);
-    } else {
-      setError(res.message || 'Credenciales incorrectas.');
-    }
-  }
 
   if (user) {
     return (
@@ -379,42 +361,13 @@ function MobileLogin({ onClose }: { onClose: () => void }) {
     );
   }
 
-  if (showForm) {
-    return (
-      <form onSubmit={handleLogin} className="space-y-3">
-        <input
-          type="text"
-          placeholder="Usuario o email"
-          value={form.username}
-          onChange={(e) => setForm({ ...form, username: e.target.value })}
-          className="w-full rounded-lg border border-[#E2E8F0] bg-[#F7F8FA] px-3 py-2.5 text-sm outline-none focus:border-[#2563EB]"
-          required
-        />
-        <input
-          type="password"
-          placeholder="Contrasena"
-          value={form.password}
-          onChange={(e) => setForm({ ...form, password: e.target.value })}
-          className="w-full rounded-lg border border-[#E2E8F0] bg-[#F7F8FA] px-3 py-2.5 text-sm outline-none focus:border-[#2563EB]"
-          required
-        />
-        {error && <p className="text-xs text-red-500">{error}</p>}
-        <Button type="submit" variant="gradient" className="w-full" disabled={loading}>
-          {loading ? 'Entrando...' : 'Iniciar sesion'}
-        </Button>
-      </form>
-    );
-  }
-
   return (
-    <div className="space-y-2">
-      <button onClick={() => setShowForm(true)} className="w-full">
-        <Button variant="institutional" className="w-full">Area Privada</Button>
-      </button>
-      <Link href="/area-privada" onClick={onClose} className="block text-center text-xs text-[#6B7280] hover:text-[#2563EB]">
-        Mas opciones
-      </Link>
-    </div>
+    <Link href="/area-privada" onClick={onClose}>
+      <Button variant="institutional" className="w-full flex items-center justify-center gap-2">
+        <LogIn size={16} strokeWidth={1.5} />
+        Area Privada
+      </Button>
+    </Link>
   );
 }
 
