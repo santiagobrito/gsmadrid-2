@@ -41,13 +41,6 @@ export const FORMACION_FIELDS = gql`
       urlInscripcion
       estado
     }
-    categorias {
-      nodes {
-        id
-        name
-        slug
-      }
-    }
   }
 `;
 
