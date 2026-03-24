@@ -80,28 +80,6 @@ export interface Formacion extends WPNode {
   };
 }
 
-// Curso fields (extends FormacionFields)
-export interface CursoFields extends FormacionFields {
-  duracionTexto?: string;
-  dirigidoA?: string;
-  objetivos?: string;
-  modulos?: string;
-  profesorado?: string;
-  certificacion?: string;
-  colaboradores?: string;
-}
-
-// Curso
-export interface Curso extends WPNode {
-  cursoFields: CursoFields;
-  content?: string;
-  excerpt?: string;
-  featuredImage?: FeaturedImage;
-  categorias?: {
-    nodes: WPTerm['node'][];
-  };
-}
-
 // Profesional fields
 export interface ProfesionalFields {
   numeroColegiado: string;

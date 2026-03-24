@@ -49,27 +49,6 @@ function gsmadrid_register_cpts() {
         'graphql_plural_name' => 'eventos',
     ]);
 
-    register_post_type('curso', [
-        'labels' => [
-            'name'               => 'Cursos',
-            'singular_name'      => 'Curso',
-            'add_new_item'       => 'Anadir nuevo curso',
-            'edit_item'          => 'Editar curso',
-            'all_items'          => 'Todos los cursos',
-            'search_items'       => 'Buscar cursos',
-            'not_found'          => 'No se encontraron cursos',
-        ],
-        'public'              => true,
-        'has_archive'         => true,
-        'rewrite'             => ['slug' => 'curso'],
-        'menu_icon'           => 'dashicons-welcome-learn-more',
-        'supports'            => ['title', 'editor', 'thumbnail', 'excerpt', 'revisions'],
-        'show_in_rest'        => true,
-        'show_in_graphql'     => true,
-        'graphql_single_name' => 'curso',
-        'graphql_plural_name' => 'cursos',
-    ]);
-
     register_post_type('profesional', [
         'labels' => [
             'name'               => 'Profesionales',
@@ -118,7 +97,7 @@ add_action('init', 'gsmadrid_register_taxonomies');
 
 function gsmadrid_register_taxonomies() {
 
-    register_taxonomy('modalidad', ['formacion', 'curso'], [
+    register_taxonomy('modalidad', ['formacion'], [
         'labels'              => ['name' => 'Modalidades', 'singular_name' => 'Modalidad'],
         'hierarchical'        => true,
         'show_in_rest'        => true,
@@ -128,7 +107,7 @@ function gsmadrid_register_taxonomies() {
         'rewrite'             => ['slug' => 'modalidad'],
     ]);
 
-    register_taxonomy('area_formativa', ['formacion', 'curso'], [
+    register_taxonomy('area_formativa', ['formacion'], [
         'labels'              => ['name' => 'Areas Formativas', 'singular_name' => 'Area Formativa'],
         'hierarchical'        => true,
         'show_in_rest'        => true,

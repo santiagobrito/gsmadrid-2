@@ -60,8 +60,8 @@ const fallbackFormaciones: FormacionItem[] = [
     esGratuito: true,
   },
   {
-    slug: 'curso-mediacion-arbitraje',
-    title: 'Curso de Mediacion y Arbitraje Laboral',
+    slug: 'taller-mediacion-arbitraje',
+    title: 'Taller de Mediacion y Arbitraje Laboral',
     date: '7 Abr 2026',
     time: '09:00 - 14:00',
     location: 'Sede del Colegio',

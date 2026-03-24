@@ -46,10 +46,10 @@ const fallbackEvents: CalendarEvent[] = [
   },
   {
     date: '2026-04-07',
-    title: 'Curso Mediacion y Arbitraje',
+    title: 'Taller Mediacion y Arbitraje',
     time: '09:00-14:00',
     location: 'Sede del Colegio',
-    href: '/formacion-eventos/curso-mediacion-arbitraje',
+    href: '/formacion-eventos/taller-mediacion-arbitraje',
   },
   {
     date: '2026-04-15',

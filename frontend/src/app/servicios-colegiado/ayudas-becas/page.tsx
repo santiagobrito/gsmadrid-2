@@ -20,7 +20,7 @@ const aidTypes = [
   {
     icon: GraduationCap,
     title: 'Becas de formacion',
-    description: 'Ayudas para cursos, masteres y programas de especializacion profesional.',
+    description: 'Ayudas para formacion, masteres y programas de especializacion profesional.',
     color: 'bg-[#2563EB]/10',
     iconColor: 'text-[#2563EB]',
   },

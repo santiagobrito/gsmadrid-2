@@ -39,7 +39,7 @@ interface FilteredFormacionesProps {
   slugPrefix?: string;
 }
 
-export function FilteredFormaciones({ formaciones, title = 'Formacion y Eventos', subtitle = 'Jornadas, seminarios, cursos y eventos organizados por el Colegio. Inscripcion abierta para colegiados y publico general.', badgeLabel = 'Formacion', slugPrefix = '/formacion-eventos' }: FilteredFormacionesProps) {
+export function FilteredFormaciones({ formaciones, title = 'Formacion y Eventos', subtitle = 'Jornadas, seminarios, talleres y eventos organizados por el Colegio. Inscripcion abierta para colegiados y publico general.', badgeLabel = 'Formacion', slugPrefix = '/formacion-eventos' }: FilteredFormacionesProps) {
   const [activeFilter, setActiveFilter] = useState<FilterType>('todos');
 
   const abiertas = formaciones.filter((f) => f.estado !== 'Finalizada');

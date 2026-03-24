@@ -54,7 +54,6 @@ curl -s -X POST -H "Authorization: Bearer $KEY" -H "Content-Type: application/js
 |-----|-------------|-----|
 | `formacion` | `formaciones` | Jornadas, seminarios, talleres |
 | `evento` | `eventos` | Actos institucionales, asambleas, networking |
-| `curso` | `cursos` | Cursos con modulos (se muestra junto a formaciones en frontend) |
 | `profesional` | `profesionales` | Directorio de colegiados |
 | `miembro_junta` | `miembrosJunta` | Junta de Gobierno |
 
@@ -62,8 +61,8 @@ curl -s -X POST -H "Authorization: Bearer $KEY" -H "Content-Type: application/js
 
 | Taxonomia | CPTs | Uso |
 |-----------|------|-----|
-| `modalidad` | formacion, curso | Presencial, Online, Hibrido |
-| `area_formativa` | formacion, curso | Laboral, Fiscal, Seguridad Social... |
+| `modalidad` | formacion | Presencial, Online, Hibrido |
+| `area_formativa` | formacion | Laboral, Fiscal, Seguridad Social... |
 | `especialidad` | profesional | Areas de ejercicio |
 | `localidad` | profesional | Municipios Madrid |
 
@@ -77,11 +76,12 @@ curl -s -X POST -H "Authorization: Bearer $KEY" -H "Content-Type: application/js
 
 | Section | Endpoint | Method | Uso |
 |---------|----------|--------|-----|
-| 12 | `/gsmadrid/v1/auth/login` | POST | Login (token-based) |
-| 12 | `/gsmadrid/v1/auth/me` | GET | User + profile (Bearer) |
-| 12 | `/gsmadrid/v1/profile/update` | POST | Edit profile (Bearer) |
-| 14 | `/gsmadrid/v1/inscripcion` | POST | Inscription to formacion/evento |
-| 15 | `/gsmadrid/v1/contacto` | POST | Contact form (rate limited) |
+| auth | `/gsmadrid/v1/auth/login` | POST | Login (token-based) |
+| auth | `/gsmadrid/v1/auth/me` | GET | User + profile (Bearer) |
+| auth | `/gsmadrid/v1/profile/update` | POST | Edit profile (Bearer) |
+| auth | `/gsmadrid/v1/profile/upload-photo` | POST | Upload profile photo (multipart, Bearer) |
+| api | `/gsmadrid/v1/inscripcion` | POST | Inscription to formacion/evento |
+| api | `/gsmadrid/v1/contacto` | POST | Contact form (rate limited) |
 | 17 | `/gsmadrid/v1/colegiacion` | POST | Colegiation request |
 
 ## GraphQL Queries
@@ -91,7 +91,7 @@ curl -s -X POST -H "Authorization: Bearer $KEY" -H "Content-Type: application/js
 | `formacion.ts` | GET_FORMACIONES, GET_FORMACION_BY_SLUG, GET_FORMACION_SLUGS |
 | `posts.ts` | GET_POSTS, GET_POST_BY_SLUG, GET_POST_SLUGS |
 | `profesional.ts` | GET_PROFESIONALES, GET_PROFESIONAL_BY_SLUG, GET_PROFESIONAL_SLUGS |
-| `curso.ts` | GET_CURSOS, GET_CURSO_BY_SLUG, GET_CURSO_SLUGS |
+
 | `evento.ts` | GET_EVENTO_BY_SLUG, GET_EVENTO_SLUGS |
 | `menu.ts` | GET_MENU |
 | `junta.ts` | GET_MIEMBROS_JUNTA |
@@ -215,6 +215,17 @@ bash scripts/deploy-frontend.sh
 - [x] Deploy en EasyPanel funcionando
 - [x] Paginas de Servicios Colegiado (empleo, mentoring, ayudas-becas, acuerdos-convenios, recursos, servicios-en-linea)
 - [x] Subpaginas de Actualidad (galeria, revista)
+- [x] Roles: profesional + precolegiado con flujo de promocion
+- [x] Email bienvenida automatico (colegiado al publicar ficha, precolegiado al crear usuario)
+- [x] Upload de foto de perfil desde Area Privada
+- [x] Bio sanitizada (sin HTML/iframes/embeds)
+- [x] Schema.org Person en fichas del directorio
+- [x] dynamicParams en todas las rutas [slug] (fix 404 ISR)
+- [x] Fix eventos: campo estado como array ACF
+- [x] Documentacion: ABM colegiados/precolegiados, contenidos WP (reports/)
 - [ ] Newsletter backend
 - [ ] Imagenes reales (depende del cliente)
 - [ ] SMTP plugin para emails
+- [ ] Legal pages (aviso-legal, privacidad, cookies, accesibilidad)
+- [ ] Cambio de contrasena desde frontend
+- [ ] Recuperar contrasena (forgot password)

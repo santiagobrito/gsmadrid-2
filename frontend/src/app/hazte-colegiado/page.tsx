@@ -43,7 +43,7 @@ const benefits = [
   {
     icon: BookOpen,
     title: 'Formacion Especializada',
-    description: 'Cursos, jornadas y talleres con bonificaciones exclusivas no disponibles en el mercado abierto.',
+    description: 'Formacion, jornadas y talleres con bonificaciones exclusivas no disponibles en el mercado abierto.',
   },
   {
     icon: Shield,

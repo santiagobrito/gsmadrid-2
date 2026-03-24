@@ -8,7 +8,7 @@ export const revalidate = 60;
 export const metadata = createMetadata({
   title: 'Formacion',
   description:
-    'Jornadas, seminarios, talleres y cursos del Colegio Oficial de Graduados Sociales de Madrid. Inscripcion abierta para colegiados y publico general.',
+    'Jornadas, seminarios y talleres del Colegio Oficial de Graduados Sociales de Madrid. Inscripcion abierta para colegiados y publico general.',
   path: '/formacion',
 });
 
@@ -59,8 +59,8 @@ const fallbackFormaciones: FormacionItem[] = [
     esGratuito: true,
   },
   {
-    slug: 'curso-mediacion-arbitraje',
-    title: 'Curso de Mediacion y Arbitraje Laboral',
+    slug: 'taller-mediacion-arbitraje',
+    title: 'Taller de Mediacion y Arbitraje Laboral',
     date: '7 Abr 2026',
     time: '09:00 - 14:00',
     location: 'Sede del Colegio',
@@ -147,7 +147,7 @@ export default async function FormacionPage() {
       <FilteredFormaciones
         formaciones={formaciones}
         title="Formacion"
-        subtitle="Jornadas, seminarios, talleres y cursos organizados por el Colegio. Inscripcion abierta para colegiados y publico general."
+        subtitle="Jornadas, seminarios y talleres organizados por el Colegio. Inscripcion abierta para colegiados y publico general."
         slugPrefix="/formacion"
       />
     </>
