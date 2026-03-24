@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Container } from '@/components/ui/Container';
@@ -97,6 +97,29 @@ export function Hero({ slides = defaultSlides }: HeroProps) {
     return () => clearInterval(timer);
   }, [paused, next, sortedSlides.length]);
 
+  // Drag/swipe support
+  const dragRef = useRef<{ startX: number; isDragging: boolean }>({ startX: 0, isDragging: false });
+
+  const handleDragStart = useCallback((clientX: number) => {
+    dragRef.current = { startX: clientX, isDragging: true };
+    setPaused(true);
+  }, []);
+
+  const handleDragEnd = useCallback((clientX: number) => {
+    if (!dragRef.current.isDragging) return;
+    const diff = dragRef.current.startX - clientX;
+    dragRef.current.isDragging = false;
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) next();
+      else prev();
+    }
+  }, [next, prev]);
+
+  const onMouseDown = useCallback((e: React.MouseEvent) => handleDragStart(e.clientX), [handleDragStart]);
+  const onMouseUp = useCallback((e: React.MouseEvent) => handleDragEnd(e.clientX), [handleDragEnd]);
+  const onTouchStart = useCallback((e: React.TouchEvent) => handleDragStart(e.touches[0].clientX), [handleDragStart]);
+  const onTouchEnd = useCallback((e: React.TouchEvent) => handleDragEnd(e.changedTouches[0].clientX), [handleDragEnd]);
+
   const slide = sortedSlides[current];
   const config = slide ? typeConfig[slide.type] : typeConfig.noticia;
   const Icon = config.icon;
@@ -156,9 +179,14 @@ export function Hero({ slides = defaultSlides }: HeroProps) {
 
           {/* Right: Dynamic slider */}
           <div
-            className="relative"
+            className="relative select-none"
             onMouseEnter={() => setPaused(true)}
-            onMouseLeave={() => setPaused(false)}
+            onMouseLeave={() => { setPaused(false); dragRef.current.isDragging = false; }}
+            onMouseDown={onMouseDown}
+            onMouseUp={onMouseUp}
+            onTouchStart={onTouchStart}
+            onTouchEnd={onTouchEnd}
+            style={{ cursor: sortedSlides.length > 1 ? 'grab' : undefined }}
           >
             <div className="relative min-h-[340px]">
               {slide && (
