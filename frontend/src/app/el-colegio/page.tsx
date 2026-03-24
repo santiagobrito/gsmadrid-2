@@ -54,7 +54,7 @@ export default function ElColegioPage() {
           {/* Hero */}
         <div className="mb-16 max-w-3xl">
           <div className="mb-4">
-            <Badge color="institutional">Institucion</Badge>
+            <Badge color="colegio">Institucion</Badge>
           </div>
           <h1 className="text-4xl font-extrabold tracking-tight text-[#0F172A] sm:text-5xl">
             El Colegio

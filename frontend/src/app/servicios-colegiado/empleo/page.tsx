@@ -86,7 +86,7 @@ export default function EmpleoPage() {
         <Container>
           <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
             <div>
-              <Badge color="colegio">Exclusivo colegiados</Badge>
+              <Badge color="institutional">Exclusivo colegiados</Badge>
 
               <h1 className="mt-6 text-3xl font-extrabold leading-tight text-[#0F172A] sm:text-4xl lg:text-5xl">
                 Bolsa de Empleo
@@ -150,7 +150,7 @@ export default function EmpleoPage() {
       <section className="bg-[#F7F8FA] py-20">
         <Container>
           <div className="mb-12 text-center">
-            <Badge color="formacion">Servicios</Badge>
+            <Badge color="institutional">Servicios</Badge>
             <h2 className="mt-4 text-3xl font-extrabold text-[#0F172A]">¿Que incluye la Bolsa de Empleo?</h2>
           </div>
 
@@ -201,7 +201,7 @@ export default function EmpleoPage() {
       <section id="como-funciona" className="bg-[#F7F8FA] py-20">
         <Container>
           <div className="mb-12 text-center">
-            <Badge color="colegio">Proceso</Badge>
+            <Badge color="institutional">Proceso</Badge>
             <h2 className="mt-4 text-3xl font-extrabold text-[#0F172A]">Como funciona</h2>
           </div>
 

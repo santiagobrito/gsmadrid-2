@@ -83,7 +83,7 @@ export default function TransparenciaPage() {
           {/* Header */}
         <div className="mb-12 max-w-3xl">
           <div className="mb-4">
-            <Badge color="institutional">Buen Gobierno</Badge>
+            <Badge color="colegio">Buen Gobierno</Badge>
           </div>
           <h1 className="text-4xl font-extrabold tracking-tight text-[#0F172A] sm:text-5xl">
             Transparencia

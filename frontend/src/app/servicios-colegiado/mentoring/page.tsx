@@ -91,7 +91,7 @@ export default function MentoringPage() {
         <Container>
           <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
             <div>
-              <Badge color="formacion">Desarrollo profesional</Badge>
+              <Badge color="institutional">Desarrollo profesional</Badge>
 
               <h1 className="mt-6 text-3xl font-extrabold leading-tight text-[#0F172A] sm:text-4xl lg:text-5xl">
                 Programa de Mentoring
@@ -155,7 +155,7 @@ export default function MentoringPage() {
       <section className="bg-[#F7F8FA] py-20">
         <Container>
           <div className="mb-12 text-center">
-            <Badge color="formacion">Ventajas</Badge>
+            <Badge color="institutional">Ventajas</Badge>
             <h2 className="mt-4 text-3xl font-extrabold text-[#0F172A]">¿Que te aporta el mentoring?</h2>
           </div>
 
@@ -180,7 +180,7 @@ export default function MentoringPage() {
       <section className="py-20">
         <Container>
           <div className="mb-12 text-center">
-            <Badge color="colegio">Participantes</Badge>
+            <Badge color="institutional">Participantes</Badge>
             <h2 className="mt-4 text-3xl font-extrabold text-[#0F172A]">¿Para quien es?</h2>
           </div>
 
@@ -226,7 +226,7 @@ export default function MentoringPage() {
       <section id="como-funciona" className="bg-[#F7F8FA] py-20">
         <Container>
           <div className="mb-12 text-center">
-            <Badge color="colegio">Proceso</Badge>
+            <Badge color="institutional">Proceso</Badge>
             <h2 className="mt-4 text-3xl font-extrabold text-[#0F172A]">Como funciona</h2>
           </div>
 

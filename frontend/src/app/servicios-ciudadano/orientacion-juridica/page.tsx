@@ -157,7 +157,7 @@ export default function OrientacionJuridicaPage() {
       <section id="materias" className="bg-[#F7F8FA] py-20">
         <Container>
           <div className="mb-12 text-center">
-            <Badge color="formacion">Areas</Badge>
+            <Badge color="institutional">Areas</Badge>
             <h2 className="mt-4 text-3xl font-extrabold text-[#0F172A]">¿Sobre que te podemos orientar?</h2>
           </div>
 
@@ -241,7 +241,7 @@ export default function OrientacionJuridicaPage() {
       <section className="py-20">
         <Container>
           <div className="mb-12 text-center">
-            <Badge color="colegio">Proceso</Badge>
+            <Badge color="institutional">Proceso</Badge>
             <h2 className="mt-4 text-3xl font-extrabold text-[#0F172A]">Como funciona</h2>
           </div>
 

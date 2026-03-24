@@ -127,7 +127,7 @@ export default function ColegiadosPage() {
           <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
             {/* Left: copy */}
             <div>
-              <Badge color="formacion">Colegiacion profesional</Badge>
+              <Badge color="colegio">Colegiacion profesional</Badge>
 
               <h1 className="mt-6 text-3xl font-extrabold leading-tight text-[#0F172A] sm:text-4xl lg:text-5xl">
                 Elige la modalidad que se adapta a ti

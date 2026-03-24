@@ -171,7 +171,7 @@ export default function AyudasBecasPage() {
       <section id="tipos" className="bg-[#F7F8FA] py-20">
         <Container>
           <div className="mb-12 text-center">
-            <Badge color="formacion">Catalogo</Badge>
+            <Badge color="institutional">Catalogo</Badge>
             <h2 className="mt-4 text-3xl font-extrabold text-[#0F172A]">Tipos de ayuda disponibles</h2>
           </div>
 
@@ -222,7 +222,7 @@ export default function AyudasBecasPage() {
       <section className="bg-[#F7F8FA] py-20">
         <Container>
           <div className="mb-12 text-center">
-            <Badge color="colegio">Proceso</Badge>
+            <Badge color="institutional">Proceso</Badge>
             <h2 className="mt-4 text-3xl font-extrabold text-[#0F172A]">Como solicitar una ayuda</h2>
           </div>
 

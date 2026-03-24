@@ -85,7 +85,7 @@ export default function RecursosPage() {
         <Container>
           <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
             <div>
-              <Badge color="formacion">Herramientas profesionales</Badge>
+              <Badge color="institutional">Herramientas profesionales</Badge>
 
               <h1 className="mt-6 text-3xl font-extrabold leading-tight text-[#0F172A] sm:text-4xl lg:text-5xl">
                 Recursos y Herramientas
@@ -149,7 +149,7 @@ export default function RecursosPage() {
       <section id="recursos" className="bg-[#F7F8FA] py-20">
         <Container>
           <div className="mb-12 text-center">
-            <Badge color="formacion">Catalogo</Badge>
+            <Badge color="institutional">Catalogo</Badge>
             <h2 className="mt-4 text-3xl font-extrabold text-[#0F172A]">Recursos disponibles</h2>
           </div>
 

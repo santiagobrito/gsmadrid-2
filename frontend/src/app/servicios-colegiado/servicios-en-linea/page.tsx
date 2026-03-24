@@ -108,7 +108,7 @@ export default function ServiciosEnLineaPage() {
         <Container>
           <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
             <div>
-              <Badge color="colegio">Digital</Badge>
+              <Badge color="institutional">Digital</Badge>
 
               <h1 className="mt-6 text-3xl font-extrabold leading-tight text-[#0F172A] sm:text-4xl lg:text-5xl">
                 Servicios en Linea
@@ -174,7 +174,7 @@ export default function ServiciosEnLineaPage() {
       <section id="servicios" className="bg-[#F7F8FA] py-20">
         <Container>
           <div className="mb-12 text-center">
-            <Badge color="formacion">Plataforma</Badge>
+            <Badge color="institutional">Plataforma</Badge>
             <h2 className="mt-4 text-3xl font-extrabold text-[#0F172A]">¿Que puedes hacer online?</h2>
           </div>
 
@@ -225,7 +225,7 @@ export default function ServiciosEnLineaPage() {
       <section className="bg-[#F7F8FA] py-20">
         <Container>
           <div className="mb-12 text-center">
-            <Badge color="colegio">Proceso</Badge>
+            <Badge color="institutional">Proceso</Badge>
             <h2 className="mt-4 text-3xl font-extrabold text-[#0F172A]">Como realizar un tramite online</h2>
           </div>
 

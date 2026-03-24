@@ -171,7 +171,7 @@ export default function HazteColegiadoPage() {
 
         <Container className="relative">
           <div className="mx-auto max-w-3xl text-center">
-            <Badge color="formacion">
+            <Badge color="colegio">
               Colegiacion
             </Badge>
 
@@ -259,7 +259,7 @@ export default function HazteColegiadoPage() {
       <section id="beneficios" className="py-20">
         <Container>
           <div className="mb-12 text-center">
-            <Badge color="formacion">Ventajas</Badge>
+            <Badge color="colegio">Ventajas</Badge>
             <h2 className="mt-4 text-3xl font-extrabold text-[#0F172A]">Beneficios para colegiados</h2>
             <p className="mt-2 text-[#475569]">Todo lo que obtienes al formar parte del Colegio</p>
           </div>
@@ -320,7 +320,7 @@ export default function HazteColegiadoPage() {
       <section className="bg-[#F7F8FA] py-20">
         <Container>
           <div className="mb-12 text-center">
-            <Badge color="institutional">Documentacion</Badge>
+            <Badge color="colegio">Documentacion</Badge>
             <h2 className="mt-4 text-3xl font-extrabold text-[#0F172A]">Documentacion para el alta colegial</h2>
           </div>
 
@@ -371,7 +371,7 @@ export default function HazteColegiadoPage() {
         <Container>
           <div className="mx-auto max-w-3xl">
             <div className="mb-12 text-center">
-              <Badge color="formacion">FAQ</Badge>
+              <Badge color="colegio">FAQ</Badge>
               <h2 className="mt-4 text-3xl font-extrabold text-[#0F172A]">Preguntas frecuentes</h2>
               <p className="mt-2 text-[#475569]">Todo lo que necesitas saber antes de dar el paso</p>
             </div>

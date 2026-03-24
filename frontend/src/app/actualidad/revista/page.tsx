@@ -82,7 +82,7 @@ export default function RevistaPage() {
                 </div>
               </div>
               <div className="flex flex-col justify-center">
-                <Badge color="colegio">Ultimo numero</Badge>
+                <Badge color="eventos">Ultimo numero</Badge>
                 <h2 className="mt-4 text-2xl font-extrabold text-[#0F172A] sm:text-3xl">
                   N.o {issues[0].number} — {issues[0].title}
                 </h2>
@@ -106,7 +106,7 @@ export default function RevistaPage() {
 
           {/* Archive */}
           <div className="mb-8 text-center">
-            <Badge color="formacion">Archivo</Badge>
+            <Badge color="eventos">Archivo</Badge>
             <h2 className="mt-4 text-2xl font-extrabold text-[#0F172A]">Numeros anteriores</h2>
           </div>
 
@@ -121,7 +121,7 @@ export default function RevistaPage() {
                 </div>
 
                 <div className="mb-2">
-                  <Badge color="institutional">Revista</Badge>
+                  <Badge color="eventos">Revista</Badge>
                 </div>
                 <h3 className="text-base font-bold text-[#0F172A]">{issue.title}</h3>
                 <div className="mt-2 flex items-center gap-2 text-xs text-[#6B7280]">

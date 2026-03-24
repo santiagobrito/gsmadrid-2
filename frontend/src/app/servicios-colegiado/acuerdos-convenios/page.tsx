@@ -85,7 +85,7 @@ export default function AcuerdosConveniosPage() {
         <Container>
           <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
             <div>
-              <Badge color="colegio">Ventajas exclusivas</Badge>
+              <Badge color="institutional">Ventajas exclusivas</Badge>
 
               <h1 className="mt-6 text-3xl font-extrabold leading-tight text-[#0F172A] sm:text-4xl lg:text-5xl">
                 Acuerdos y Convenios
@@ -146,7 +146,7 @@ export default function AcuerdosConveniosPage() {
       <section id="convenios" className="bg-[#F7F8FA] py-20">
         <Container>
           <div className="mb-12 text-center">
-            <Badge color="formacion">Categorias</Badge>
+            <Badge color="institutional">Categorias</Badge>
             <h2 className="mt-4 text-3xl font-extrabold text-[#0F172A]">Areas con convenios activos</h2>
           </div>
 
@@ -172,7 +172,7 @@ export default function AcuerdosConveniosPage() {
         <Container>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             <div>
-              <Badge color="colegio">Destacados</Badge>
+              <Badge color="institutional">Destacados</Badge>
               <h2 className="mt-4 text-3xl font-extrabold text-[#0F172A]">Convenios destacados</h2>
               <p className="mt-4 text-lg font-light text-[#475569]">
                 Algunos de los acuerdos mas relevantes que hemos conseguido para nuestros colegiados.

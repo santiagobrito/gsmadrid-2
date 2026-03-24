@@ -182,7 +182,7 @@ export default function ContactoPage() {
         {/* === SALA DE TOGAS === */}
         <div className="mt-12 rounded-2xl border border-[#E2E8F0] bg-white p-8 sm:p-10">
           <div className="mb-2">
-            <Badge color="colegio">Acceso exclusivo colegiados</Badge>
+            <Badge color="institutional">Acceso exclusivo colegiados</Badge>
           </div>
           <h2 className="text-2xl font-bold tracking-tight text-[#0F172A]">
             Sala de Togas

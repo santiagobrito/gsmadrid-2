@@ -160,7 +160,7 @@ export default function ClinicaJuridicaPage() {
       <section className="bg-[#F7F8FA] py-20">
         <Container>
           <div className="mb-12 text-center">
-            <Badge color="colegio">Destinatarios</Badge>
+            <Badge color="institutional">Destinatarios</Badge>
             <h2 className="mt-4 text-3xl font-extrabold text-[#0F172A]">¿A quien va dirigida?</h2>
             <p className="mt-2 text-[#475569]">
               Derecho laboral al alcance de quien mas lo necesita
@@ -188,7 +188,7 @@ export default function ClinicaJuridicaPage() {
       <section className="py-20">
         <Container>
           <div className="mb-12 text-center">
-            <Badge color="formacion">Areas</Badge>
+            <Badge color="institutional">Areas</Badge>
             <h2 className="mt-4 text-3xl font-extrabold text-[#0F172A]">En que materias podemos orientarte</h2>
           </div>
 
@@ -213,7 +213,7 @@ export default function ClinicaJuridicaPage() {
       <section id="como-funciona" className="bg-[#F7F8FA] py-20">
         <Container>
           <div className="mb-12 text-center">
-            <Badge color="colegio">Proceso</Badge>
+            <Badge color="institutional">Proceso</Badge>
             <h2 className="mt-4 text-3xl font-extrabold text-[#0F172A]">Como solicitar asesoramiento</h2>
           </div>
 

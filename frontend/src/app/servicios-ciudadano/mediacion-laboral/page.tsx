@@ -93,7 +93,7 @@ export default function MediacionLaboralPage() {
         <Container>
           <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
             <div>
-              <Badge color="colegio">Resolucion extrajudicial</Badge>
+              <Badge color="institutional">Resolucion extrajudicial</Badge>
 
               <h1 className="mt-6 text-3xl font-extrabold leading-tight text-[#0F172A] sm:text-4xl lg:text-5xl">
                 Mediacion Laboral
@@ -155,7 +155,7 @@ export default function MediacionLaboralPage() {
       <section className="bg-[#F7F8FA] py-20">
         <Container>
           <div className="mb-12 text-center">
-            <Badge color="formacion">Ventajas</Badge>
+            <Badge color="institutional">Ventajas</Badge>
             <h2 className="mt-4 text-3xl font-extrabold text-[#0F172A]">¿Por que mediar en vez de litigar?</h2>
           </div>
 
@@ -221,7 +221,7 @@ export default function MediacionLaboralPage() {
       <section className="bg-[#F7F8FA] py-20">
         <Container>
           <div className="mb-12 text-center">
-            <Badge color="colegio">Proceso</Badge>
+            <Badge color="institutional">Proceso</Badge>
             <h2 className="mt-4 text-3xl font-extrabold text-[#0F172A]">Como funciona la mediacion</h2>
           </div>
 
