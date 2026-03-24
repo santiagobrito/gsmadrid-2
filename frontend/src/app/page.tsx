@@ -1,4 +1,4 @@
-import { Hero } from '@/components/sections/Hero';
+import { Hero, HeroSlide } from '@/components/sections/Hero';
 import { QuickAccess } from '@/components/sections/QuickAccess';
 import { UpcomingEvents, UpcomingItem } from '@/components/sections/UpcomingEvents';
 import { CalendarWidget } from '@/components/sections/CalendarWidget';
@@ -109,7 +109,7 @@ export default async function HomePage() {
     title: f.title,
     time: f.formacionFields?.horario || '',
     location: f.formacionFields?.lugar || '',
-    href: `/formacion-eventos/${f.slug}`,
+    href: `/formacion/${f.slug}`,
     type: 'formacion' as const,
   }));
 
@@ -137,7 +137,7 @@ export default async function HomePage() {
       time: f.formacionFields?.horario || '',
       location: f.formacionFields?.lugar || '',
       type: 'formacion',
-      href: `/formacion-eventos/${f.slug}`,
+      href: `/formacion/${f.slug}`,
       imageUrl: f.featuredImage?.node?.sourceUrl,
       sticky: false,
     })),
@@ -160,6 +160,57 @@ export default async function HomePage() {
     }),
   ];
 
+  // Build hero slides from real data
+  const heroSlides: HeroSlide[] = [];
+
+  // Add latest 2 posts as "noticia" slides
+  for (const p of posts.slice(0, 2)) {
+    heroSlides.push({
+      id: `post-${p.slug}`,
+      type: 'noticia',
+      title: p.title,
+      excerpt: p.excerpt.slice(0, 120) + (p.excerpt.length > 120 ? '...' : ''),
+      href: `/actualidad/${p.slug}`,
+      date: p.date,
+      image: p.imageUrl,
+    });
+  }
+
+  // Add next upcoming formacion as "destacado"
+  const nextFormacion = formaciones.find((f) => {
+    const fecha = f.formacionFields?.fechaInicio;
+    return fecha && new Date(fecha) >= new Date();
+  });
+  if (nextFormacion) {
+    heroSlides.push({
+      id: `form-${nextFormacion.slug}`,
+      type: 'destacado',
+      title: nextFormacion.title,
+      excerpt: `${nextFormacion.formacionFields?.horario || ''} · ${nextFormacion.formacionFields?.lugar || 'Sede del Colegio'}`,
+      href: `/formacion/${nextFormacion.slug}`,
+      date: nextFormacion.formacionFields?.fechaInicio ? formatDate(nextFormacion.formacionFields.fechaInicio) : '',
+      pinned: true,
+      image: nextFormacion.featuredImage?.node?.sourceUrl,
+    });
+  }
+
+  // Add next upcoming evento
+  const nextEvento = eventos.find((e) => {
+    const fecha = e.eventoFields?.fechaInicio;
+    return fecha && new Date(fecha) >= new Date();
+  });
+  if (nextEvento) {
+    heroSlides.push({
+      id: `evt-${nextEvento.slug}`,
+      type: 'evento',
+      title: nextEvento.title,
+      excerpt: `${nextEvento.eventoFields?.horario || ''} · ${nextEvento.eventoFields?.lugar || 'Sede del Colegio'}`,
+      href: `/eventos/${nextEvento.slug}`,
+      date: nextEvento.eventoFields?.fechaInicio ? formatDate(nextEvento.eventoFields.fechaInicio) : '',
+      image: nextEvento.featuredImage?.node?.sourceUrl,
+    });
+  }
+
   return (
     <>
       <script
@@ -168,7 +219,7 @@ export default async function HomePage() {
           __html: JSON.stringify(organizationSchema()),
         }}
       />
-      <Hero />
+      <Hero slides={heroSlides.length > 0 ? heroSlides : undefined} />
       <QuickAccess />
 
       {/* Upcoming events — formaciones + eventos combined */}
