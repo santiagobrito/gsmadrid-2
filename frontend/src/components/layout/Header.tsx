@@ -70,7 +70,7 @@ const MENU: MenuGroup[] = [
     href: '/formacion-eventos',
     children: [
       { label: 'Agenda', href: '/formacion-eventos' },
-      { label: 'Formacion', href: '/formacion-eventos' },
+      { label: 'Formacion', href: '/formacion' },
       { label: 'Eventos', href: '/eventos' },
     ],
   },

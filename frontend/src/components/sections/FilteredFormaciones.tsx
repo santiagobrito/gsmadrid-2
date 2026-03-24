@@ -33,9 +33,13 @@ const filterConfig: { key: FilterType; label: string }[] = [
 
 interface FilteredFormacionesProps {
   formaciones: FormacionItem[];
+  title?: string;
+  subtitle?: string;
+  badgeLabel?: string;
+  slugPrefix?: string;
 }
 
-export function FilteredFormaciones({ formaciones }: FilteredFormacionesProps) {
+export function FilteredFormaciones({ formaciones, title = 'Formacion y Eventos', subtitle = 'Jornadas, seminarios, cursos y eventos organizados por el Colegio. Inscripcion abierta para colegiados y publico general.', badgeLabel = 'Formacion', slugPrefix = '/formacion-eventos' }: FilteredFormacionesProps) {
   const [activeFilter, setActiveFilter] = useState<FilterType>('todos');
 
   const abiertas = formaciones.filter((f) => f.estado !== 'Finalizada');
@@ -53,9 +57,9 @@ export function FilteredFormaciones({ formaciones }: FilteredFormacionesProps) {
     <section className="py-24">
       <Container>
         <SectionHeading
-          badge="Formacion"
-          title="Formacion y Eventos"
-          subtitle="Jornadas, seminarios, cursos y eventos organizados por el Colegio. Inscripcion abierta para colegiados y publico general."
+          badge={badgeLabel}
+          title={title}
+          subtitle={subtitle}
         />
 
         {/* Filter badges */}
@@ -79,7 +83,7 @@ export function FilteredFormaciones({ formaciones }: FilteredFormacionesProps) {
         {filteredAbiertas.length > 0 ? (
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {filteredAbiertas.map((f) => (
-              <Link key={f.slug} href={`/formacion-eventos/${f.slug}`} className="group">
+              <Link key={f.slug} href={`${slugPrefix}/${f.slug}`} className="group">
                 <Card className="flex h-full flex-col">
                   {/* Image */}
                   <div className="-mx-7 -mt-7 mb-5 overflow-hidden rounded-t-2xl">
@@ -151,7 +155,7 @@ export function FilteredFormaciones({ formaciones }: FilteredFormacionesProps) {
             <h2 className="mb-8 text-center text-2xl font-bold text-text">Formaciones anteriores</h2>
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
               {pasadas.map((f) => (
-                <Link key={f.slug} href={`/formacion-eventos/${f.slug}`} className="group">
+                <Link key={f.slug} href={`${slugPrefix}/${f.slug}`} className="group">
                   <Card className="flex h-full flex-col opacity-70 transition-opacity hover:opacity-100">
                     <div className="mb-3 flex items-center gap-2">
                       <Lock size={14} className="text-text-tertiary" strokeWidth={1.5} />
