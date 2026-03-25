@@ -240,17 +240,6 @@ export default async function FormacionDetailPage({ params }: PageProps) {
                 />
               )}
 
-              {/* Programa from ACF field */}
-              {f.programa && (
-                <div className="mt-10">
-                  <h2 className="mb-4 text-2xl font-bold text-text">Programa</h2>
-                  <div
-                    className="prose prose-slate max-w-none"
-                    dangerouslySetInnerHTML={{ __html: f.programa }}
-                  />
-                </div>
-              )}
-
               {/* Ponentes from ACF repeater */}
               {f.ponentes && f.ponentes.length > 0 && (
                 <div className="mt-10">
@@ -261,6 +250,17 @@ export default async function FormacionDetailPage({ params }: PageProps) {
                     foto: p.foto?.node?.sourceUrl,
                     linkedin: p.linkedin,
                   }))} />
+                </div>
+              )}
+
+              {/* Programa from ACF field */}
+              {f.programa && (
+                <div className="mt-10">
+                  <h2 className="mb-4 text-2xl font-bold text-text">Programa</h2>
+                  <div
+                    className="prose prose-slate max-w-none"
+                    dangerouslySetInnerHTML={{ __html: f.programa }}
+                  />
                 </div>
               )}
 
