@@ -91,20 +91,47 @@ function determineEstado(estado?: string | null, fechaInicio?: string | null): F
 }
 
 function extractPrices(precios?: { concepto: string; importe: number; nota?: string }[] | null) {
-  const defaults = { presencial: 0, online: 0 };
+  const defaults = { presencial: 0, online: 0, hibrido: 0 };
   if (!precios || precios.length === 0) return { colegiado: defaults, precolegiado: defaults, externo: defaults };
 
-  const byConcepto = (concepto: string) => {
-    const p = precios.find((pr) => pr.concepto?.toLowerCase().includes(concepto));
-    return p ? p.importe : null;
-  };
+  function findPrice(profile: string, modality: string): number | null {
+    const profileAliases: string[] = profile === 'externo'
+      ? ['externo', 'general', 'no colegiado']
+      : profile === 'precolegiado'
+        ? ['precolegiado', 'pre-colegiado', 'pre colegiado']
+        : [profile];
 
-  const externoPrice = byConcepto('externo') ?? byConcepto('general') ?? 0;
+    for (const alias of profileAliases) {
+      const exact = precios!.find((pr) => {
+        const c = pr.concepto?.toLowerCase() || '';
+        return c.includes(alias) && c.includes(modality);
+      });
+      if (exact) return exact.importe ?? 0;
+    }
+
+    for (const alias of profileAliases) {
+      const fallback = precios!.find((pr) => {
+        const c = pr.concepto?.toLowerCase() || '';
+        return c.includes(alias) && !c.includes('presencial') && !c.includes('online') && !c.includes('híbrido') && !c.includes('hibrido');
+      });
+      if (fallback) return fallback.importe ?? 0;
+    }
+
+    return null;
+  }
+
+  function profilePrices(profile: string) {
+    return {
+      presencial: findPrice(profile, 'presencial') ?? findPrice(profile, '') ?? 0,
+      online: findPrice(profile, 'online') ?? findPrice(profile, '') ?? 0,
+      hibrido: findPrice(profile, 'híbrido') ?? findPrice(profile, 'hibrido') ?? findPrice(profile, '') ?? 0,
+    };
+  }
 
   return {
-    colegiado: { presencial: byConcepto('colegiado') ?? 0, online: byConcepto('colegiado') ?? 0 },
-    precolegiado: { presencial: byConcepto('precolegiado') ?? byConcepto('pre-colegiado') ?? byConcepto('pre colegiado') ?? 0, online: byConcepto('precolegiado') ?? byConcepto('pre-colegiado') ?? byConcepto('pre colegiado') ?? 0 },
-    externo: { presencial: externoPrice, online: externoPrice },
+    colegiado: profilePrices('colegiado'),
+    precolegiado: profilePrices('precolegiado'),
+    externo: profilePrices('externo'),
   };
 }
 
