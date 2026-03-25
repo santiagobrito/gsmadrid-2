@@ -28,3 +28,4 @@ require_once __DIR__ . '/inc/email-bienvenida.php';
 require_once __DIR__ . '/inc/api/inscripcion.php';
 require_once __DIR__ . '/inc/api/contacto.php';
 require_once __DIR__ . '/inc/api/colegiacion.php';
+require_once __DIR__ . '/inc/api/stripe.php';

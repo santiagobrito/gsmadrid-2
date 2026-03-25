@@ -63,7 +63,8 @@ function gsmadrid_handle_inscripcion($request) {
             'nombre' => $nombre, 'email' => $email, 'telefono' => $telefono,
             'empresa' => $empresa, 'perfil' => $perfil, 'numero_colegiado' => $numero_colegiado,
             'modalidad' => $modalidad, 'precio' => $precio,
-            'fecha' => current_time('mysql'), 'estado' => 'pendiente',
+            'fecha' => current_time('mysql'),
+            'estado' => ($precio > 0) ? 'pendiente_pago' : 'confirmado',
         ];
         update_post_meta($formacion_id, '_inscripciones', $inscripciones);
     }
@@ -89,5 +90,9 @@ function gsmadrid_handle_inscripcion($request) {
 
     wp_mail($email, "Confirmacion de inscripcion — {$formacion_title}", $user_body, ['From: CGSM <admon@graduadosocialmadrid.org>']);
 
-    return new WP_REST_Response(['success' => true, 'message' => 'Inscripcion registrada correctamente.'], 200);
+    return new WP_REST_Response([
+        'success'        => true,
+        'message'        => 'Inscripcion registrada correctamente.',
+        'requires_payment' => $precio > 0,
+    ], 200);
 }
