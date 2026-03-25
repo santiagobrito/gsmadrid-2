@@ -7,6 +7,8 @@ import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
+import { TableOfContents } from '@/components/sections/TableOfContents';
+import { ShareButtons } from '@/components/sections/ShareButtons';
 import { createMetadata } from '@/lib/seo/metadata';
 import { fetchGraphQL } from '@/lib/graphql/client';
 import { GET_POST_BY_SLUG, GET_POST_SLUGS, GET_POSTS } from '@/lib/graphql/queries/posts';
@@ -165,6 +167,12 @@ export default async function PostDetailPage({ params }: PageProps) {
                     </a>
                   </Card>
                 )}
+
+                {/* Table of contents */}
+                {post.content && <TableOfContents content={post.content} />}
+
+                {/* Share */}
+                <ShareButtons title={post.title} />
               </div>
             </aside>
 

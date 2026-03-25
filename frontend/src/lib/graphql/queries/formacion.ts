@@ -35,12 +35,6 @@ export const FORMACION_FIELDS = gql`
         nombre
         cargo
         bio
-        foto {
-          node {
-            sourceUrl
-          }
-        }
-        linkedin
       }
       lugar
       plazas
