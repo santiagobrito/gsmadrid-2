@@ -181,12 +181,9 @@ export function Hero({ slides = defaultSlides }: HeroProps) {
           <div
             className="relative select-none"
             onMouseEnter={() => setPaused(true)}
-            onMouseLeave={() => { setPaused(false); dragRef.current.isDragging = false; }}
-            onMouseDown={onMouseDown}
-            onMouseUp={onMouseUp}
+            onMouseLeave={() => setPaused(false)}
             onTouchStart={onTouchStart}
             onTouchEnd={onTouchEnd}
-            style={{ cursor: sortedSlides.length > 1 ? 'grab' : undefined }}
           >
             <div className="relative min-h-[340px]">
               {slide && (
@@ -199,16 +196,18 @@ export function Hero({ slides = defaultSlides }: HeroProps) {
                   )}
 
                   <div className="p-7">
-                    {/* Image */}
-                    {slide.image ? (
-                      <div className="mb-4 aspect-[16/9] overflow-hidden rounded-xl">
-                        <Image src={slide.image} alt={slide.title} width={600} height={340} className="h-full w-full object-cover" />
-                      </div>
-                    ) : (
-                      <div className="mb-4 flex aspect-[16/9] items-center justify-center rounded-xl bg-bg-alt border border-border">
-                        <span className="text-xs text-text-tertiary">Imagen destacada</span>
-                      </div>
-                    )}
+                    {/* Image (clickable) */}
+                    <Link href={slide.href}>
+                      {slide.image ? (
+                        <div className="mb-4 aspect-[16/9] overflow-hidden rounded-xl">
+                          <Image src={slide.image} alt={slide.title} width={600} height={340} className="h-full w-full object-cover transition-transform duration-300 hover:scale-[1.02]" />
+                        </div>
+                      ) : (
+                        <div className="mb-4 flex aspect-[16/9] items-center justify-center rounded-xl bg-bg-alt border border-border">
+                          <span className="text-xs text-text-tertiary">Imagen destacada</span>
+                        </div>
+                      )}
+                    </Link>
 
                     {/* Type badge */}
                     <div className="mb-4 flex items-center gap-2">
@@ -221,10 +220,12 @@ export function Hero({ slides = defaultSlides }: HeroProps) {
                       )}
                     </div>
 
-                    {/* Title */}
-                    <h2 className="mb-3 text-xl font-bold leading-tight text-text sm:text-2xl">
-                      {slide.title}
-                    </h2>
+                    {/* Title (clickable) */}
+                    <Link href={slide.href}>
+                      <h2 className="mb-3 text-xl font-bold leading-tight text-text transition-colors hover:text-primary sm:text-2xl">
+                        {slide.title}
+                      </h2>
+                    </Link>
 
                     {/* Excerpt */}
                     <p className="mb-6 text-sm font-light leading-relaxed text-text-secondary sm:text-base">
