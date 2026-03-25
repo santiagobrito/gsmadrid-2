@@ -106,7 +106,7 @@ function gsmadrid_stripe_create_session($request) {
         ? GSMADRID_FRONTEND_URL
         : 'https://gsmadrid.uptomarketing.com';
 
-    $success_url = $frontend_url . '/formacion/' . $formacion_slug . '?pago=ok&session_id={CHECKOUT_SESSION_ID}';
+    $success_url = $frontend_url . '/inscripcion-exitosa?session_id={CHECKOUT_SESSION_ID}';
     $cancel_url  = $frontend_url . '/formacion/' . $formacion_slug . '?pago=cancelado';
 
     // Create Stripe Checkout session
