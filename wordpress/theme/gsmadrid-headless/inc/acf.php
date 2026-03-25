@@ -1,20 +1,11 @@
 <?php
 /**
- * ACF Pro configuration: JSON sync + Options page + GraphQL support
+ * ACF Pro configuration: Options page + GraphQL support
+ *
+ * JSON sync DISABLED — ACF reads from the database only.
+ * The acf-json/ files in the repo serve as backup/documentation.
+ * To restore field groups: WP Admin → Custom Fields → Tools → Import.
  */
-
-// JSON sync paths
-add_filter('acf/settings/save_json', 'gsmadrid_acf_save_json');
-function gsmadrid_acf_save_json($path) {
-    return get_stylesheet_directory() . '/acf-json';
-}
-
-add_filter('acf/settings/load_json', 'gsmadrid_acf_load_json');
-function gsmadrid_acf_load_json($paths) {
-    unset($paths[0]);
-    $paths[] = get_stylesheet_directory() . '/acf-json';
-    return $paths;
-}
 
 // GraphQL + Options page
 add_action('init', 'gsmadrid_graphql_acf_support');
