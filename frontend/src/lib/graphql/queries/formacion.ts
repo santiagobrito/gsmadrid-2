@@ -20,6 +20,12 @@ export const FORMACION_FIELDS = gql`
         }
       }
     }
+    modalidades {
+      nodes {
+        name
+        slug
+      }
+    }
     formacionFields {
       fechaInicio
       fechaFin
@@ -44,12 +50,6 @@ export const FORMACION_FIELDS = gql`
         concepto
         importe
         nota
-      }
-      modalidades {
-        nodes {
-          name
-          slug
-        }
       }
       programa
       urlInscripcion

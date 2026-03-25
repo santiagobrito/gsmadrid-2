@@ -73,14 +73,14 @@ export interface FormacionFields {
   urlInscripcion?: string;
   estado?: 'abierta' | 'cerrada' | 'completa' | 'cancelada';
   diploma?: DiplomaFields;
-  modalidades?: {
-    nodes: { name: string; slug: string }[];
-  };
 }
 
 // Formacion (evento formativo)
 export interface Formacion extends WPNode {
   formacionFields: FormacionFields;
+  modalidades?: {
+    nodes: { name: string; slug: string }[];
+  };
   content?: string;
   excerpt?: string;
   featuredImage?: FeaturedImage;

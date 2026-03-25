@@ -115,8 +115,8 @@ export default async function FormacionDetailPage({ params }: PageProps) {
   if (!formacion) notFound();
 
   const f = formacion.formacionFields;
-  const modalidadNames = getModalidades(f.modalidades?.nodes);
-  const modalidadesDisponibles = getModalidadesDisponibles(f.modalidades?.nodes);
+  const modalidadNames = getModalidades(formacion.modalidades?.nodes);
+  const modalidadesDisponibles = getModalidadesDisponibles(formacion.modalidades?.nodes);
   const estado = determineEstado(f.estado, f.fechaInicio);
   const prices = extractPrices(f.precios);
   const isPast = estado === 'Finalizada' || estado === 'Completa' || estado === 'Cancelada';
