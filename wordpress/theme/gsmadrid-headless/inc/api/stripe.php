@@ -164,11 +164,49 @@ function gsmadrid_stripe_create_session($request) {
  * Handles Stripe webhook events (checkout.session.completed).
  * Updates inscription estado from pendiente_pago to pagado.
  */
+function gsmadrid_get_webhook_secret() {
+    if (defined('STRIPE_WEBHOOK_SECRET')) return STRIPE_WEBHOOK_SECRET;
+    return get_option('gsmadrid_stripe_webhook_secret', '');
+}
+
+function gsmadrid_verify_stripe_signature($payload, $sig_header, $secret) {
+    if (!$secret || !$sig_header) return false;
+
+    $elements = explode(',', $sig_header);
+    $timestamp = null;
+    $signatures = [];
+    foreach ($elements as $el) {
+        $parts = explode('=', trim($el), 2);
+        if (count($parts) === 2) {
+            if ($parts[0] === 't') $timestamp = $parts[1];
+            if ($parts[0] === 'v1') $signatures[] = $parts[1];
+        }
+    }
+
+    if (!$timestamp || empty($signatures)) return false;
+
+    // Reject if older than 5 minutes
+    if (abs(time() - intval($timestamp)) > 300) return false;
+
+    $signed_payload = $timestamp . '.' . $payload;
+    $expected = hash_hmac('sha256', $signed_payload, $secret);
+
+    foreach ($signatures as $sig) {
+        if (hash_equals($expected, $sig)) return true;
+    }
+    return false;
+}
+
 function gsmadrid_stripe_webhook($request) {
     $payload = $request->get_body();
     $sig     = $request->get_header('stripe-signature');
 
-    // Parse the event (in production, verify signature with webhook secret)
+    // Verify webhook signature
+    $webhook_secret = gsmadrid_get_webhook_secret();
+    if ($webhook_secret && !gsmadrid_verify_stripe_signature($payload, $sig, $webhook_secret)) {
+        return new WP_REST_Response(['error' => 'Invalid signature'], 403);
+    }
+
     $event = json_decode($payload, true);
     if (!$event || !isset($event['type'])) {
         return new WP_REST_Response(['error' => 'Invalid payload'], 400);

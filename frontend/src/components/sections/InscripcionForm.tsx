@@ -485,6 +485,8 @@ export function InscripcionForm({
                 setSubmitting(true);
                 setError(null);
                 try {
+                  const price = getPrice();
+                  // Step 1: Register inscription
                   const res = await fetch(`${WP_API}/wp-json/gsmadrid/v1/inscripcion`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -497,15 +499,41 @@ export function InscripcionForm({
                       empresa: datos.empresa,
                       numero_colegiado: numeroColegiado,
                       modalidad: finalModalidad || 'presencial',
-                      precio: getPrice(),
+                      precio: price,
                     }),
                   });
                   const data = await res.json();
-                  if (data.success) {
-                    setSubmitted(true);
-                  } else {
+                  if (!data.success) {
                     setError(data.message || 'Error al procesar la inscripcion.');
+                    return;
                   }
+
+                  // Step 2: If price > 0, create Stripe session and redirect
+                  if (price > 0 && data.requires_payment) {
+                    const stripeRes = await fetch(`${WP_API}/wp-json/gsmadrid/v1/stripe/create-session`, {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        formacion_slug: formacionSlug || '',
+                        email: datos.email,
+                        nombre: datos.nombre,
+                        precio: price,
+                        modalidad: finalModalidad || 'presencial',
+                        perfil,
+                      }),
+                    });
+                    const stripeData = await stripeRes.json();
+                    if (stripeData.success && stripeData.checkout_url) {
+                      window.location.href = stripeData.checkout_url;
+                      return;
+                    } else {
+                      setError(stripeData.message || 'Error al crear sesion de pago.');
+                      return;
+                    }
+                  }
+
+                  // Free inscription — show success
+                  setSubmitted(true);
                 } catch {
                   setError('Error de conexion. Intentalo de nuevo.');
                 } finally {
