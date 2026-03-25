@@ -6,6 +6,16 @@ import type { Profesional } from '@/lib/types';
 import { DirectorioSearch } from '@/components/sections/DirectorioSearch';
 import { createMetadata } from '@/lib/seo/metadata';
 
+// ACF image fields may return different structures depending on WPGraphQL for ACF version
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function getAcfImageUrl(field: any): string | null {
+  if (!field) return null;
+  if (field?.node?.sourceUrl) return field.node.sourceUrl;
+  if (field?.sourceUrl) return field.sourceUrl;
+  if (typeof field === 'string' && field.startsWith('http')) return field;
+  return null;
+}
+
 export const revalidate = 60;
 
 export const metadata = createMetadata({
@@ -56,7 +66,7 @@ export default async function DirectorioPage() {
           localidad: p.profesionalFields.direccion || '',
           ejerciente: p.profesionalFields.ejerciente,
           mediador: p.profesionalFields.mediadorRegistrado,
-          fotoUrl: p.profesionalFields.foto?.node?.sourceUrl || null,
+          fotoUrl: getAcfImageUrl(p.profesionalFields.foto),
         }));
     }
   } catch {

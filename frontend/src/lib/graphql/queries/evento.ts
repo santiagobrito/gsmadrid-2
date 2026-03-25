@@ -40,6 +40,17 @@ export const EVENTO_FIELDS = gql`
         }
       }
       soloColegiados
+      ponentes {
+        nombre
+        cargo
+        bio
+        foto {
+          node {
+            sourceUrl
+          }
+        }
+        linkedin
+      }
     }
   }
 `;

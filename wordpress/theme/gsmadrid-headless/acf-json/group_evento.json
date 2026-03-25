@@ -150,6 +150,69 @@
                 "ui": 1,
                 "show_in_graphql": 1,
                 "wrapper": { "width": "50", "class": "", "id": "" }
+            },
+            {
+                "key": "field_evento_ponentes",
+                "label": "Ponentes / Participantes",
+                "name": "ponentes",
+                "type": "repeater",
+                "required": 0,
+                "show_in_graphql": 1,
+                "layout": "table",
+                "button_label": "Agregar ponente",
+                "collapsed": "field_evento_ponente_nombre",
+                "sub_fields": [
+                    {
+                        "key": "field_evento_ponente_nombre",
+                        "label": "Nombre",
+                        "name": "nombre",
+                        "type": "text",
+                        "required": 1,
+                        "show_in_graphql": 1,
+                        "wrapper": { "width": "25", "class": "", "id": "" }
+                    },
+                    {
+                        "key": "field_evento_ponente_cargo",
+                        "label": "Cargo / Puesto",
+                        "name": "cargo",
+                        "type": "text",
+                        "required": 0,
+                        "show_in_graphql": 1,
+                        "wrapper": { "width": "25", "class": "", "id": "" }
+                    },
+                    {
+                        "key": "field_evento_ponente_bio",
+                        "label": "Bio breve",
+                        "name": "bio",
+                        "type": "textarea",
+                        "required": 0,
+                        "rows": 3,
+                        "show_in_graphql": 1,
+                        "wrapper": { "width": "50", "class": "", "id": "" }
+                    },
+                    {
+                        "key": "field_evento_ponente_foto",
+                        "label": "Foto",
+                        "name": "foto",
+                        "type": "image",
+                        "required": 0,
+                        "return_format": "array",
+                        "preview_size": "thumbnail",
+                        "library": "all",
+                        "mime_types": "jpg,jpeg,png,webp",
+                        "show_in_graphql": 1,
+                        "wrapper": { "width": "25", "class": "", "id": "" }
+                    },
+                    {
+                        "key": "field_evento_ponente_linkedin",
+                        "label": "LinkedIn",
+                        "name": "linkedin",
+                        "type": "url",
+                        "required": 0,
+                        "show_in_graphql": 1,
+                        "wrapper": { "width": "25", "class": "", "id": "" }
+                    }
+                ]
             }
         ],
         "location": [

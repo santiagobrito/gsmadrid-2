@@ -1,6 +1,8 @@
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { Calendar, Clock, MapPin, Users, ArrowLeft, FileText } from 'lucide-react';
+import { PonentesGrid } from '@/components/sections/PonentesGrid';
+import { ShareButtons } from '@/components/sections/ShareButtons';
 import { Container } from '@/components/ui/Container';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
@@ -43,6 +45,13 @@ interface EventoNode {
     programa: string | null;
     documento: string | null;
     soloColegiados: boolean | null;
+    ponentes?: {
+      nombre: string;
+      cargo?: string;
+      bio?: string;
+      foto?: { node: { sourceUrl: string } } | null;
+      linkedin?: string;
+    }[] | null;
   } | null;
 }
 
@@ -234,6 +243,19 @@ export default async function EventoDetailPage({ params }: PageProps) {
                 </div>
               )}
 
+              {/* Ponentes */}
+              {f.ponentes && f.ponentes.length > 0 && (
+                <div className="mt-10">
+                  <PonentesGrid ponentes={f.ponentes.map((p) => ({
+                    nombre: p.nombre,
+                    cargo: p.cargo || '',
+                    bio: p.bio,
+                    foto: p.foto?.node?.sourceUrl,
+                    linkedin: p.linkedin,
+                  }))} />
+                </div>
+              )}
+
               <div className="mt-10">
                 <Button variant="outline" href="/eventos">
                   <ArrowLeft size={16} strokeWidth={1.5} className="mr-1" />
@@ -291,6 +313,8 @@ export default async function EventoDetailPage({ params }: PageProps) {
                   <h4 className="mb-2 text-sm font-semibold text-text">Organizador</h4>
                   <p className="text-sm text-text-secondary">{organizador}</p>
                 </Card>
+
+                <ShareButtons title={evento.title} />
               </div>
             </div>
           </div>

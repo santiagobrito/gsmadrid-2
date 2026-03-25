@@ -20,7 +20,7 @@ export function ShareButtons({ title }: ShareButtonsProps) {
   };
 
   const btnClass =
-    'flex h-9 w-9 items-center justify-center rounded-full border border-border text-text-secondary transition hover:border-primary hover:text-primary';
+    'flex h-9 w-9 items-center justify-center rounded-full border border-border text-text-secondary transition cursor-pointer hover:border-primary hover:text-primary';
 
   return (
     <div className="rounded-2xl border border-border bg-white p-5">

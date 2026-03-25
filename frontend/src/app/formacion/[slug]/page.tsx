@@ -252,6 +252,8 @@ export default async function FormacionDetailPage({ params }: PageProps) {
                     nombre: p.nombre,
                     cargo: p.cargo || '',
                     bio: p.bio,
+                    foto: p.foto?.node?.sourceUrl,
+                    linkedin: p.linkedin,
                   }))} />
                 </div>
               )}

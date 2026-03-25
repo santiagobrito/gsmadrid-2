@@ -12,6 +12,19 @@ import { GET_PROFESIONAL_BY_SLUG, GET_PROFESIONAL_SLUGS } from '@/lib/graphql/qu
 import type { Profesional } from '@/lib/types';
 import type { Metadata } from 'next';
 
+// ACF image fields may return different structures depending on WPGraphQL for ACF version
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function getAcfImageUrl(field: any): string | undefined {
+  if (!field) return undefined;
+  // Connection pattern: { node: { sourceUrl } }
+  if (field?.node?.sourceUrl) return field.node.sourceUrl;
+  // Direct MediaItem: { sourceUrl }
+  if (field?.sourceUrl) return field.sourceUrl;
+  // URL string
+  if (typeof field === 'string' && field.startsWith('http')) return field;
+  return undefined;
+}
+
 type PageProps = {
   params: Promise<{ slug: string }>;
 };
@@ -87,6 +100,7 @@ export default async function ProfesionalDetailPage({ params }: PageProps) {
 
   const idiomas: string[] = Array.isArray(p.idiomas) ? p.idiomas : [];
   const bioClean = p.bio ? stripHtmlToText(p.bio) : '';
+  const fotoUrl = getAcfImageUrl(p.foto);
 
   const schema = {
     '@context': 'https://schema.org',
@@ -104,7 +118,7 @@ export default async function ProfesionalDetailPage({ params }: PageProps) {
     ...(p.email && { email: p.email }),
     ...(p.web && { url: p.web }),
     ...(p.linkedin && { sameAs: [p.linkedin] }),
-    ...(p.foto?.node?.sourceUrl && { image: p.foto.node.sourceUrl }),
+    ...(fotoUrl && { image: fotoUrl }),
     ...(bioClean && { description: bioClean.slice(0, 300) }),
   };
 
@@ -127,11 +141,11 @@ export default async function ProfesionalDetailPage({ params }: PageProps) {
             <div className="lg:col-span-1">
               <Card hover={false} className="sticky top-[102px]">
                 {/* Avatar / Photo */}
-                {p.foto?.node?.sourceUrl ? (
+                {fotoUrl ? (
                   <div className="mx-auto h-24 w-24 overflow-hidden rounded-full">
                     <Image
-                      src={p.foto.node.sourceUrl}
-                      alt={p.foto.node.altText || nombre}
+                      src={fotoUrl}
+                      alt={nombre}
                       width={96}
                       height={96}
                       className="h-full w-full object-cover"
