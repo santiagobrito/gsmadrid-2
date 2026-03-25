@@ -32,3 +32,6 @@ require_once __DIR__ . '/inc/api/stripe.php';
 
 // Admin panel: inscripciones por formacion/evento
 require_once __DIR__ . '/inc/admin-inscripciones.php';
+
+// Admin: colored menu items for key sections
+require_once __DIR__ . '/inc/admin-styles.php';
