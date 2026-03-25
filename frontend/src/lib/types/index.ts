@@ -35,13 +35,19 @@ export interface Ponente {
   nombre: string;
   cargo?: string;
   bio?: string;
+  foto?: {
+    node: {
+      sourceUrl: string;
+    };
+  };
+  linkedin?: string;
 }
 
 // Precio repeater
 export interface Precio {
-  tipo: string;
+  concepto: string;
   importe: number;
-  descripcion?: string;
+  nota?: string;
 }
 
 // Diploma fields
@@ -67,6 +73,9 @@ export interface FormacionFields {
   urlInscripcion?: string;
   estado?: 'abierta' | 'cerrada' | 'completa' | 'cancelada';
   diploma?: DiplomaFields;
+  modalidades?: {
+    nodes: { name: string; slug: string }[];
+  };
 }
 
 // Formacion (evento formativo)

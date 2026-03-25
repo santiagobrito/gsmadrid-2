@@ -29,13 +29,27 @@ export const FORMACION_FIELDS = gql`
         nombre
         cargo
         bio
+        foto {
+          node {
+            sourceUrl
+          }
+        }
+        linkedin
       }
       lugar
       plazas
       tipoAcceso
       esGratuito
       precios {
+        concepto
         importe
+        nota
+      }
+      modalidades {
+        nodes {
+          name
+          slug
+        }
       }
       programa
       urlInscripcion

@@ -170,6 +170,50 @@
                         "rows": 3,
                         "placeholder": "",
                         "new_lines": "br"
+                    },
+                    {
+                        "key": "field_formacion_ponentes_foto",
+                        "label": "Foto",
+                        "name": "foto",
+                        "aria-label": "",
+                        "type": "image",
+                        "instructions": "Foto del ponente",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "50",
+                            "class": "",
+                            "id": ""
+                        },
+                        "show_in_graphql": 1,
+                        "return_format": "array",
+                        "library": "all",
+                        "min_width": "",
+                        "min_height": "",
+                        "min_size": "",
+                        "max_width": "",
+                        "max_height": "",
+                        "max_size": "",
+                        "mime_types": "jpg,jpeg,png,webp",
+                        "preview_size": "thumbnail"
+                    },
+                    {
+                        "key": "field_formacion_ponentes_linkedin",
+                        "label": "LinkedIn",
+                        "name": "linkedin",
+                        "aria-label": "",
+                        "type": "url",
+                        "instructions": "URL del perfil de LinkedIn",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "50",
+                            "class": "",
+                            "id": ""
+                        },
+                        "show_in_graphql": 1,
+                        "default_value": "",
+                        "placeholder": "https://linkedin.com/in/..."
                     }
                 ]
             },

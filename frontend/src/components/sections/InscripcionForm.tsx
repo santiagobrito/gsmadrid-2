@@ -31,34 +31,19 @@ interface InscripcionFormProps {
   precioExterno?: PrecioModalidad;
   // Available modalities for this formacion
   modalidadesDisponibles?: ModalidadType[];
-  // Whether online payment is enabled
-  pagoOnline?: boolean;
+  // Stripe publishable key (optional — enables online payment)
+  stripePublishableKey?: string;
 }
 
 // ============================================================
 // Profile options
 // ============================================================
 
-const perfiles = [
-  {
-    id: 'colegiado' as const,
-    title: 'Colegiado/a',
-    subtitle: 'Miembro del CGSM',
-    price: 'Gratuito',
-  },
-  {
-    id: 'precolegiado' as const,
-    title: 'Pre-Colegiado/a',
-    subtitle: 'Estudiante Miembro',
-    price: 'Gratuito',
-  },
-  {
-    id: 'externo' as const,
-    title: 'Externo',
-    subtitle: 'NO perteneces al CGSM',
-    price: '50 €',
-  },
-];
+const perfilInfo = {
+  colegiado: { title: 'Colegiado/a', subtitle: 'Miembro del CGSM' },
+  precolegiado: { title: 'Pre-Colegiado/a', subtitle: 'Estudiante Miembro' },
+  externo: { title: 'Externo', subtitle: 'NO perteneces al CGSM' },
+} as const;
 
 // ============================================================
 // Component
@@ -76,7 +61,7 @@ export function InscripcionForm({
   precioPrecolegiado,
   precioExterno,
   modalidadesDisponibles = ['presencial'],
-  pagoOnline = false,
+  stripePublishableKey,
 }: InscripcionFormProps) {
   const [step, setStep] = useState(1);
   const [perfil, setPerfil] = useState<PerfilType>(null);
@@ -99,17 +84,27 @@ export function InscripcionForm({
   const esColegiado = perfil === 'colegiado' || perfil === 'precolegiado';
 
   // Calculate price based on profile + modality
+  const pagoOnline = !!stripePublishableKey;
+
   function getPrice(): number {
+    const mod = modalidad || (modalidadesDisponibles.length === 1 ? modalidadesDisponibles[0] : 'presencial') || 'presencial';
     if (perfil === 'colegiado') {
-      return precioColegiado?.[modalidad || 'presencial'] ?? 0;
+      return precioColegiado?.[mod] ?? 0;
     }
     if (perfil === 'precolegiado') {
-      return precioPrecolegiado?.[modalidad || 'presencial'] ?? 0;
+      return precioPrecolegiado?.[mod] ?? 0;
     }
     if (perfil === 'externo') {
-      return precioExterno?.[modalidad || 'presencial'] ?? 50;
+      return precioExterno?.[mod] ?? 0;
     }
     return 0;
+  }
+
+  function getProfilePrice(perfilId: 'colegiado' | 'precolegiado' | 'externo'): number {
+    const mod = modalidadesDisponibles[0] || 'presencial';
+    if (perfilId === 'colegiado') return precioColegiado?.[mod] ?? 0;
+    if (perfilId === 'precolegiado') return precioPrecolegiado?.[mod] ?? 0;
+    return precioExterno?.[mod] ?? 0;
   }
 
   function getPriceLabel(): string {
@@ -242,28 +237,33 @@ export function InscripcionForm({
         <div className="space-y-3">
           <p className="mb-3 text-sm text-text-secondary">Selecciona tu perfil:</p>
 
-          {perfiles.map((p) => (
-            <button
-              key={p.id}
-              onClick={() => setPerfil(p.id)}
-              className={`flex w-full items-center gap-3 rounded-xl border p-3 text-left transition ${
-                perfil === p.id
-                  ? 'border-primary bg-primary/5'
-                  : 'border-border bg-white hover:border-primary/30'
-              }`}
-            >
-              <div className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg ${perfil === p.id ? 'bg-primary/10' : 'bg-bg-alt'}`}>
-                <div className={`h-2.5 w-2.5 rounded-full ${perfil === p.id ? 'bg-primary' : 'bg-text-tertiary/30'}`} />
-              </div>
-              <div className="flex-1">
-                <p className="text-sm font-bold text-text">{p.title}</p>
-                <p className="text-xs text-text-tertiary">{p.subtitle}</p>
-              </div>
-              <Badge color={p.id === 'externo' ? 'pendiente' : 'activo'} className="text-[10px]">
-                {p.price}
-              </Badge>
-            </button>
-          ))}
+          {(['colegiado', 'precolegiado', 'externo'] as const).map((id) => {
+            const info = perfilInfo[id];
+            const price = getProfilePrice(id);
+            const priceLabel = price === 0 ? 'Gratuito' : `${price} €`;
+            return (
+              <button
+                key={id}
+                onClick={() => setPerfil(id)}
+                className={`flex w-full items-center gap-3 rounded-xl border p-3 text-left transition ${
+                  perfil === id
+                    ? 'border-primary bg-primary/5'
+                    : 'border-border bg-white hover:border-primary/30'
+                }`}
+              >
+                <div className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg ${perfil === id ? 'bg-primary/10' : 'bg-bg-alt'}`}>
+                  <div className={`h-2.5 w-2.5 rounded-full ${perfil === id ? 'bg-primary' : 'bg-text-tertiary/30'}`} />
+                </div>
+                <div className="flex-1">
+                  <p className="text-sm font-bold text-text">{info.title}</p>
+                  <p className="text-xs text-text-tertiary">{info.subtitle}</p>
+                </div>
+                <Badge color={price > 0 ? 'pendiente' : 'activo'} className="text-[10px]">
+                  {priceLabel}
+                </Badge>
+              </button>
+            );
+          })}
 
           {/* Numero de colegiado (visible for colegiado/precolegiado) */}
           {esColegiado && (
@@ -396,7 +396,7 @@ export function InscripcionForm({
                 let price = 0;
                 if (perfil === 'colegiado') price = precioColegiado?.[m!] ?? 0;
                 else if (perfil === 'precolegiado') price = precioPrecolegiado?.[m!] ?? 0;
-                else price = precioExterno?.[m!] ?? 50;
+                else price = precioExterno?.[m!] ?? 0;
 
                 return (
                   <button
