@@ -11,7 +11,7 @@ import { ArrowRight, ChevronLeft, ChevronRight, Calendar, Megaphone, Pin } from 
 
 export interface HeroSlide {
   id: string;
-  type: 'noticia' | 'evento' | 'destacado';
+  type: 'noticia' | 'evento' | 'destacado' | 'formacion';
   title: string;
   excerpt: string;
   href: string;
@@ -63,7 +63,8 @@ const defaultSlides: HeroSlide[] = [
 
 const typeConfig = {
   noticia: { badge: 'institutional' as const, label: 'Noticia', icon: Megaphone },
-  evento: { badge: 'formacion' as const, label: 'Evento', icon: Calendar },
+  evento: { badge: 'eventos' as const, label: 'Evento', icon: Calendar },
+  formacion: { badge: 'formacion' as const, label: 'Formacion', icon: Calendar },
   destacado: { badge: 'colegio' as const, label: 'Destacado', icon: Pin },
 };
 

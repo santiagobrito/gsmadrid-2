@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
@@ -77,10 +77,20 @@ export function InscripcionForm({
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [plazasRestantes, setPlazasRestantes] = useState<number | null>(plazas ?? null);
+
+  // Fetch real-time seat availability
+  useEffect(() => {
+    if (!formacionSlug) return;
+    fetch(`${WP_API}/wp-json/gsmadrid/v1/plazas?slug=${formacionSlug}`)
+      .then(r => r.json())
+      .then(d => { if (d.success && d.restantes !== null) setPlazasRestantes(d.restantes); })
+      .catch(() => {});
+  }, [formacionSlug]);
 
   // Derived state
   const isPast = fechaFin ? new Date(fechaFin) < new Date() : estado === 'Finalizada';
-  const isClosed = isPast || estado === 'Completa' || estado === 'Cancelada' || estado === 'Finalizada';
+  const isClosed = isPast || estado === 'Completa' || estado === 'Cancelada' || estado === 'Finalizada' || plazasRestantes === 0;
   const esColegiado = perfil === 'colegiado' || perfil === 'precolegiado';
 
   // Calculate price based on profile + modality
@@ -202,9 +212,9 @@ export function InscripcionForm({
       {/* Header */}
       <div className="mb-4 flex items-center justify-between">
         <h3 className="text-lg font-bold text-text">Inscripcion</h3>
-        {plazas !== undefined && plazas > 0 && (
-          <Badge color={plazas <= 5 ? 'pendiente' : 'activo'}>
-            {plazas <= 5 ? 'Ultimas plazas' : `${plazas} plazas`}
+        {plazasRestantes !== null && plazasRestantes > 0 && (
+          <Badge color={plazasRestantes <= 5 ? 'pendiente' : 'activo'}>
+            {plazasRestantes <= 5 ? `Ultimas ${plazasRestantes} plazas` : `${plazasRestantes} plazas`}
           </Badge>
         )}
       </div>

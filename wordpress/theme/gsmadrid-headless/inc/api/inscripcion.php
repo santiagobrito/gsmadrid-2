@@ -7,6 +7,13 @@
 add_action('rest_api_init', 'gsmadrid_register_inscripcion_route');
 
 function gsmadrid_register_inscripcion_route() {
+    // Seats availability check
+    register_rest_route('gsmadrid/v1', '/plazas', [
+        'methods'             => 'GET',
+        'callback'            => 'gsmadrid_check_plazas',
+        'permission_callback' => '__return_true',
+    ]);
+
     register_rest_route('gsmadrid/v1', '/inscripcion', [
         'methods'             => 'POST',
         'callback'            => 'gsmadrid_handle_inscripcion',
@@ -23,6 +30,26 @@ function gsmadrid_register_inscripcion_route() {
             'precio'           => ['required' => false, 'type' => 'number'],
         ],
     ]);
+}
+
+function gsmadrid_check_plazas($request) {
+    $slug = sanitize_text_field($request->get_param('slug'));
+    if (!$slug) return new WP_REST_Response(['success' => false], 400);
+
+    $post = get_page_by_path($slug, OBJECT, ['formacion', 'evento', 'curso']);
+    if (!$post) return new WP_REST_Response(['success' => false], 404);
+
+    $plazas_total = function_exists('get_field') ? intval(get_field('plazas', $post->ID)) : 0;
+    $inscripciones = get_post_meta($post->ID, '_inscripciones', true);
+    $inscritos = is_array($inscripciones) ? count($inscripciones) : 0;
+    $restantes = $plazas_total > 0 ? max(0, $plazas_total - $inscritos) : null;
+
+    return new WP_REST_Response([
+        'success'    => true,
+        'total'      => $plazas_total,
+        'inscritos'  => $inscritos,
+        'restantes'  => $restantes,
+    ], 200);
 }
 
 function gsmadrid_handle_inscripcion($request) {
@@ -53,9 +80,26 @@ function gsmadrid_handle_inscripcion($request) {
         $inscripciones = get_post_meta($formacion_id, '_inscripciones', true);
         if (!is_array($inscripciones)) $inscripciones = [];
 
+        // Check duplicate
         foreach ($inscripciones as $insc) {
             if (isset($insc['email']) && $insc['email'] === $email) {
                 return new WP_REST_Response(['success' => false, 'message' => 'Ya existe una inscripcion con este email.'], 409);
+            }
+        }
+
+        // Check available seats
+        $plazas_total = 0;
+        if (function_exists('get_field')) {
+            $plazas_total = intval(get_field('plazas', $formacion_id));
+        }
+        if ($plazas_total > 0) {
+            $inscritos = count($inscripciones);
+            if ($inscritos >= $plazas_total) {
+                // Auto-set estado to completa
+                if (function_exists('update_field')) {
+                    update_field('estado', 'completa', $formacion_id);
+                }
+                return new WP_REST_Response(['success' => false, 'message' => 'Lo sentimos, no quedan plazas disponibles.'], 409);
             }
         }
 
@@ -67,6 +111,14 @@ function gsmadrid_handle_inscripcion($request) {
             'estado' => ($precio > 0) ? 'pendiente_pago' : 'confirmado',
         ];
         update_post_meta($formacion_id, '_inscripciones', $inscripciones);
+
+        // Update remaining seats count and auto-close if full
+        if ($plazas_total > 0) {
+            $plazas_restantes = $plazas_total - count($inscripciones);
+            if ($plazas_restantes <= 0 && function_exists('update_field')) {
+                update_field('estado', 'completa', $formacion_id);
+            }
+        }
     }
 
     // Emails
