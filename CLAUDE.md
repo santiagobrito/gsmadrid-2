@@ -179,7 +179,7 @@ bash scripts/deploy-frontend.sh
 ## Reglas
 
 1. **Nunca modificar WordPress en produccion** sin backup previo
-2. Los ACF field groups se versionan en `acf-json/` (JSON sync)
+2. **ACF JSON sync DESACTIVADO** — ACF lee solo de la base de datos. Los `acf-json/` son backup
 3. Frontend usa ISR con `revalidate: 60`
 4. Imagenes via `next/image` con dominios configurados en next.config.ts
 5. Design system: ver `manual-estilo-web_2026-03-15.md`
@@ -187,45 +187,67 @@ bash scripts/deploy-frontend.sh
 7. ACF file fields necesitan `node { mediaItemUrl, title }` en GraphQL
 8. Nixpacks: `incremental: false` en tsconfig.json, Node 20 en nixpacks.toml
 9. EasyPanel autoDeploy=false — trigger manual despues de cada push
+10. **ANTES de cada deploy:** testear queries GraphQL contra WP real via curl
+11. **WP container path:** `/code/wp-content/themes/gsmadrid-headless/` (NO `/var/www/html/`)
+12. **Deploy WP theme:** via EasyPanel runScript con base64 chunks al path `/code/`
+13. **Docker image cleanup** necesario para forzar rebuild limpio en EasyPanel
+
+## Memoria automatica
+
+**En cada sesion, guardar automaticamente en la memoria del proyecto (`memory/`) cuando se detecte:**
+
+- Aprendizajes tecnicos o gotchas nuevos (feedback)
+- Nuevas implementaciones o cambios de arquitectura (project state)
+- Decisiones de producto o del cliente (project)
+- Mejoras futuras discutidas o sugeridas (project state → pending)
+- Informacion relevante para el manual del usuario final (actualizar `reports/guia-contenidos-wp_2026-03-23.md`)
+- Preguntas importantes del usuario que revelen requisitos no documentados
+
+**Hacerlo de forma progresiva durante la sesion, no al final.** Cada vez que se implemente algo o se descubra algo importante, guardar inmediatamente.
 
 ## Gotchas
 
+- **ACF JSON override** — Si existen JSON en el container, sobreescriben la DB. Borrar con: `find / -path "*/acf-json/*.json" -delete`
 - **PonentesGrid** `cargo` es required — mapear con `cargo: p.cargo || ''`
 - **Badge en flex-col** se estira — envolver en `<div>` para mantener inline
 - **WordPress email** usa `wp_mail()` default — necesita plugin SMTP para produccion
 - **Menu routes** deben coincidir con estructura de carpetas en app/
-- **Deploy cache** — bump package.json version o nixpacks.toml no-cache
+- **Deploy cache** — limpiar Docker images en EasyPanel para forzar rebuild
+- **EasyPanel runScript** — puede escribir archivos y ejecutar bash, pero NO PHP CLI ni WP-CLI
+- **mu-plugins NO se cargan** en este container — usar MySQL o theme PHP para cambios en DB
+- **Stripe keys** — guardadas en wp_options via MySQL, no en archivos
 
 ## Estado actual
 
 - [x] WordPress theme headless con CPTs, taxonomias, REST API
-- [x] ACF field groups con JSON sync
-- [x] Next.js frontend completo con 20+ paginas
+- [x] ACF field groups en DB (JSON sync desactivado)
+- [x] Next.js frontend completo con 36 paginas
 - [x] Todas las paginas conectadas a GraphQL real
 - [x] generateStaticParams en todas las rutas dinamicas
 - [x] Formularios (inscripcion, contacto, colegiacion) con backend
 - [x] Mega-menu desplegable con login dropdown
-- [x] Homepage: hero, quick access, CTA, upcoming events, calendar, news, newsletter
+- [x] Homepage: hero (6 slides, destacados + recientes), quick access, upcoming events, calendar, news
+- [x] Hero slider: destacados primero, luego recientes, max 6, titulo+imagen clickables
 - [x] Buscador global (/buscar)
-- [x] Sistema de imagenes con placeholders
 - [x] Brand manual aplicado a Badge, Button, Card
-- [x] Author box en blog (E-E-A-T)
-- [x] Servicios ciudadano: Orientacion Juridica, Mediacion Laboral, Clinica Juridica
-- [x] Hazte Colegiado: landing conversion + colegiados (3 modalities) + precolegiados
-- [x] Deploy en EasyPanel funcionando
-- [x] Paginas de Servicios Colegiado (empleo, mentoring, ayudas-becas, acuerdos-convenios, recursos, servicios-en-linea)
-- [x] Subpaginas de Actualidad (galeria, revista)
 - [x] Roles: profesional + precolegiado con flujo de promocion
-- [x] Email bienvenida automatico (colegiado al publicar ficha, precolegiado al crear usuario)
+- [x] Email bienvenida automatico
 - [x] Upload de foto de perfil desde Area Privada
-- [x] Bio sanitizada (sin HTML/iframes/embeds)
 - [x] Schema.org Person en fichas del directorio
-- [x] dynamicParams en todas las rutas [slug] (fix 404 ISR)
-- [x] Fix eventos: campo estado como array ACF
-- [x] Documentacion: ABM colegiados/precolegiados, contenidos WP (reports/)
+- [x] Ponentes con foto + linkedin en formaciones
+- [x] Precios por modalidad (Colegiado Presencial vs Online)
+- [x] Stripe Checkout (test mode) con webhook + verificacion firma
+- [x] Pagina /inscripcion-exitosa post-pago
+- [x] Panel admin Inscripciones (2 capas, stats, CSV export)
+- [x] Menu WP Admin con colores por seccion
+- [x] Campo Es Destacada en posts, formaciones, eventos
+- [x] ShareButtons con cursor-pointer
+- [x] Documentacion: guias de contenidos y ABM actualizadas
 - [ ] Newsletter backend
 - [ ] Imagenes reales (depende del cliente)
 - [ ] SMTP plugin para emails
 - [ ] Legal pages (aviso-legal, privacidad, cookies, accesibilidad)
 - [ ] Cambio de contrasena desde frontend
 - [ ] Recuperar contrasena (forgot password)
+- [ ] Stripe produccion (cambiar keys test → live)
+- [ ] Evento ponentes (importar group_evento.json con ponentes)
