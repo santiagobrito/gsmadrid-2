@@ -11,17 +11,17 @@ import { fetchGraphQL } from '@/lib/graphql/client';
 export const revalidate = 60;
 
 const POSTS_QUERY = `{
-  posts(first: 6, where: { orderby: { field: DATE, order: DESC } }) {
-    nodes { title slug date excerpt featuredImage { node { sourceUrl } } categories { nodes { name } } }
+  posts(first: 10, where: { orderby: { field: DATE, order: DESC } }) {
+    nodes { title slug date excerpt featuredImage { node { sourceUrl } } categories { nodes { name } } postExtraFields { esDestacada } }
   }
 }`;
 
 const FORMACIONES_QUERY = `{
   formaciones(first: 20, where: { orderby: { field: DATE, order: DESC } }) {
     nodes {
-      title slug
+      title slug date
       featuredImage { node { sourceUrl } }
-      formacionFields { fechaInicio horario lugar estado }
+      formacionFields { fechaInicio horario lugar estado esDestacada }
     }
   }
 }`;
@@ -29,9 +29,9 @@ const FORMACIONES_QUERY = `{
 const EVENTOS_QUERY = `{
   eventos(first: 20, where: { orderby: { field: DATE, order: DESC } }) {
     nodes {
-      title slug
+      title slug date
       featuredImage { node { sourceUrl } }
-      eventoFields { fechaInicio horario lugar tipoEvento estado soloColegiados }
+      eventoFields { fechaInicio horario lugar tipoEvento estado soloColegiados esDestacada }
     }
   }
 }`;
@@ -43,23 +43,27 @@ interface WpPost {
   excerpt: string;
   featuredImage: { node: { sourceUrl: string } } | null;
   categories: { nodes: { name: string }[] };
+  postExtraFields: { esDestacada: boolean } | null;
 }
 
 interface WpFormacion {
   slug: string;
   title: string;
+  date: string;
   featuredImage: { node: { sourceUrl: string } } | null;
   formacionFields: {
     fechaInicio: string | null;
     horario: string | null;
     lugar: string | null;
     estado: string | string[] | null;
+    esDestacada: boolean | null;
   };
 }
 
 interface WpEvento {
   slug: string;
   title: string;
+  date: string;
   featuredImage: { node: { sourceUrl: string } } | null;
   eventoFields: {
     fechaInicio: string | null;
@@ -68,6 +72,7 @@ interface WpEvento {
     tipoEvento: string | string[] | null;
     estado: string | string[] | null;
     soloColegiados: boolean | null;
+    esDestacada: boolean | null;
   };
 }
 
@@ -160,55 +165,103 @@ export default async function HomePage() {
     }),
   ];
 
-  // Build hero slides from real data
-  const heroSlides: HeroSlide[] = [];
+  // Build hero slides: highlighted first, then recent by date. Max 6.
+  const MAX_HERO_SLIDES = 6;
 
-  // Add latest 2 posts as "noticia" slides
-  for (const p of posts.slice(0, 2)) {
-    heroSlides.push({
+  // Collect all potential slides with a common shape
+  interface SlideCandidate {
+    id: string;
+    type: HeroSlide['type'];
+    title: string;
+    excerpt: string;
+    href: string;
+    date: string;
+    sortDate: string; // ISO for sorting
+    image?: string;
+    pinned: boolean;
+  }
+
+  const allCandidates: SlideCandidate[] = [];
+
+  // Posts
+  const rawPosts = postData?.posts?.nodes || [];
+  for (const p of rawPosts) {
+    const excerpt = p.excerpt?.replace(/<[^>]*>/g, '').trim() || '';
+    allCandidates.push({
       id: `post-${p.slug}`,
       type: 'noticia',
       title: p.title,
-      excerpt: p.excerpt.slice(0, 120) + (p.excerpt.length > 120 ? '...' : ''),
+      excerpt: excerpt.slice(0, 120) + (excerpt.length > 120 ? '...' : ''),
       href: `/actualidad/${p.slug}`,
-      date: p.date,
-      image: p.imageUrl,
+      date: formatDate(p.date),
+      sortDate: p.date,
+      image: p.featuredImage?.node?.sourceUrl,
+      pinned: !!p.postExtraFields?.esDestacada,
     });
   }
 
-  // Add next upcoming formacion as "destacado"
-  const nextFormacion = formaciones.find((f) => {
+  // Formaciones (only future or highlighted)
+  for (const f of formaciones) {
     const fecha = f.formacionFields?.fechaInicio;
-    return fecha && new Date(fecha) >= new Date();
-  });
-  if (nextFormacion) {
-    heroSlides.push({
-      id: `form-${nextFormacion.slug}`,
+    const isFuture = fecha && new Date(fecha) >= new Date();
+    const isHighlighted = !!f.formacionFields?.esDestacada;
+    if (!isFuture && !isHighlighted) continue;
+    allCandidates.push({
+      id: `form-${f.slug}`,
       type: 'destacado',
-      title: nextFormacion.title,
-      excerpt: `${nextFormacion.formacionFields?.horario || ''} · ${nextFormacion.formacionFields?.lugar || 'Sede del Colegio'}`,
-      href: `/formacion/${nextFormacion.slug}`,
-      date: nextFormacion.formacionFields?.fechaInicio ? formatDate(nextFormacion.formacionFields.fechaInicio) : '',
-      pinned: true,
-      image: nextFormacion.featuredImage?.node?.sourceUrl,
+      title: f.title,
+      excerpt: `${f.formacionFields?.horario || ''} · ${f.formacionFields?.lugar || 'Sede del Colegio'}`,
+      href: `/formacion/${f.slug}`,
+      date: fecha ? formatDate(fecha) : '',
+      sortDate: fecha || f.date || '',
+      image: f.featuredImage?.node?.sourceUrl,
+      pinned: isHighlighted,
     });
   }
 
-  // Add next upcoming evento
-  const nextEvento = eventos.find((e) => {
+  // Eventos (only future or highlighted)
+  for (const e of eventos) {
     const fecha = e.eventoFields?.fechaInicio;
-    return fecha && new Date(fecha) >= new Date();
-  });
-  if (nextEvento) {
-    heroSlides.push({
-      id: `evt-${nextEvento.slug}`,
+    const isFuture = fecha && new Date(fecha) >= new Date();
+    const isHighlighted = !!e.eventoFields?.esDestacada;
+    if (!isFuture && !isHighlighted) continue;
+    allCandidates.push({
+      id: `evt-${e.slug}`,
       type: 'evento',
-      title: nextEvento.title,
-      excerpt: `${nextEvento.eventoFields?.horario || ''} · ${nextEvento.eventoFields?.lugar || 'Sede del Colegio'}`,
-      href: `/eventos/${nextEvento.slug}`,
-      date: nextEvento.eventoFields?.fechaInicio ? formatDate(nextEvento.eventoFields.fechaInicio) : '',
-      image: nextEvento.featuredImage?.node?.sourceUrl,
+      title: e.title,
+      excerpt: `${e.eventoFields?.horario || ''} · ${e.eventoFields?.lugar || 'Sede del Colegio'}`,
+      href: `/eventos/${e.slug}`,
+      date: fecha ? formatDate(fecha) : '',
+      sortDate: fecha || e.date || '',
+      image: e.featuredImage?.node?.sourceUrl,
+      pinned: isHighlighted,
     });
+  }
+
+  // Sort: pinned first, then by date descending
+  allCandidates.sort((a, b) => {
+    if (a.pinned && !b.pinned) return -1;
+    if (!a.pinned && b.pinned) return 1;
+    return new Date(b.sortDate).getTime() - new Date(a.sortDate).getTime();
+  });
+
+  // Deduplicate by id and take max 6
+  const seen = new Set<string>();
+  const heroSlides: HeroSlide[] = [];
+  for (const c of allCandidates) {
+    if (seen.has(c.id)) continue;
+    seen.add(c.id);
+    heroSlides.push({
+      id: c.id,
+      type: c.type,
+      title: c.title,
+      excerpt: c.excerpt,
+      href: c.href,
+      date: c.date,
+      pinned: c.pinned,
+      image: c.image,
+    });
+    if (heroSlides.length >= MAX_HERO_SLIDES) break;
   }
 
   return (
