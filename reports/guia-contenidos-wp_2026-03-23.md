@@ -62,6 +62,15 @@ Crear estas categorias en **WP Admin > Entradas > Categorias** si no existen:
 - **Despublicar:** Cambiar Estado a "Borrador" > Actualizar
 - **Eliminar:** Mover a Papelera
 
+### Campos extra (debajo del editor)
+
+| Campo | Tipo | Para que |
+|-------|------|---------|
+| **Es Destacada** | Toggle Si/No | Si se activa, el post aparece **fijado en el slider de la pagina principal** (con icono de pin) |
+| **Subtitulo** | Texto | Subtitulo opcional que aparece debajo del titulo |
+| **Documento adjunto** | Archivo | PDF descargable vinculado al post |
+| **Fuente externa** | URL | Enlace a la fuente original si es una noticia externa |
+
 ### Buenas practicas
 
 - Usar **extractos** siempre — si no se pone, la web corta el contenido automaticamente y queda feo
@@ -95,6 +104,12 @@ Las formaciones aparecen en `/formacion-eventos` y en la seccion de "Proximas ac
 | **Lugar** | Recomendado | Texto | "Salon de Actos, C/ Jose Abascal 44" |
 | **Plazas** | No | Numero | 50 |
 
+#### Es Destacada
+
+| Campo | Tipo | Para que |
+|-------|------|---------|
+| **Es Destacada** | Toggle Si/No | Si se activa, la formacion aparece **fijada en el slider de la pagina principal** (con icono de pin y prioridad sobre el resto) |
+
 #### Ponentes (repetidor — se pueden anadir varios)
 
 | Subcampo | Ejemplo |
@@ -102,8 +117,10 @@ Las formaciones aparecen en `/formacion-eventos` y en la seccion de "Proximas ac
 | **Nombre** | "Maria Garcia Lopez" |
 | **Cargo** | "Inspectora de Trabajo" |
 | **Bio** | "25 anos de experiencia en..." |
+| **Foto** | Imagen del ponente (400x400 px recomendado) |
+| **LinkedIn** | URL del perfil de LinkedIn |
 
-> Clic en **"Anadir ponente"** para anadir mas filas.
+> Clic en **"Anadir ponente"** para anadir mas filas. La foto y LinkedIn son opcionales pero recomendados.
 
 #### Precios y acceso
 
@@ -111,10 +128,50 @@ Las formaciones aparecen en `/formacion-eventos` y en la seccion de "Proximas ac
 |-------|------|---------|
 | **Tipo de acceso** | Selector | Gratuito / Pago / Mixto |
 | **Es gratuito** | Si/No | Si |
-| **Precios** (repetidor) | Tabla | Concepto: "Colegiados" / Importe: 50.00 / Nota: "IVA incluido" |
+| **Precios** (repetidor) | Tabla | Ver seccion "Como configurar precios" mas abajo |
 | **Nota de precio** | Texto | "Descuento del 20% para precolegiados" |
 
 > Si la formacion es gratuita, activar "Es gratuito" y no rellenar precios.
+
+#### Como configurar precios
+
+El formulario de inscripcion muestra precios diferentes segun el **perfil del usuario** (Colegiado, Pre-colegiado, Externo) y opcionalmente segun la **modalidad** (Presencial, Online).
+
+**Precio unico por perfil** (mismo precio para todas las modalidades):
+
+| Concepto | Importe | Nota |
+|----------|---------|------|
+| Colegiados | 0 | Gratuito para colegiados |
+| Precolegiados | 15 | |
+| Externos | 30 | |
+
+**Precio diferenciado por modalidad:**
+
+| Concepto | Importe | Nota |
+|----------|---------|------|
+| Colegiado Presencial | 50 | |
+| Colegiado Online | 30 | |
+| Externo Presencial | 80 | |
+| Externo Online | 50 | |
+
+> **Palabras clave en el campo Concepto:**
+> - Incluye "colegiado" → precio para colegiados
+> - Incluye "precolegiado" o "pre-colegiado" → precio para pre-colegiados
+> - Incluye "externo" o "general" → precio para externos
+> - Incluye "presencial" / "online" / "hibrido" → precio por modalidad
+> - Si no incluye modalidad → el precio aplica a todas las modalidades
+
+#### Inscripcion y pago
+
+Cuando un usuario se inscribe en una formacion con precio > 0:
+
+1. El usuario completa el formulario de inscripcion (3 pasos: perfil, datos, modalidad)
+2. Al confirmar, se redirige automaticamente a la **pasarela de pago de Stripe**
+3. Tras pagar, vuelve a una pagina de confirmacion
+4. El estado de la inscripcion cambia automaticamente de "pendiente de pago" a **"pagado"**
+5. Se envian emails de confirmacion al usuario y al administrador
+
+**Para ver las inscripciones y su estado de pago:** WP Admin > menu lateral > **Inscripciones**
 
 #### Inscripcion y estado
 
@@ -219,6 +276,7 @@ Los eventos aparecen en `/eventos` y en la seccion de "Proximas actividades" de 
 | **Programa** | No | Editor | Programa del evento si lo tiene |
 | **Documento adjunto** | No | Archivo | PDF con informacion adicional |
 | **Solo para colegiados** | No | Si/No | Si = muestra badge "Colegiados" en la web |
+| **Es Destacada** | No | Si/No | Si se activa, el evento aparece **fijado en el slider de la pagina principal** |
 
 ### Tipos de evento
 
@@ -274,12 +332,65 @@ Los eventos aparecen en `/eventos` y en la seccion de "Proximas actividades" de 
 | **Campos clave** | Ponentes, horas lectivas, precios, diploma | Tipo de evento, organizador |
 | **Ejemplo** | "Curso de Nominas 2026" | "Asamblea General Ordinaria" |
 | **Tiene precios** | Si (tabla de precios) | No |
-| **Tiene ponentes** | Si (repetidor) | No |
+| **Tiene ponentes** | Si (repetidor con foto y LinkedIn) | No (pendiente) |
 | **Tiene diploma** | Si (configurable) | No |
 | **Aparecen en** | `/formacion-eventos` | `/eventos` |
 | **En la home** | Ambos aparecen en "Proximas actividades" | Ambos aparecen |
 
 > **Regla simple:** Si tiene ponentes y/o programa formativo → **Formacion**. Si es un acto, reunion o actividad social → **Evento**.
+
+---
+
+## Slider de la pagina principal (Hero)
+
+El slider grande de la pagina principal muestra automaticamente **hasta 6 diapositivas** con el contenido mas relevante.
+
+### Como funciona
+
+1. **Primero** aparecen todos los contenidos marcados como **"Es Destacada"** (posts, formaciones o eventos) — con un icono de pin
+2. **Despues** se rellenan las plazas restantes con los contenidos **mas recientes** por fecha, mezclando blog, formaciones y eventos
+3. **Maximo 6 diapositivas** en total
+
+### Como fijar contenido en el slider
+
+1. Ir a **WP Admin > Entradas / Formaciones / Eventos**
+2. Editar el contenido que se quiere fijar
+3. Activar el toggle **"Es Destacada"**
+4. Guardar / Actualizar
+5. En maximo 60 segundos aparecera fijado en el slider
+
+### Como quitar contenido del slider
+
+1. Editar el contenido
+2. Desactivar **"Es Destacada"**
+3. Guardar / Actualizar
+
+> **Nota:** Si no hay ningun contenido marcado como destacado, el slider muestra automaticamente las 2 noticias mas recientes, la proxima formacion y el proximo evento.
+
+---
+
+## Panel de inscripciones
+
+En **WP Admin > Inscripciones** (icono de clipboard naranja) se gestionan todas las inscripciones.
+
+### Vista de lista (primer nivel)
+
+Muestra todas las formaciones y eventos con:
+- Numero total de inscritos
+- Cuantos han pagado
+- Cuantos tienen pago pendiente
+- Clic en **"Ver"** para acceder al detalle
+
+### Vista de detalle (segundo nivel)
+
+Al entrar en una formacion/evento se ve:
+- **Tarjetas resumen:** total inscritos, pagados, pago pendiente, confirmados (gratis), ingresos totales
+- **Tabla completa** con: nombre, email, perfil, numero de colegiado, modalidad, precio, estado de pago, fecha
+- **Estados de pago:**
+  - **Confirmado** (azul) = inscripcion gratuita, confirmada
+  - **Pagado** (verde) = pago completado via Stripe
+  - **Pago pendiente** (amarillo) = se inscribio pero no completo el pago
+- Boton **"Exportar CSV"** para descargar en Excel
 
 ---
 
@@ -335,4 +446,4 @@ En el editor visual, seleccionar el texto y clic en el icono de enlace (cadena).
 
 ---
 
-*Documento generado el 23 de marzo de 2026. Sujeto a actualizaciones conforme evolucione la plataforma.*
+*Documento generado el 23 de marzo de 2026. Actualizado el 26 de marzo de 2026 (slider destacados, ponentes foto/linkedin, precios por modalidad, pago Stripe, panel inscripciones).*
