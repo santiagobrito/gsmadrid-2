@@ -208,7 +208,7 @@ export default async function HomePage() {
     if (!isFuture && !isHighlighted) continue;
     allCandidates.push({
       id: `form-${f.slug}`,
-      type: 'destacado',
+      type: isHighlighted ? 'destacado' : 'evento',
       title: f.title,
       excerpt: `${f.formacionFields?.horario || ''} · ${f.formacionFields?.lugar || 'Sede del Colegio'}`,
       href: `/formacion/${f.slug}`,
