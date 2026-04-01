@@ -375,22 +375,22 @@ export default function PerfilPage() {
                         </span>
                       ))}
                     </div>
-                    {especialidades.length < 3 && (
+                    {especialidades.length < 3 && allEspecialidades.filter((t) => !especialidades.includes(t)).length > 0 && (
                       <select
                         value=""
-                        onChange={(e) => {
-                          if (e.target.value && !especialidades.includes(e.target.value)) {
-                            setEspecialidades((prev) => [...prev, e.target.value]);
+                        onChange={(ev) => {
+                          const val = ev.target.value;
+                          if (val && !especialidades.includes(val)) {
+                            setEspecialidades((prev) => [...prev, val]);
                           }
-                          e.target.value = '';
                         }}
                         className={inputClass}
                       >
                         <option value="">Anadir especialidad...</option>
                         {allEspecialidades
-                          .filter((e) => !especialidades.includes(e))
-                          .map((e) => (
-                            <option key={e} value={e}>{e}</option>
+                          .filter((t) => !especialidades.includes(t))
+                          .map((t) => (
+                            <option key={t} value={t}>{t}</option>
                           ))}
                       </select>
                     )}
@@ -415,22 +415,22 @@ export default function PerfilPage() {
                         </span>
                       ))}
                     </div>
-                    {localidades.length < 3 && (
+                    {localidades.length < 3 && allLocalidades.filter((t) => !localidades.includes(t)).length > 0 && (
                       <select
                         value=""
-                        onChange={(e) => {
-                          if (e.target.value && !localidades.includes(e.target.value)) {
-                            setLocalidades((prev) => [...prev, e.target.value]);
+                        onChange={(ev) => {
+                          const val = ev.target.value;
+                          if (val && !localidades.includes(val)) {
+                            setLocalidades((prev) => [...prev, val]);
                           }
-                          e.target.value = '';
                         }}
                         className={inputClass}
                       >
                         <option value="">Anadir localidad...</option>
                         {allLocalidades
-                          .filter((l) => !localidades.includes(l))
-                          .map((l) => (
-                            <option key={l} value={l}>{l}</option>
+                          .filter((t) => !localidades.includes(t))
+                          .map((t) => (
+                            <option key={t} value={t}>{t}</option>
                           ))}
                       </select>
                     )}
