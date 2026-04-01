@@ -26,27 +26,6 @@ function gsmadrid_register_roles() {
     }
 }
 
-// ---- ACF: Register dni_nie field on profesional CPT ----
-
-add_action('acf/init', 'gsmadrid_register_dni_field');
-function gsmadrid_register_dni_field() {
-    if (!function_exists('acf_add_local_field')) return;
-
-    acf_add_local_field([
-        'key'           => 'field_profesional_dni_nie',
-        'label'         => 'DNI / NIE',
-        'name'          => 'dni_nie',
-        'type'          => 'text',
-        'parent'        => 'group_profesional',
-        'instructions'  => 'Documento Nacional de Identidad o Numero de Identidad de Extranjero',
-        'required'      => 0,
-        'wrapper'       => ['width' => '50', 'class' => '', 'id' => ''],
-        'show_in_graphql' => 1,
-        'placeholder'   => '12345678A',
-        'menu_order'    => -1, // Show before other fields
-    ]);
-}
-
 // ---- Helper: get ACF data from linked profesional CPT ----
 
 function gsmadrid_get_profesional_acf($user_id, $field_name) {
