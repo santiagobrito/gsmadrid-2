@@ -48,6 +48,7 @@ const MENU: MenuGroup[] = [
     label: 'Servicios Colegiado',
     href: '/servicios-colegiado',
     children: [
+      { label: 'Directorio Profesional', href: '/directorio' },
       { label: 'Mentoring', href: '/servicios-colegiado/mentoring' },
       { label: 'Ayuda, Becas y Subvenciones', href: '/servicios-colegiado/ayudas-becas' },
       { label: 'Acuerdos y Convenios', href: '/servicios-colegiado/acuerdos-convenios' },
@@ -56,13 +57,10 @@ const MENU: MenuGroup[] = [
     ],
   },
   {
-    label: 'Directorio',
-    href: '/directorio',
-  },
-  {
     label: 'Servicios Ciudadano',
     href: '/servicios-ciudadano',
     children: [
+      { label: 'Buscar un Profesional', href: '/directorio' },
       { label: 'Orientacion Juridica Gratuita', href: '/servicios-ciudadano/orientacion-juridica' },
       { label: 'Mediacion Laboral', href: '/servicios-ciudadano/mediacion-laboral' },
       { label: 'Clinica Juridica Laboral', href: '/servicios-ciudadano/clinica-juridica' },
