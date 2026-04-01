@@ -26,55 +26,34 @@ function gsmadrid_register_roles() {
     }
 }
 
-// ---- User meta fields: DNI/NIE, Numero de colegiado ----
+// ---- ACF: Register dni_nie field on profesional CPT ----
 
-add_action('show_user_profile', 'gsmadrid_user_meta_fields');
-add_action('edit_user_profile', 'gsmadrid_user_meta_fields');
-function gsmadrid_user_meta_fields($user) {
-    $dni = get_user_meta($user->ID, '_gsmadrid_dni_nie', true);
-    $num = get_user_meta($user->ID, '_gsmadrid_numero_colegiado', true);
-    ?>
-    <h3>Datos colegiales (GS Madrid)</h3>
-    <table class="form-table">
-        <tr>
-            <th><label for="gsmadrid_dni_nie">DNI / NIE</label></th>
-            <td><input type="text" name="gsmadrid_dni_nie" id="gsmadrid_dni_nie" value="<?php echo esc_attr($dni); ?>" class="regular-text" /></td>
-        </tr>
-        <tr>
-            <th><label for="gsmadrid_numero_colegiado">N.o de Colegiado / Precolegiado</label></th>
-            <td><input type="text" name="gsmadrid_numero_colegiado" id="gsmadrid_numero_colegiado" value="<?php echo esc_attr($num); ?>" class="regular-text" />
-            <p class="description">Numero oficial de colegiado (GS-XXXX) o de precolegiado (PRE-XXXX).</p></td>
-        </tr>
-    </table>
-    <?php
+add_action('acf/init', 'gsmadrid_register_dni_field');
+function gsmadrid_register_dni_field() {
+    if (!function_exists('acf_add_local_field')) return;
+
+    acf_add_local_field([
+        'key'           => 'field_profesional_dni_nie',
+        'label'         => 'DNI / NIE',
+        'name'          => 'dni_nie',
+        'type'          => 'text',
+        'parent'        => 'group_profesional',
+        'instructions'  => 'Documento Nacional de Identidad o Numero de Identidad de Extranjero',
+        'required'      => 0,
+        'wrapper'       => ['width' => '50', 'class' => '', 'id' => ''],
+        'show_in_graphql' => 1,
+        'placeholder'   => '12345678A',
+        'menu_order'    => -1, // Show before other fields
+    ]);
 }
 
-add_action('personal_options_update', 'gsmadrid_save_user_meta_fields');
-add_action('edit_user_profile_update', 'gsmadrid_save_user_meta_fields');
-function gsmadrid_save_user_meta_fields($user_id) {
-    if (!current_user_can('edit_user', $user_id)) return;
-    if (isset($_POST['gsmadrid_dni_nie'])) {
-        update_user_meta($user_id, '_gsmadrid_dni_nie', sanitize_text_field($_POST['gsmadrid_dni_nie']));
-    }
-    if (isset($_POST['gsmadrid_numero_colegiado'])) {
-        update_user_meta($user_id, '_gsmadrid_numero_colegiado', sanitize_text_field($_POST['gsmadrid_numero_colegiado']));
-    }
-}
+// ---- Helper: get ACF data from linked profesional CPT ----
 
-// ---- Admin user list columns: DNI, Numero ----
-
-add_filter('manage_users_columns', 'gsmadrid_user_list_columns');
-function gsmadrid_user_list_columns($columns) {
-    $columns['gsmadrid_dni'] = 'DNI/NIE';
-    $columns['gsmadrid_num'] = 'N.o Colegiado';
-    return $columns;
-}
-
-add_filter('manage_users_custom_column', 'gsmadrid_user_list_column_content', 10, 3);
-function gsmadrid_user_list_column_content($value, $column, $user_id) {
-    if ($column === 'gsmadrid_dni') return esc_html(get_user_meta($user_id, '_gsmadrid_dni_nie', true) ?: '—');
-    if ($column === 'gsmadrid_num') return esc_html(get_user_meta($user_id, '_gsmadrid_numero_colegiado', true) ?: '—');
-    return $value;
+function gsmadrid_get_profesional_acf($user_id, $field_name) {
+    $post_id = get_user_meta($user_id, '_profesional_post_id', true);
+    if (!$post_id || !function_exists('get_field')) return null;
+    $val = get_field($field_name, $post_id);
+    return ($val !== null && $val !== '' && $val !== false) ? $val : null;
 }
 
 // ---- Link user → profesional CPT ----
@@ -195,8 +174,8 @@ function gsmadrid_auth_login($request) {
             'displayName'      => $user->display_name,
             'roles'            => $user->roles,
             'profesionalPostId' => $profesional_post_id ? (int) $profesional_post_id : null,
-            'dniNie'           => get_user_meta($user->ID, '_gsmadrid_dni_nie', true) ?: null,
-            'numeroColegiado'  => get_user_meta($user->ID, '_gsmadrid_numero_colegiado', true) ?: null,
+            'dniNie'           => gsmadrid_get_profesional_acf($user->ID, 'dni_nie'),
+            'numeroColegiado'  => gsmadrid_get_profesional_acf($user->ID, 'numero_colegiado'),
         ],
     ], 200);
 }
@@ -217,8 +196,8 @@ function gsmadrid_auth_me($request) {
             'displayName'      => $user->display_name,
             'roles'            => $user->roles,
             'profesionalPostId' => $profesional_post_id ? (int) $profesional_post_id : null,
-            'dniNie'           => get_user_meta($user->ID, '_gsmadrid_dni_nie', true) ?: null,
-            'numeroColegiado'  => get_user_meta($user->ID, '_gsmadrid_numero_colegiado', true) ?: null,
+            'dniNie'           => gsmadrid_get_profesional_acf($user->ID, 'dni_nie'),
+            'numeroColegiado'  => gsmadrid_get_profesional_acf($user->ID, 'numero_colegiado'),
         ],
         'profile' => $profile,
     ], 200);
@@ -237,19 +216,10 @@ function gsmadrid_profile_update($request) {
         return new WP_REST_Response(['success' => false, 'message' => 'No tienes permisos para editar este perfil.'], 403);
     }
 
-    // User meta fields (available to all authenticated roles)
-    $user_meta_fields = ['dni_nie', 'numero_colegiado'];
-    foreach ($user_meta_fields as $meta_key) {
-        if (isset($params[$meta_key])) {
-            update_user_meta($user->ID, '_gsmadrid_' . $meta_key, sanitize_text_field($params[$meta_key]));
-            $updated[] = $meta_key;
-        }
-    }
-
     // ACF fields on profesional CPT (only for profesional role)
     $profesional_post_id = get_user_meta($user->ID, '_profesional_post_id', true);
     if ($profesional_post_id && ($is_profesional || $is_admin)) {
-        $editable_fields = ['despacho', 'direccion', 'codigo_postal', 'telefono', 'email', 'web', 'linkedin', 'bio', 'idiomas', 'visible_directorio'];
+        $editable_fields = ['dni_nie', 'despacho', 'direccion', 'codigo_postal', 'telefono', 'email', 'web', 'linkedin', 'bio', 'idiomas', 'visible_directorio'];
 
         if (function_exists('update_field')) {
             foreach ($editable_fields as $field_name) {
@@ -348,13 +318,27 @@ function gsmadrid_profile_upload_photo($request) {
 
 add_filter('manage_profesional_posts_columns', 'gsmadrid_profesional_admin_columns');
 function gsmadrid_profesional_admin_columns($columns) {
-    $columns['linked_user'] = 'Usuario vinculado';
-    $columns['visible'] = 'Visible';
-    return $columns;
+    $new = [];
+    foreach ($columns as $key => $label) {
+        $new[$key] = $label;
+        if ($key === 'title') {
+            $new['num_colegiado'] = 'N.o Colegiado';
+            $new['dni_nie'] = 'DNI/NIE';
+        }
+    }
+    $new['linked_user'] = 'Usuario vinculado';
+    $new['visible'] = 'Visible';
+    return $new;
 }
 
 add_action('manage_profesional_posts_custom_column', 'gsmadrid_profesional_admin_column_content', 10, 2);
 function gsmadrid_profesional_admin_column_content($column, $post_id) {
+    if ($column === 'num_colegiado') {
+        echo esc_html(function_exists('get_field') ? (get_field('numero_colegiado', $post_id) ?: '—') : '—');
+    }
+    if ($column === 'dni_nie') {
+        echo esc_html(function_exists('get_field') ? (get_field('dni_nie', $post_id) ?: '—') : '—');
+    }
     if ($column === 'linked_user') {
         $user_id = get_post_meta($post_id, '_profesional_user_id', true);
         echo $user_id ? esc_html(get_user_by('id', $user_id)->user_login ?? 'Usuario eliminado') : '<em>Sin vincular</em>';

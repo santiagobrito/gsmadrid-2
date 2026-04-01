@@ -93,6 +93,7 @@ export interface Formacion extends WPNode {
 export interface ProfesionalFields {
   numeroColegiado: string;
   nombreCompleto: string;
+  dniNie?: string;
   foto?: FeaturedImage;
   despacho?: string;
   direccion?: string;
@@ -112,6 +113,12 @@ export interface ProfesionalFields {
 // Profesional
 export interface Profesional extends WPNode {
   profesionalFields: ProfesionalFields;
+  especialidades?: {
+    nodes: { name: string; slug: string }[];
+  };
+  localidades?: {
+    nodes: { name: string; slug: string }[];
+  };
 }
 
 // Post extra fields

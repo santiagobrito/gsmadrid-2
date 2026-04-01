@@ -99,6 +99,8 @@ export default async function ProfesionalDetailPage({ params }: PageProps) {
     .join('');
 
   const idiomas: string[] = Array.isArray(p.idiomas) ? p.idiomas : [];
+  const especialidades = profesional.especialidades?.nodes || [];
+  const localidadesTax = profesional.localidades?.nodes || [];
   const bioClean = p.bio ? stripHtmlToText(p.bio) : '';
   const fotoUrl = getAcfImageUrl(p.foto);
 
@@ -226,10 +228,32 @@ export default async function ProfesionalDetailPage({ params }: PageProps) {
                 </div>
               )}
 
+              {especialidades.length > 0 && (
+                <div className="mt-10">
+                  <h3 className="text-lg font-bold text-[#0F172A]">Especialidades</h3>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {especialidades.map((e) => (
+                      <Badge key={e.slug} color="activo">{e.name}</Badge>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {localidadesTax.length > 0 && (
+                <div className="mt-10">
+                  <h3 className="text-lg font-bold text-[#0F172A]">Localidades</h3>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {localidadesTax.map((l) => (
+                      <Badge key={l.slug} color="institutional">{l.name}</Badge>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {idiomas.length > 0 && (
                 <div className="mt-10">
                   <h3 className="text-lg font-bold text-[#0F172A]">Idiomas</h3>
-                  <div className="mt-2 flex gap-2">
+                  <div className="mt-2 flex flex-wrap gap-2">
                     {idiomas.map((idioma) => (
                       <Badge key={idioma} color="eventos">{idioma}</Badge>
                     ))}

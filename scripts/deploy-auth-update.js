@@ -10,8 +10,8 @@ const fs = require('fs');
 const path = require('path');
 
 const EP_KEY = 'e437b40d8bd51e3256fb6307cf9e10e550c051d4e95c6c616fc418b32f0aec06';
-const PROJECT = 'graduados-sociales';
-const SERVICE = 'web';
+const PROJECT = 'gsmadrid-2';
+const SERVICE = 'wordpress';
 
 function epRequest(method, endpoint, body) {
   return new Promise((resolve, reject) => {

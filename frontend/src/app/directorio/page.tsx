@@ -38,20 +38,12 @@ export interface DirectorioProfesional {
   ejerciente: boolean;
   mediador: boolean;
   fotoUrl: string | null;
+  especialidades: string[];
+  localidades: string[];
 }
 
-// Fallback data if GraphQL is unavailable
-const fallbackProfesionales: DirectorioProfesional[] = [
-  { slug: 'maria-garcia-lopez', nombre: 'Maria Garcia Lopez', numeroColegiado: 'GS-1234', despacho: 'Garcia & Asociados', localidad: 'Madrid Centro', ejerciente: true, mediador: true, fotoUrl: null },
-  { slug: 'carlos-martinez-ruiz', nombre: 'Carlos Martinez Ruiz', numeroColegiado: 'GS-2345', despacho: 'Asesoria Martinez', localidad: 'Alcobendas', ejerciente: true, mediador: false, fotoUrl: null },
-  { slug: 'ana-fernandez-mora', nombre: 'Ana Fernandez Mora', numeroColegiado: 'GS-3456', despacho: 'Fernandez Consultores', localidad: 'Getafe', ejerciente: true, mediador: true, fotoUrl: null },
-  { slug: 'jorge-sanchez-diaz', nombre: 'Jorge Sanchez Diaz', numeroColegiado: 'GS-4567', despacho: 'Laboral Sanchez', localidad: 'Majadahonda', ejerciente: true, mediador: false, fotoUrl: null },
-  { slug: 'laura-torres-vega', nombre: 'Laura Torres Vega', numeroColegiado: 'GS-5678', despacho: 'Torres & Partners', localidad: 'Madrid Sur', ejerciente: true, mediador: false, fotoUrl: null },
-  { slug: 'pedro-navarro-blanco', nombre: 'Pedro Navarro Blanco', numeroColegiado: 'GS-6789', despacho: 'Navarro Asesores Laborales', localidad: 'Las Rozas', ejerciente: true, mediador: true, fotoUrl: null },
-];
-
 export default async function DirectorioPage() {
-  let profesionales: DirectorioProfesional[] = fallbackProfesionales;
+  let profesionales: DirectorioProfesional[] = [];
 
   try {
     const data = await fetchGraphQL<ProfesionalesResponse>(GET_PROFESIONALES, { first: 100 });
@@ -67,10 +59,12 @@ export default async function DirectorioPage() {
           ejerciente: p.profesionalFields.ejerciente,
           mediador: p.profesionalFields.mediadorRegistrado,
           fotoUrl: getAcfImageUrl(p.profesionalFields.foto),
+          especialidades: p.especialidades?.nodes?.map((e) => e.name) || [],
+          localidades: p.localidades?.nodes?.map((l) => l.name) || [],
         }));
     }
   } catch {
-    // Use fallback data
+    // Use fallback — empty array
   }
 
   return (

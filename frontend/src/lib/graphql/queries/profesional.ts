@@ -12,6 +12,7 @@ export const PROFESIONAL_FIELDS = gql`
     profesionalFields {
       numeroColegiado
       nombreCompleto
+      dniNie
       foto {
         node {
           sourceUrl
@@ -35,6 +36,18 @@ export const PROFESIONAL_FIELDS = gql`
       aceptaTurnoOficio
       mediadorRegistrado
       visibleDirectorio
+    }
+    especialidades {
+      nodes {
+        name
+        slug
+      }
+    }
+    localidades {
+      nodes {
+        name
+        slug
+      }
     }
   }
 `;

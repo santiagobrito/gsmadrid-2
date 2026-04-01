@@ -8,9 +8,12 @@ export interface AuthUser {
   displayName: string;
   roles: string[];
   profesionalPostId: number | null;
+  dniNie: string | null;
+  numeroColegiado: string | null;
 }
 
 export interface ProfesionalProfile {
+  dni_nie: string;
   numero_colegiado: string;
   nombre_completo: string;
   foto: { url: string; sizes?: { medium?: string; thumbnail?: string } } | null;

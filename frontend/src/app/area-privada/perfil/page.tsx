@@ -181,9 +181,9 @@ export default function PerfilPage() {
               <Card hover={false}>
                 <h2 className="mb-4 text-lg font-bold text-text">Datos de colegiacion</h2>
                 <p className="mb-4 text-xs text-text-tertiary">
-                  Estos datos son gestionados por el Colegio y no pueden editarse aqui.
+                  El numero de colegiado y nombre son gestionados por el Colegio. El DNI/NIE puedes actualizarlo tu.
                 </p>
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                   <div>
                     <label className={labelClass}>Numero de colegiado</label>
                     <input
@@ -200,6 +200,16 @@ export default function PerfilPage() {
                       value={profile.nombre_completo || user.displayName}
                       disabled
                       className={`${inputClass} bg-bg-alt text-text-tertiary`}
+                    />
+                  </div>
+                  <div>
+                    <label className={labelClass}>DNI / NIE</label>
+                    <input
+                      type="text"
+                      value={profile.dni_nie || ''}
+                      onChange={(e) => updateField('dni_nie', e.target.value)}
+                      className={inputClass}
+                      placeholder="12345678A"
                     />
                   </div>
                 </div>
