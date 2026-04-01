@@ -48,7 +48,6 @@ const MENU: MenuGroup[] = [
     label: 'Servicios Colegiado',
     href: '/servicios-colegiado',
     children: [
-      { label: 'Empleo', href: '/servicios-colegiado/empleo' },
       { label: 'Mentoring', href: '/servicios-colegiado/mentoring' },
       { label: 'Ayuda, Becas y Subvenciones', href: '/servicios-colegiado/ayudas-becas' },
       { label: 'Acuerdos y Convenios', href: '/servicios-colegiado/acuerdos-convenios' },

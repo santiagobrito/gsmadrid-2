@@ -22,6 +22,10 @@ export default function PerfilPage() {
   const [error, setError] = useState('');
   const [photoUrl, setPhotoUrl] = useState<string | null>(null);
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
+  const [especialidades, setEspecialidades] = useState<string[]>([]);
+  const [localidades, setLocalidades] = useState<string[]>([]);
+  const [allEspecialidades, setAllEspecialidades] = useState<string[]>([]);
+  const [allLocalidades, setAllLocalidades] = useState<string[]>([]);
 
   useEffect(() => {
     if (!isAuthenticated()) {
@@ -41,6 +45,10 @@ export default function PerfilPage() {
             setPhotoUrl(foto.sizes?.medium || foto.url);
           }
         }
+        setEspecialidades(data.especialidades || []);
+        setLocalidades(data.localidades || []);
+        setAllEspecialidades(data.allEspecialidades || []);
+        setAllLocalidades(data.allLocalidades || []);
       } else {
         router.push('/area-privada');
       }
@@ -54,7 +62,7 @@ export default function PerfilPage() {
     setSaved(false);
 
     try {
-      const result = await updateProfile(profile);
+      const result = await updateProfile({ ...profile, especialidades, localidades });
       if (result.success) {
         setSaved(true);
         setTimeout(() => setSaved(false), 3000);
@@ -319,6 +327,96 @@ export default function PerfilPage() {
                   <p className="mt-1 text-xs text-text-tertiary">
                     Esta descripcion aparecera en tu perfil del directorio publico.
                   </p>
+                </div>
+              </Card>
+
+              {/* Especialidades y Localidades */}
+              <Card hover={false}>
+                <h2 className="mb-4 text-lg font-bold text-text">Especialidades y localidades</h2>
+                <p className="mb-4 text-xs text-text-tertiary">
+                  Selecciona hasta 3 especialidades y 3 localidades. Se mostraran en tu ficha del directorio.
+                </p>
+
+                <div className="space-y-4">
+                  <div>
+                    <label className={labelClass}>Especialidades (max. 3)</label>
+                    <div className="flex flex-wrap gap-2 mb-2">
+                      {especialidades.map((e) => (
+                        <span
+                          key={e}
+                          className="inline-flex items-center gap-1 rounded-full bg-primary/5 px-3 py-1 text-sm text-primary"
+                        >
+                          {e}
+                          <button
+                            type="button"
+                            onClick={() => setEspecialidades((prev) => prev.filter((x) => x !== e))}
+                            className="ml-1 text-primary/50 hover:text-primary"
+                          >
+                            &times;
+                          </button>
+                        </span>
+                      ))}
+                    </div>
+                    {especialidades.length < 3 && (
+                      <select
+                        value=""
+                        onChange={(e) => {
+                          if (e.target.value && !especialidades.includes(e.target.value)) {
+                            setEspecialidades((prev) => [...prev, e.target.value]);
+                          }
+                          e.target.value = '';
+                        }}
+                        className={inputClass}
+                      >
+                        <option value="">Anadir especialidad...</option>
+                        {allEspecialidades
+                          .filter((e) => !especialidades.includes(e))
+                          .map((e) => (
+                            <option key={e} value={e}>{e}</option>
+                          ))}
+                      </select>
+                    )}
+                  </div>
+
+                  <div>
+                    <label className={labelClass}>Localidades (max. 3)</label>
+                    <div className="flex flex-wrap gap-2 mb-2">
+                      {localidades.map((l) => (
+                        <span
+                          key={l}
+                          className="inline-flex items-center gap-1 rounded-full bg-teal/5 px-3 py-1 text-sm text-teal"
+                        >
+                          {l}
+                          <button
+                            type="button"
+                            onClick={() => setLocalidades((prev) => prev.filter((x) => x !== l))}
+                            className="ml-1 text-teal/50 hover:text-teal"
+                          >
+                            &times;
+                          </button>
+                        </span>
+                      ))}
+                    </div>
+                    {localidades.length < 3 && (
+                      <select
+                        value=""
+                        onChange={(e) => {
+                          if (e.target.value && !localidades.includes(e.target.value)) {
+                            setLocalidades((prev) => [...prev, e.target.value]);
+                          }
+                          e.target.value = '';
+                        }}
+                        className={inputClass}
+                      >
+                        <option value="">Anadir localidad...</option>
+                        {allLocalidades
+                          .filter((l) => !localidades.includes(l))
+                          .map((l) => (
+                            <option key={l} value={l}>{l}</option>
+                          ))}
+                      </select>
+                    )}
+                  </div>
                 </div>
               </Card>
             </div>

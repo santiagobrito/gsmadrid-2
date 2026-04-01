@@ -168,6 +168,20 @@ function gsmadrid_auth_me($request) {
         $profile = get_fields($profesional_post_id);
     }
 
+    // Add taxonomies to profile
+    $especialidades = [];
+    $localidades = [];
+    if ($profesional_post_id) {
+        $esp_terms = wp_get_object_terms($profesional_post_id, 'especialidad', ['fields' => 'names']);
+        if (!is_wp_error($esp_terms)) $especialidades = $esp_terms;
+        $loc_terms = wp_get_object_terms($profesional_post_id, 'localidad', ['fields' => 'names']);
+        if (!is_wp_error($loc_terms)) $localidades = $loc_terms;
+    }
+
+    // Get all available terms for selectors
+    $all_especialidades = get_terms(['taxonomy' => 'especialidad', 'hide_empty' => false, 'fields' => 'names']);
+    $all_localidades = get_terms(['taxonomy' => 'localidad', 'hide_empty' => false, 'fields' => 'names']);
+
     return new WP_REST_Response([
         'user' => [
             'id'               => $user->ID,
@@ -179,7 +193,11 @@ function gsmadrid_auth_me($request) {
             'dniNie'           => gsmadrid_get_profesional_acf($user->ID, 'dni_nie'),
             'numeroColegiado'  => gsmadrid_get_profesional_acf($user->ID, 'numero_colegiado'),
         ],
-        'profile' => $profile,
+        'profile'          => $profile,
+        'especialidades'   => $especialidades,
+        'localidades'      => $localidades,
+        'allEspecialidades' => is_wp_error($all_especialidades) ? [] : $all_especialidades,
+        'allLocalidades'   => is_wp_error($all_localidades) ? [] : $all_localidades,
     ], 200);
 }
 
@@ -226,6 +244,18 @@ function gsmadrid_profile_update($request) {
 
         if (isset($params['visible_directorio']) && $params['visible_directorio']) {
             wp_update_post(['ID' => $profesional_post_id, 'post_status' => 'publish']);
+        }
+
+        // Taxonomies (max 3 each)
+        if (isset($params['especialidades']) && is_array($params['especialidades'])) {
+            $terms = array_slice(array_map('sanitize_text_field', $params['especialidades']), 0, 3);
+            wp_set_object_terms($profesional_post_id, $terms, 'especialidad', false);
+            $updated[] = 'especialidades';
+        }
+        if (isset($params['localidades']) && is_array($params['localidades'])) {
+            $terms = array_slice(array_map('sanitize_text_field', $params['localidades']), 0, 3);
+            wp_set_object_terms($profesional_post_id, $terms, 'localidad', false);
+            $updated[] = 'localidades';
         }
     }
 

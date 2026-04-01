@@ -42,6 +42,10 @@ export interface LoginResponse {
 export interface MeResponse {
   user: AuthUser;
   profile: ProfesionalProfile | null;
+  especialidades: string[];
+  localidades: string[];
+  allEspecialidades: string[];
+  allLocalidades: string[];
 }
 
 export interface ProfileUpdateResponse {
