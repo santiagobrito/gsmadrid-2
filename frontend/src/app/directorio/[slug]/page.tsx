@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
-import { Mail, Phone, Globe, Linkedin, MapPin, ArrowLeft } from 'lucide-react';
+import { Globe, Linkedin, MapPin, ArrowLeft } from 'lucide-react';
+import { RevealContact } from '@/components/ui/RevealContact';
 import { Container } from '@/components/ui/Container';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
@@ -72,6 +73,10 @@ export async function generateStaticParams() {
 export const revalidate = 60;
 export const dynamicParams = true;
 
+function encodeForReveal(str: string): string {
+  return Buffer.from(encodeURIComponent(str)).toString('base64');
+}
+
 function stripHtmlToText(html: string): string {
   return html
     .replace(/<iframe[^>]*>[\s\S]*?<\/iframe>/gi, '')
@@ -116,8 +121,7 @@ export default async function ProfesionalDetailPage({ params }: PageProps) {
     },
     ...(p.despacho && { worksFor: { '@type': 'Organization', name: p.despacho } }),
     ...(p.direccion && { address: { '@type': 'PostalAddress', streetAddress: p.direccion, ...(p.codigoPostal && { postalCode: p.codigoPostal }), addressLocality: 'Madrid', addressCountry: 'ES' } }),
-    ...(p.telefono && { telephone: p.telefono }),
-    ...(p.email && { email: p.email }),
+    // email and phone omitted from schema to prevent scraping
     ...(p.web && { url: p.web }),
     ...(p.linkedin && { sameAs: [p.linkedin] }),
     ...(fotoUrl && { image: fotoUrl }),
@@ -179,16 +183,10 @@ export default async function ProfesionalDetailPage({ params }: PageProps) {
                     </div>
                   )}
                   {p.telefono && (
-                    <div className="flex items-center gap-3 text-sm text-[#475569]">
-                      <Phone size={16} strokeWidth={1.5} className="shrink-0 text-[#6B7280]" />
-                      <a href={`tel:${p.telefono}`} className="hover:text-primary">{p.telefono}</a>
-                    </div>
+                    <RevealContact type="phone" encoded={encodeForReveal(p.telefono)} />
                   )}
                   {p.email && (
-                    <div className="flex items-center gap-3 text-sm text-[#475569]">
-                      <Mail size={16} strokeWidth={1.5} className="shrink-0 text-[#6B7280]" />
-                      <a href={`mailto:${p.email}`} className="hover:text-primary">{p.email}</a>
-                    </div>
+                    <RevealContact type="email" encoded={encodeForReveal(p.email)} />
                   )}
                   {p.web && (
                     <div className="flex items-center gap-3 text-sm text-[#475569]">
