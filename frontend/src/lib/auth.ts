@@ -123,7 +123,7 @@ export async function fetchMe(): Promise<MeResponse | null> {
   }
 }
 
-export async function updateProfile(fields: Partial<ProfesionalProfile>): Promise<ProfileUpdateResponse> {
+export async function updateProfile(fields: Partial<ProfesionalProfile> & { especialidades?: string[]; localidades?: string[] }): Promise<ProfileUpdateResponse> {
   const res = await authFetch('/profile/update', {
     method: 'POST',
     body: JSON.stringify(fields),
