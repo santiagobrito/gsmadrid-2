@@ -139,7 +139,7 @@ export function Hero({ slides = defaultSlides }: HeroProps) {
               Colegio Oficial
             </Badge>
 
-            <h1 className="text-4xl font-extrabold leading-[1.05] tracking-[-0.02em] text-text sm:text-5xl md:text-6xl lg:text-[84px]">
+            <h1 className="text-4xl font-extrabold leading-[1.05] tracking-[-0.02em] text-[#0D47A1] sm:text-5xl md:text-6xl lg:text-[84px]">
               Graduados Sociales de Madrid
             </h1>
 

@@ -26,6 +26,57 @@ function gsmadrid_register_roles() {
     }
 }
 
+// ---- User meta fields: DNI/NIE, Numero de colegiado ----
+
+add_action('show_user_profile', 'gsmadrid_user_meta_fields');
+add_action('edit_user_profile', 'gsmadrid_user_meta_fields');
+function gsmadrid_user_meta_fields($user) {
+    $dni = get_user_meta($user->ID, '_gsmadrid_dni_nie', true);
+    $num = get_user_meta($user->ID, '_gsmadrid_numero_colegiado', true);
+    ?>
+    <h3>Datos colegiales (GS Madrid)</h3>
+    <table class="form-table">
+        <tr>
+            <th><label for="gsmadrid_dni_nie">DNI / NIE</label></th>
+            <td><input type="text" name="gsmadrid_dni_nie" id="gsmadrid_dni_nie" value="<?php echo esc_attr($dni); ?>" class="regular-text" /></td>
+        </tr>
+        <tr>
+            <th><label for="gsmadrid_numero_colegiado">N.o de Colegiado / Precolegiado</label></th>
+            <td><input type="text" name="gsmadrid_numero_colegiado" id="gsmadrid_numero_colegiado" value="<?php echo esc_attr($num); ?>" class="regular-text" />
+            <p class="description">Numero oficial de colegiado (GS-XXXX) o de precolegiado (PRE-XXXX).</p></td>
+        </tr>
+    </table>
+    <?php
+}
+
+add_action('personal_options_update', 'gsmadrid_save_user_meta_fields');
+add_action('edit_user_profile_update', 'gsmadrid_save_user_meta_fields');
+function gsmadrid_save_user_meta_fields($user_id) {
+    if (!current_user_can('edit_user', $user_id)) return;
+    if (isset($_POST['gsmadrid_dni_nie'])) {
+        update_user_meta($user_id, '_gsmadrid_dni_nie', sanitize_text_field($_POST['gsmadrid_dni_nie']));
+    }
+    if (isset($_POST['gsmadrid_numero_colegiado'])) {
+        update_user_meta($user_id, '_gsmadrid_numero_colegiado', sanitize_text_field($_POST['gsmadrid_numero_colegiado']));
+    }
+}
+
+// ---- Admin user list columns: DNI, Numero ----
+
+add_filter('manage_users_columns', 'gsmadrid_user_list_columns');
+function gsmadrid_user_list_columns($columns) {
+    $columns['gsmadrid_dni'] = 'DNI/NIE';
+    $columns['gsmadrid_num'] = 'N.o Colegiado';
+    return $columns;
+}
+
+add_filter('manage_users_custom_column', 'gsmadrid_user_list_column_content', 10, 3);
+function gsmadrid_user_list_column_content($value, $column, $user_id) {
+    if ($column === 'gsmadrid_dni') return esc_html(get_user_meta($user_id, '_gsmadrid_dni_nie', true) ?: '—');
+    if ($column === 'gsmadrid_num') return esc_html(get_user_meta($user_id, '_gsmadrid_numero_colegiado', true) ?: '—');
+    return $value;
+}
+
 // ---- Link user → profesional CPT ----
 
 add_action('user_register', 'gsmadrid_link_user_profesional');
@@ -138,12 +189,14 @@ function gsmadrid_auth_login($request) {
         'success' => true,
         'token'   => $token,
         'user'    => [
-            'id'          => $user->ID,
-            'username'    => $user->user_login,
-            'email'       => $user->user_email,
-            'displayName' => $user->display_name,
-            'roles'       => $user->roles,
+            'id'               => $user->ID,
+            'username'         => $user->user_login,
+            'email'            => $user->user_email,
+            'displayName'      => $user->display_name,
+            'roles'            => $user->roles,
             'profesionalPostId' => $profesional_post_id ? (int) $profesional_post_id : null,
+            'dniNie'           => get_user_meta($user->ID, '_gsmadrid_dni_nie', true) ?: null,
+            'numeroColegiado'  => get_user_meta($user->ID, '_gsmadrid_numero_colegiado', true) ?: null,
         ],
     ], 200);
 }
@@ -158,12 +211,14 @@ function gsmadrid_auth_me($request) {
 
     return new WP_REST_Response([
         'user' => [
-            'id'          => $user->ID,
-            'username'    => $user->user_login,
-            'email'       => $user->user_email,
-            'displayName' => $user->display_name,
-            'roles'       => $user->roles,
+            'id'               => $user->ID,
+            'username'         => $user->user_login,
+            'email'            => $user->user_email,
+            'displayName'      => $user->display_name,
+            'roles'            => $user->roles,
             'profesionalPostId' => $profesional_post_id ? (int) $profesional_post_id : null,
+            'dniNie'           => get_user_meta($user->ID, '_gsmadrid_dni_nie', true) ?: null,
+            'numeroColegiado'  => get_user_meta($user->ID, '_gsmadrid_numero_colegiado', true) ?: null,
         ],
         'profile' => $profile,
     ], 200);
@@ -171,46 +226,57 @@ function gsmadrid_auth_me($request) {
 
 function gsmadrid_profile_update($request) {
     $user = wp_get_current_user();
-    $profesional_post_id = get_user_meta($user->ID, '_profesional_post_id', true);
+    $params = $request->get_json_params();
+    $updated = [];
 
-    if (!$profesional_post_id) {
-        return new WP_REST_Response(['success' => false, 'message' => 'No tienes un perfil profesional vinculado.'], 403);
-    }
+    $is_profesional = in_array('profesional', $user->roles, true);
+    $is_precolegiado = in_array('precolegiado', $user->roles, true);
+    $is_admin = current_user_can('manage_options');
 
-    if (!in_array('profesional', $user->roles, true) && !current_user_can('manage_options')) {
+    if (!$is_profesional && !$is_precolegiado && !$is_admin) {
         return new WP_REST_Response(['success' => false, 'message' => 'No tienes permisos para editar este perfil.'], 403);
     }
 
-    $editable_fields = ['despacho', 'direccion', 'codigo_postal', 'telefono', 'email', 'web', 'linkedin', 'bio', 'idiomas', 'visible_directorio'];
-    $updated = [];
-    $params = $request->get_json_params();
-
-    if (function_exists('update_field')) {
-        foreach ($editable_fields as $field_name) {
-            if (isset($params[$field_name])) {
-                $value = $field_name === 'visible_directorio'
-                    ? (bool) $params[$field_name]
-                    : sanitize_text_field($params[$field_name]);
-                if ($field_name === 'bio') {
-                    // Only allow basic formatting, no links/embeds/iframes
-                    $value = wp_kses($params[$field_name], [
-                        'p'      => [],
-                        'br'     => [],
-                        'strong' => [],
-                        'em'     => [],
-                        'ul'     => [],
-                        'ol'     => [],
-                        'li'     => [],
-                    ]);
-                }
-                update_field($field_name, $value, $profesional_post_id);
-                $updated[] = $field_name;
-            }
+    // User meta fields (available to all authenticated roles)
+    $user_meta_fields = ['dni_nie', 'numero_colegiado'];
+    foreach ($user_meta_fields as $meta_key) {
+        if (isset($params[$meta_key])) {
+            update_user_meta($user->ID, '_gsmadrid_' . $meta_key, sanitize_text_field($params[$meta_key]));
+            $updated[] = $meta_key;
         }
     }
 
-    if (isset($params['visible_directorio']) && $params['visible_directorio']) {
-        wp_update_post(['ID' => $profesional_post_id, 'post_status' => 'publish']);
+    // ACF fields on profesional CPT (only for profesional role)
+    $profesional_post_id = get_user_meta($user->ID, '_profesional_post_id', true);
+    if ($profesional_post_id && ($is_profesional || $is_admin)) {
+        $editable_fields = ['despacho', 'direccion', 'codigo_postal', 'telefono', 'email', 'web', 'linkedin', 'bio', 'idiomas', 'visible_directorio'];
+
+        if (function_exists('update_field')) {
+            foreach ($editable_fields as $field_name) {
+                if (isset($params[$field_name])) {
+                    $value = $field_name === 'visible_directorio'
+                        ? (bool) $params[$field_name]
+                        : sanitize_text_field($params[$field_name]);
+                    if ($field_name === 'bio') {
+                        $value = wp_kses($params[$field_name], [
+                            'p'      => [],
+                            'br'     => [],
+                            'strong' => [],
+                            'em'     => [],
+                            'ul'     => [],
+                            'ol'     => [],
+                            'li'     => [],
+                        ]);
+                    }
+                    update_field($field_name, $value, $profesional_post_id);
+                    $updated[] = $field_name;
+                }
+            }
+        }
+
+        if (isset($params['visible_directorio']) && $params['visible_directorio']) {
+            wp_update_post(['ID' => $profesional_post_id, 'post_status' => 'publish']);
+        }
     }
 
     return new WP_REST_Response(['success' => true, 'updatedFields' => $updated, 'message' => 'Perfil actualizado correctamente.'], 200);

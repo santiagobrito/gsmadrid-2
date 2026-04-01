@@ -123,7 +123,7 @@ export function InscripcionForm({
   }
 
   // Input styles
-  const inputClass = 'w-full rounded-xl border border-border bg-white px-4 py-2.5 text-sm text-text placeholder:text-text-tertiary focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20';
+  const inputClass = 'w-full rounded-xl border border-border bg-white px-3 py-2 text-sm text-text placeholder:text-text-tertiary focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20';
   const labelClass = 'mb-1 block text-sm font-medium text-text';
 
   // ============================
@@ -208,10 +208,10 @@ export function InscripcionForm({
   ];
 
   return (
-    <Card hover={false} className="border-primary/20 bg-primary/[0.02]">
+    <Card hover={false} className="border-primary/20 bg-primary/[0.02] max-h-[calc(100vh-130px)] overflow-y-auto">
       {/* Header */}
-      <div className="mb-4 flex items-center justify-between">
-        <h3 className="text-lg font-bold text-text">Inscripcion</h3>
+      <div className="mb-3 flex items-center justify-between">
+        <h3 className="text-base font-bold text-text">Inscripcion</h3>
         {plazasRestantes !== null && plazasRestantes > 0 && (
           <Badge color={plazasRestantes <= 5 ? 'pendiente' : 'activo'}>
             {plazasRestantes <= 5 ? `Ultimas ${plazasRestantes} plazas` : `${plazasRestantes} plazas`}
@@ -220,15 +220,15 @@ export function InscripcionForm({
       </div>
 
       {/* Step indicators */}
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-4 flex items-center justify-between">
         {steps.map((s, i) => (
           <div key={s.num} className="flex items-center">
-            <div className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold transition-colors ${
+            <div className={`flex h-7 w-7 items-center justify-center rounded-full text-[11px] font-bold transition-colors ${
               step >= s.num ? 'bg-primary text-white' : 'bg-border text-text-tertiary'
             }`}>
               {s.num}
             </div>
-            <span className={`ml-1.5 hidden text-xs font-medium sm:inline ${
+            <span className={`ml-1 hidden text-[11px] font-medium sm:inline ${
               step >= s.num ? 'text-text' : 'text-text-tertiary'
             }`}>
               {s.label}
@@ -244,8 +244,8 @@ export function InscripcionForm({
       {/* STEP 1: Perfil */}
       {/* ================================ */}
       {step === 1 && (
-        <div className="space-y-3">
-          <p className="mb-3 text-sm text-text-secondary">Selecciona tu perfil:</p>
+        <div className="space-y-2">
+          <p className="mb-2 text-sm text-text-secondary">Selecciona tu perfil:</p>
 
           {(['colegiado', 'precolegiado', 'externo'] as const).map((id) => {
             const info = perfilInfo[id];
@@ -255,18 +255,18 @@ export function InscripcionForm({
               <button
                 key={id}
                 onClick={() => setPerfil(id)}
-                className={`flex w-full items-center gap-3 rounded-xl border p-3 text-left transition ${
+                className={`flex w-full items-center gap-2.5 rounded-xl border p-2.5 text-left transition ${
                   perfil === id
                     ? 'border-primary bg-primary/5'
                     : 'border-border bg-white hover:border-primary/30'
                 }`}
               >
-                <div className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg ${perfil === id ? 'bg-primary/10' : 'bg-bg-alt'}`}>
-                  <div className={`h-2.5 w-2.5 rounded-full ${perfil === id ? 'bg-primary' : 'bg-text-tertiary/30'}`} />
+                <div className={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg ${perfil === id ? 'bg-primary/10' : 'bg-bg-alt'}`}>
+                  <div className={`h-2 w-2 rounded-full ${perfil === id ? 'bg-primary' : 'bg-text-tertiary/30'}`} />
                 </div>
                 <div className="flex-1">
                   <p className="text-sm font-bold text-text">{info.title}</p>
-                  <p className="text-xs text-text-tertiary">{info.subtitle}</p>
+                  <p className="text-[11px] text-text-tertiary">{info.subtitle}</p>
                 </div>
                 <Badge color={price > 0 ? 'pendiente' : 'activo'} className="text-[10px]">
                   {priceLabel}
@@ -277,7 +277,7 @@ export function InscripcionForm({
 
           {/* Numero de colegiado (visible for colegiado/precolegiado) */}
           {esColegiado && (
-            <div className="mt-3">
+            <div className="mt-2">
               <label className={labelClass}>N.o de colegiado *</label>
               <input
                 type="text"
@@ -292,7 +292,7 @@ export function InscripcionForm({
 
           <Button
             variant="gradient"
-            className="mt-4 w-full"
+            className="mt-3 w-full"
             onClick={() => perfil && setStep(2)}
             disabled={!perfil || (esColegiado && !numeroColegiado)}
           >
@@ -305,8 +305,8 @@ export function InscripcionForm({
       {/* STEP 2: Datos personales */}
       {/* ================================ */}
       {step === 2 && (
-        <div className="space-y-3">
-          <p className="mb-3 text-sm text-text-secondary">Introduce tus datos:</p>
+        <div className="space-y-2.5">
+          <p className="mb-2 text-sm text-text-secondary">Introduce tus datos:</p>
 
           <div>
             <label className={labelClass}>Nombre completo *</label>
@@ -390,7 +390,7 @@ export function InscripcionForm({
       {/* STEP 3: Modalidad + Confirmacion */}
       {/* ================================ */}
       {step === 3 && (
-        <div className="space-y-3">
+        <div className="space-y-2.5">
           {modalidadesDisponibles.length > 1 ? (
             <>
               <p className="mb-3 text-sm text-text-secondary">Selecciona la modalidad:</p>
