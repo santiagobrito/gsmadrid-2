@@ -57,7 +57,9 @@ function gsmadrid_link_user_profesional($user_id) {
         update_post_meta($post_id, '_profesional_user_id', $user_id);
 
         if (function_exists('update_field')) {
-            update_field('nombre_completo', $user->display_name, $post_id);
+            $name_parts = explode(' ', $user->display_name, 2);
+            update_field('nombre_completo', $name_parts[0], $post_id);
+            update_field('apellidos', $name_parts[1] ?? '', $post_id);
             update_field('email', $user->user_email, $post_id);
             update_field('visible_directorio', false, $post_id);
         }

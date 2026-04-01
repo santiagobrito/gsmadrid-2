@@ -12,6 +12,7 @@ export const PROFESIONAL_FIELDS = gql`
     profesionalFields {
       numeroColegiado
       nombreCompleto
+      apellidos
       dniNie
       foto {
         node {

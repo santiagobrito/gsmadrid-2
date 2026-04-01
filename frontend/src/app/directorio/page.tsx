@@ -52,7 +52,7 @@ export default async function DirectorioPage() {
         .filter((p) => p.profesionalFields.visibleDirectorio)
         .map((p) => ({
           slug: p.slug,
-          nombre: p.profesionalFields.nombreCompleto || p.title,
+          nombre: [p.profesionalFields.nombreCompleto, p.profesionalFields.apellidos].filter(Boolean).join(' ') || p.title,
           numeroColegiado: p.profesionalFields.numeroColegiado,
           despacho: p.profesionalFields.despacho || '',
           localidad: p.profesionalFields.direccion || '',

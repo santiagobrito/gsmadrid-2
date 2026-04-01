@@ -16,6 +16,7 @@ export interface ProfesionalProfile {
   dni_nie: string;
   numero_colegiado: string;
   nombre_completo: string;
+  apellidos: string;
   foto: { url: string; sizes?: { medium?: string; thumbnail?: string } } | null;
   despacho: string;
   direccion: string;

@@ -191,7 +191,7 @@ export default function PerfilPage() {
                 <p className="mb-4 text-xs text-text-tertiary">
                   Estos datos son gestionados por el Colegio y no pueden editarse aqui.
                 </p>
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                   <div>
                     <label className={labelClass}>Numero de colegiado</label>
                     <input
@@ -202,10 +202,19 @@ export default function PerfilPage() {
                     />
                   </div>
                   <div>
-                    <label className={labelClass}>Nombre completo</label>
+                    <label className={labelClass}>Nombre(s)</label>
                     <input
                       type="text"
-                      value={profile.nombre_completo || user.displayName}
+                      value={profile.nombre_completo || ''}
+                      disabled
+                      className={`${inputClass} bg-bg-alt text-text-tertiary`}
+                    />
+                  </div>
+                  <div>
+                    <label className={labelClass}>Apellidos</label>
+                    <input
+                      type="text"
+                      value={profile.apellidos || ''}
                       disabled
                       className={`${inputClass} bg-bg-alt text-text-tertiary`}
                     />

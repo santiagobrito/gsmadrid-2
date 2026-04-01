@@ -91,7 +91,7 @@ export default async function ProfesionalDetailPage({ params }: PageProps) {
   if (!profesional) notFound();
 
   const p = profesional.profesionalFields;
-  const nombre = p.nombreCompleto || profesional.title;
+  const nombre = [p.nombreCompleto, p.apellidos].filter(Boolean).join(' ') || profesional.title;
   const initials = nombre
     .split(' ')
     .slice(0, 2)

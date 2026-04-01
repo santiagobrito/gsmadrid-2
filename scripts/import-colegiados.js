@@ -4,7 +4,8 @@
  *
  * CSV columns (header required):
  *   rol                 — "profesional" or "precolegiado" (required)
- *   nombre_completo     — Full name (required)
+ *   nombre              — First name(s) (required)
+ *   apellidos           — Last name(s) (required)
  *   email               — Email, used as WP login (required)
  *   dni_nie             — DNI or NIE
  *   numero_colegiado    — GS-XXXX or PRE-XXXX
@@ -95,8 +96,11 @@ function validateRows(rows) {
     if (!row.rol || !['profesional', 'precolegiado'].includes(row.rol.toLowerCase())) {
       errors.push(`Line ${line}: 'rol' must be 'profesional' or 'precolegiado' (got: "${row.rol}")`);
     }
-    if (!row.nombre_completo) {
-      errors.push(`Line ${line}: 'nombre_completo' is required`);
+    if (!row.nombre) {
+      errors.push(`Line ${line}: 'nombre' is required`);
+    }
+    if (!row.apellidos) {
+      errors.push(`Line ${line}: 'apellidos' is required`);
     }
     if (!row.email) {
       errors.push(`Line ${line}: 'email' is required`);
@@ -140,14 +144,16 @@ $errors = 0;
 
   rows.forEach((row, idx) => {
     const email = esc(row.email);
-    const nombre = esc(row.nombre_completo);
+    const nombre = esc(row.nombre);
+    const apellidos = esc(row.apellidos);
+    const displayName = `${nombre} ${apellidos}`.trim();
     const rol = row.rol.toLowerCase();
     const password = row.password || randomPass();
     const numCol = esc(row.numero_colegiado);
     const dni = esc(row.dni_nie);
 
     php += `
-// --- Row ${idx + 1}: ${nombre} ---
+// --- Row ${idx + 1}: ${displayName} ---
 $email = '${email}';
 if (email_exists($email) || username_exists($email)) {
   $results[] = "SKIP: $email (already exists)";
@@ -157,7 +163,7 @@ if (email_exists($email) || username_exists($email)) {
     'user_login'   => $email,
     'user_email'   => $email,
     'user_pass'    => '${esc(password)}',
-    'display_name' => '${nombre}',
+    'display_name' => '${displayName}',
     'role'         => '${rol}',
   ]);
 
@@ -171,6 +177,7 @@ if (email_exists($email) || username_exists($email)) {
     if ($post_id && function_exists('update_field')) {
       // Core fields
       update_field('nombre_completo', '${nombre}', $post_id);
+      update_field('apellidos', '${apellidos}', $post_id);
       update_field('numero_colegiado', '${numCol}', $post_id);
       update_field('dni_nie', '${dni}', $post_id);
       update_field('email', '${email}', $post_id);
@@ -275,7 +282,7 @@ async function main() {
   if (!csvPath) {
     console.log('Usage: node scripts/import-colegiados.js <csv-file> [--dry-run]');
     console.log('');
-    console.log('CSV columns: rol, nombre_completo, email, dni_nie, numero_colegiado,');
+    console.log('CSV columns: rol, nombre, apellidos, email, dni_nie, numero_colegiado,');
     console.log('  password, despacho, telefono, direccion, codigo_postal, web, linkedin,');
     console.log('  bio, ejerciente, mediador_registrado, acepta_turno_oficio, idiomas,');
     console.log('  especialidades, localidades, visible_directorio');
