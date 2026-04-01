@@ -38,7 +38,7 @@ export function RevealContact({ type, encoded }: RevealContactProps) {
       <Icon size={16} strokeWidth={1.5} className="shrink-0 text-[#6B7280]" />
       <button
         onClick={() => setRevealed(true)}
-        className="inline-flex items-center gap-1.5 text-[#2563EB] hover:text-[#1D4ED8] transition-colors"
+        className="inline-flex cursor-pointer items-center gap-1.5 text-[#2563EB] hover:text-[#1D4ED8] hover:underline transition-colors"
       >
         <Eye size={14} strokeWidth={1.5} />
         {label}
