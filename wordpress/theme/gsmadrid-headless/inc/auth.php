@@ -40,7 +40,8 @@ function gsmadrid_get_profesional_acf($user_id, $field_name) {
 add_action('user_register', 'gsmadrid_link_user_profesional');
 function gsmadrid_link_user_profesional($user_id) {
     $user = get_user_by('id', $user_id);
-    if (!$user || !in_array('profesional', $user->roles, true)) {
+    $allowed_roles = ['profesional', 'precolegiado'];
+    if (!$user || !array_intersect($allowed_roles, $user->roles)) {
         return;
     }
 
@@ -198,7 +199,7 @@ function gsmadrid_profile_update($request) {
     // ACF fields on profesional CPT (only for profesional role)
     $profesional_post_id = get_user_meta($user->ID, '_profesional_post_id', true);
     if ($profesional_post_id && ($is_profesional || $is_admin)) {
-        $editable_fields = ['dni_nie', 'despacho', 'direccion', 'codigo_postal', 'telefono', 'email', 'web', 'linkedin', 'bio', 'idiomas', 'visible_directorio'];
+        $editable_fields = ['despacho', 'direccion', 'codigo_postal', 'telefono', 'email', 'web', 'linkedin', 'bio', 'idiomas', 'visible_directorio'];
 
         if (function_exists('update_field')) {
             foreach ($editable_fields as $field_name) {
