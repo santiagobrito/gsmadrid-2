@@ -56,6 +56,10 @@ const MENU: MenuGroup[] = [
     ],
   },
   {
+    label: 'Directorio',
+    href: '/directorio',
+  },
+  {
     label: 'Servicios Ciudadano',
     href: '/servicios-ciudadano',
     children: [
