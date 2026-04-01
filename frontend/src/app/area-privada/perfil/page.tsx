@@ -66,6 +66,15 @@ export default function PerfilPage() {
       if (result.success) {
         setSaved(true);
         setTimeout(() => setSaved(false), 3000);
+        // Re-fetch to sync state with server
+        const fresh = await fetchMe();
+        if (fresh) {
+          if (fresh.profile) setProfile(fresh.profile);
+          setEspecialidades(fresh.especialidades || []);
+          setLocalidades(fresh.localidades || []);
+          setAllEspecialidades(fresh.allEspecialidades || []);
+          setAllLocalidades(fresh.allLocalidades || []);
+        }
       } else {
         setError(result.message);
       }
@@ -431,7 +440,7 @@ export default function PerfilPage() {
             </div>
 
             {/* Sidebar */}
-            <div className="space-y-6">
+            <div className="space-y-6 lg:sticky lg:top-[102px] lg:self-start">
               {/* Visibility toggle */}
               <Card hover={false} className="border-primary/20">
                 <h3 className="mb-3 text-base font-bold text-text">Visibilidad en directorio</h3>
