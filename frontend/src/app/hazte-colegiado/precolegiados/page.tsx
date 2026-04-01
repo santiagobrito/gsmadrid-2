@@ -1,8 +1,8 @@
-import Image from 'next/image';
 import {
   GraduationCap, Briefcase, Users, BookOpen, Bell, Tag,
   CheckCircle, ArrowRight,
 } from 'lucide-react';
+import { HeroBrandBlock } from '@/components/ui/HeroBrandBlock';
 import { Container } from '@/components/ui/Container';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
@@ -119,14 +119,8 @@ export default function PrecolegiadosPage() {
             {/* Right: visual card */}
             <div className="relative">
               <div className="rounded-2xl border border-[#E2E8F0] bg-gradient-to-br from-[#F7F8FA] to-white p-8 shadow-[0_12px_32px_rgba(15,23,42,0.06)]">
-                <div className="mb-6 overflow-hidden rounded-xl">
-                  <Image
-                    src="/images/precolegiados-hero.jpg"
-                    alt="Estudiantes y futuros graduados sociales"
-                    width={1200}
-                    height={675}
-                    className="aspect-[4/3] w-full object-cover"
-                  />
+                <div className="mb-6">
+                  <HeroBrandBlock title="Precolegiados" />
                 </div>
                 <div className="space-y-3">
                   <div className="flex items-center gap-3">
