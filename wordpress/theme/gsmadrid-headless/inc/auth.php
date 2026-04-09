@@ -96,6 +96,46 @@ function gsmadrid_validate_auth_token($user_id) {
     return $user_id;
 }
 
+// ---- CORS ----
+
+add_action('rest_api_init', 'gsmadrid_cors_headers', 5);
+function gsmadrid_cors_headers() {
+    $allowed_origins = [
+        'https://gsmadrid.uptomarketing.com',
+        'https://gsmadrid-2-web.a7lflv.easypanel.host',
+    ];
+    if (defined('WP_DEBUG') && WP_DEBUG) {
+        $allowed_origins[] = 'http://localhost:3000';
+    }
+    $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
+    if (in_array($origin, $allowed_origins, true)) {
+        header("Access-Control-Allow-Origin: $origin");
+        header('Access-Control-Allow-Credentials: true');
+        header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+        header('Access-Control-Allow-Headers: Authorization, Content-Type');
+    }
+    if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+        status_header(200);
+        exit;
+    }
+}
+
+// ---- Rate limiting ----
+
+function gsmadrid_check_rate_limit($ip, $max_attempts = 5, $window_seconds = 300) {
+    $key = 'gsmadrid_login_' . md5($ip);
+    $attempts = (int) get_transient($key);
+    if ($attempts >= $max_attempts) {
+        return false;
+    }
+    set_transient($key, $attempts + 1, $window_seconds);
+    return true;
+}
+
+function gsmadrid_clear_rate_limit($ip) {
+    delete_transient('gsmadrid_login_' . md5($ip));
+}
+
 // ---- REST routes ----
 
 add_action('rest_api_init', 'gsmadrid_register_auth_routes');
@@ -108,6 +148,12 @@ function gsmadrid_register_auth_routes() {
             'username' => ['required' => true, 'type' => 'string'],
             'password' => ['required' => true, 'type' => 'string'],
         ],
+    ]);
+
+    register_rest_route('gsmadrid/v1', '/auth/logout', [
+        'methods'             => 'POST',
+        'callback'            => 'gsmadrid_auth_logout',
+        'permission_callback' => 'is_user_logged_in',
     ]);
 
     register_rest_route('gsmadrid/v1', '/auth/me', [
@@ -130,6 +176,15 @@ function gsmadrid_register_auth_routes() {
 }
 
 function gsmadrid_auth_login($request) {
+    // Rate limiting
+    $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+    if (!gsmadrid_check_rate_limit($ip)) {
+        return new WP_REST_Response([
+            'success' => false,
+            'message' => 'Demasiados intentos. Espera unos minutos antes de volver a intentarlo.',
+        ], 429);
+    }
+
     $username = sanitize_text_field($request->get_param('username'));
     $password = $request->get_param('password');
     $user = wp_authenticate($username, $password);
@@ -138,14 +193,18 @@ function gsmadrid_auth_login($request) {
         return new WP_REST_Response(['success' => false, 'message' => 'Credenciales incorrectas.'], 401);
     }
 
+    // Success — clear rate limit
+    gsmadrid_clear_rate_limit($ip);
+
     $token_data = $user->ID . ':' . time() . ':' . wp_hash($user->ID . time());
     $token = base64_encode($token_data);
 
     update_user_meta($user->ID, '_gsmadrid_auth_token', $token);
-    update_user_meta($user->ID, '_gsmadrid_auth_token_expires', time() + (30 * DAY_IN_SECONDS));
+    update_user_meta($user->ID, '_gsmadrid_auth_token_expires', time() + (7 * DAY_IN_SECONDS));
 
     $profesional_post_id = get_user_meta($user->ID, '_profesional_post_id', true);
 
+    // Login response: no sensitive data (DNI/NIE). Use /auth/me for full profile.
     return new WP_REST_Response([
         'success' => true,
         'token'   => $token,
@@ -156,10 +215,16 @@ function gsmadrid_auth_login($request) {
             'displayName'      => $user->display_name,
             'roles'            => $user->roles,
             'profesionalPostId' => $profesional_post_id ? (int) $profesional_post_id : null,
-            'dniNie'           => gsmadrid_get_profesional_acf($user->ID, 'dni_nie'),
             'numeroColegiado'  => gsmadrid_get_profesional_acf($user->ID, 'numero_colegiado'),
         ],
     ], 200);
+}
+
+function gsmadrid_auth_logout($request) {
+    $user = wp_get_current_user();
+    delete_user_meta($user->ID, '_gsmadrid_auth_token');
+    delete_user_meta($user->ID, '_gsmadrid_auth_token_expires');
+    return new WP_REST_Response(['success' => true, 'message' => 'Sesion cerrada.'], 200);
 }
 
 function gsmadrid_auth_me($request) {
@@ -223,24 +288,37 @@ function gsmadrid_profile_update($request) {
 
         if (function_exists('update_field')) {
             foreach ($editable_fields as $field_name) {
-                if (isset($params[$field_name])) {
-                    $value = $field_name === 'visible_directorio'
-                        ? (bool) $params[$field_name]
-                        : sanitize_text_field($params[$field_name]);
-                    if ($field_name === 'bio') {
-                        $value = wp_kses($params[$field_name], [
-                            'p'      => [],
-                            'br'     => [],
-                            'strong' => [],
-                            'em'     => [],
-                            'ul'     => [],
-                            'ol'     => [],
-                            'li'     => [],
-                        ]);
-                    }
-                    update_field($field_name, $value, $profesional_post_id);
-                    $updated[] = $field_name;
+                if (!isset($params[$field_name])) continue;
+
+                $value = $params[$field_name];
+
+                // Type-specific validation
+                if ($field_name === 'visible_directorio') {
+                    $value = (bool) $value;
+                } elseif ($field_name === 'bio') {
+                    $value = wp_kses($value, [
+                        'p' => [], 'br' => [], 'strong' => [], 'em' => [],
+                        'ul' => [], 'ol' => [], 'li' => [],
+                    ]);
+                } elseif ($field_name === 'email') {
+                    $value = sanitize_email($value);
+                    if (!is_email($value)) continue;
+                } elseif ($field_name === 'web' || $field_name === 'linkedin') {
+                    $value = esc_url_raw($value);
+                    if ($value && !preg_match('#^https?://#', $value)) continue;
+                } elseif ($field_name === 'codigo_postal') {
+                    $value = sanitize_text_field($value);
+                    if ($value && !preg_match('/^\d{5}$/', $value)) continue;
+                } elseif ($field_name === 'telefono') {
+                    $value = sanitize_text_field($value);
+                    $digits = preg_replace('/\D/', '', $value);
+                    if ($digits && (strlen($digits) < 9 || strlen($digits) > 15)) continue;
+                } else {
+                    $value = sanitize_text_field($value);
                 }
+
+                update_field($field_name, $value, $profesional_post_id);
+                $updated[] = $field_name;
             }
         }
 

@@ -35,8 +35,9 @@ export function ColegiacionForm({ tipo: defaultTipo, showTipoSelector = false, s
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [privacidad, setPrivacidad] = useState(false);
 
-  const canSubmit = form.nombre && form.apellidos && form.email && form.tipo && !submitting;
+  const canSubmit = form.nombre && form.apellidos && form.email && form.tipo && privacidad && !submitting;
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -202,6 +203,23 @@ export function ColegiacionForm({ tipo: defaultTipo, showTipoSelector = false, s
             className={`${inputClass} resize-none`}
             placeholder="¿Alguna consulta o comentario?"
           />
+        </div>
+
+        <div className="flex items-start gap-2">
+          <input
+            id="coleg-privacidad"
+            type="checkbox"
+            checked={privacidad}
+            onChange={(e) => setPrivacidad(e.target.checked)}
+            className="mt-1 h-4 w-4 rounded border-[#E2E8F0] text-[#2563EB] focus:ring-[#2563EB]/20"
+          />
+          <label htmlFor="coleg-privacidad" className="text-xs text-[#6B7280]">
+            He leido y acepto la{' '}
+            <a href="/politica-privacidad" className="underline hover:text-[#2563EB]">
+              Politica de Privacidad
+            </a>
+            . Mis datos seran tratados para gestionar mi solicitud de colegiacion.
+          </label>
         </div>
 
         {error && (

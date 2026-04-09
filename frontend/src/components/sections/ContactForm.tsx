@@ -20,8 +20,9 @@ export function ContactForm() {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [privacidad, setPrivacidad] = useState(false);
 
-  const canSubmit = form.nombre && form.email && form.asunto && form.mensaje && !submitting;
+  const canSubmit = form.nombre && form.email && form.asunto && form.mensaje && privacidad && !submitting;
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -164,6 +165,23 @@ export function ContactForm() {
             className={`${inputClass} resize-none`}
             placeholder="Escribe tu consulta..."
           />
+        </div>
+
+        <div className="flex items-start gap-2">
+          <input
+            id="contact-privacidad"
+            type="checkbox"
+            checked={privacidad}
+            onChange={(e) => setPrivacidad(e.target.checked)}
+            className="mt-1 h-4 w-4 rounded border-[#E2E8F0] text-[#2563EB] focus:ring-[#2563EB]/20"
+          />
+          <label htmlFor="contact-privacidad" className="text-xs text-[#6B7280]">
+            He leido y acepto la{' '}
+            <a href="/politica-privacidad" className="underline hover:text-[#2563EB]">
+              Politica de Privacidad
+            </a>
+            . Mis datos seran tratados para atender mi consulta.
+          </label>
         </div>
 
         {error && (

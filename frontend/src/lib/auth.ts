@@ -8,7 +8,6 @@ export interface AuthUser {
   displayName: string;
   roles: string[];
   profesionalPostId: number | null;
-  dniNie: string | null;
   numeroColegiado: string | null;
 }
 
@@ -151,7 +150,12 @@ export async function uploadProfilePhoto(file: File): Promise<UploadPhotoRespons
   return res.json();
 }
 
-export function logout(): void {
+export async function logout(): Promise<void> {
+  try {
+    await authFetch('/auth/logout', { method: 'POST' });
+  } catch {
+    // Best-effort server-side token cleanup
+  }
   clearAuth();
   window.location.href = '/area-privada';
 }
