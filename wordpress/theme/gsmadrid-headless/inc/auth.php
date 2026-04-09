@@ -96,30 +96,6 @@ function gsmadrid_validate_auth_token($user_id) {
     return $user_id;
 }
 
-// ---- CORS ----
-
-add_action('rest_api_init', 'gsmadrid_cors_headers', 5);
-function gsmadrid_cors_headers() {
-    $allowed_origins = [
-        'https://gsmadrid.uptomarketing.com',
-        'https://gsmadrid-2-web.a7lflv.easypanel.host',
-    ];
-    if (defined('WP_DEBUG') && WP_DEBUG) {
-        $allowed_origins[] = 'http://localhost:3000';
-    }
-    $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
-    if (in_array($origin, $allowed_origins, true)) {
-        header("Access-Control-Allow-Origin: $origin");
-        header('Access-Control-Allow-Credentials: true');
-        header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
-        header('Access-Control-Allow-Headers: Authorization, Content-Type');
-    }
-    if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-        status_header(200);
-        exit;
-    }
-}
-
 // ---- Rate limiting ----
 
 function gsmadrid_check_rate_limit($ip, $max_attempts = 5, $window_seconds = 300) {

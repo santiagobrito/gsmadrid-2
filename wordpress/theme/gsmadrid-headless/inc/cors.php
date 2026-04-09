@@ -1,18 +1,22 @@
 <?php
 /**
- * CORS headers — Allow Next.js frontend origins
+ * CORS headers — Allow only known frontend origins
  */
 
 add_action('init', 'gsmadrid_cors_headers');
 
 function gsmadrid_cors_headers() {
     $allowed_origins = [
-        'http://localhost:3000',
+        'https://gsmadrid.uptomarketing.com',
         'https://gsmadrid-2-web.a7lflv.easypanel.host',
     ];
 
     if (defined('FRONTEND_URL')) {
         $allowed_origins[] = FRONTEND_URL;
+    }
+
+    if (defined('WP_DEBUG') && WP_DEBUG) {
+        $allowed_origins[] = 'http://localhost:3000';
     }
 
     $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
