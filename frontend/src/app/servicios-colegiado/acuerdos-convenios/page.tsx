@@ -71,6 +71,15 @@ const highlights = [
   'Convenios con editoriales juridicas y bases de datos legislativas',
 ];
 
+const partners = [
+  {
+    name: 'Banco Sabadell',
+    logo: '/images/colaboradores/banco-sabadell.png',
+    href: 'https://www.bancsabadell.com/cs/Satellite/COPBS350166_SabAtl/Colegio-Oficial-Graduado-Social-Madrid/2000008513649/es/?dis=dis:tp-:sp-:pt-350166:nf-:nc-acutopglbcolprofesional:c-colectivos:f-logo:t-600x400:mp-:ga-bs',
+    alt: 'Banco Sabadell — Entidad colaboradora del Colegio Oficial de Graduados Sociales de Madrid',
+  },
+];
+
 export default function AcuerdosConveniosPage() {
   return (
     <>
@@ -167,6 +176,43 @@ export default function AcuerdosConveniosPage() {
                 </Card>
               );
             })}
+          </div>
+        </Container>
+      </section>
+
+      {/* Partners */}
+      <section className="py-20">
+        <Container>
+          <div className="mb-12 text-center">
+            <Badge color="institutional">Entidades colaboradoras</Badge>
+            <h2 className="mt-4 text-3xl font-extrabold text-[#0F172A]">
+              Empresas que confian en el Colegio
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-base font-light text-[#475569]">
+              Estas son algunas de las entidades con las que mantenemos un convenio
+              activo de colaboracion para nuestros colegiados.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
+            {partners.map((p) => (
+              <a
+                key={p.name}
+                href={p.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center justify-center rounded-2xl border border-[#E2E8F0] bg-white p-6 shadow-[0_4px_12px_rgba(15,23,42,0.04)] transition hover:border-[#2563EB]/40 hover:shadow-[0_8px_20px_rgba(37,99,235,0.08)]"
+                aria-label={`Convenio con ${p.name} — abrir en nueva pestana`}
+              >
+                <Image
+                  src={p.logo}
+                  alt={p.alt}
+                  width={240}
+                  height={120}
+                  className="h-16 w-auto object-contain opacity-80 transition group-hover:opacity-100"
+                />
+              </a>
+            ))}
           </div>
         </Container>
       </section>
