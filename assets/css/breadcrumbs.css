@@ -1,0 +1,51 @@
+/* ── Breadcrumbs CGSM ── */
+
+.breadcum .rank-math-breadcrumb p {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.02em !important;
+    line-height: 1.4 !important;
+}
+
+.breadcum .rank-math-breadcrumb a {
+    color: #64748B !important;
+    text-decoration: none !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    transition: color 0.2s ease;
+}
+
+.breadcum .rank-math-breadcrumb a:hover {
+    color: #2563EB !important;
+}
+
+.breadcum .rank-math-breadcrumb .separator {
+    color: #CBD5E1 !important;
+    margin: 0 6px !important;
+    font-weight: 400 !important;
+    font-size: 12px !important;
+}
+
+.breadcum .rank-math-breadcrumb .last {
+    color: #0F172A !important;
+    font-weight: 600 !important;
+    font-size: 12px !important;
+    max-width: 350px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (max-width: 768px) {
+    .breadcum .rank-math-breadcrumb .last {
+        max-width: 180px;
+    }
+}
+
+/*fin breadcum*/

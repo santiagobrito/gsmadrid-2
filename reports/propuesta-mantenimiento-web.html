@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Propuesta de Mantenimiento Web — CGSM</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    color: #1E293B;
+    font-size: 13px;
+    line-height: 1.6;
+    background: #fff;
+  }
+
+  @page {
+    size: A4;
+    margin: 20mm 22mm;
+  }
+
+  .page {
+    max-width: 750px;
+    margin: 0 auto;
+    padding: 40px 0;
+  }
+
+  @media print {
+    .page { padding: 0; }
+    .page-break { page-break-before: always; }
+  }
+
+  /* Header */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 2px solid #2563EB;
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+  }
+
+  .header-left h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #0E111B;
+    letter-spacing: -0.3px;
+  }
+
+  .header-left p {
+    font-size: 13px;
+    color: #64748B;
+    margin-top: 4px;
+  }
+
+  .header-right {
+    text-align: right;
+    font-size: 12px;
+    color: #64748B;
+  }
+
+  .header-right strong {
+    color: #1E293B;
+  }
+
+  /* Sections */
+  h2 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #0E111B;
+    margin-top: 28px;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #E2E8F0;
+  }
+
+  h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #2563EB;
+    margin-top: 20px;
+    margin-bottom: 8px;
+  }
+
+  p, li {
+    font-size: 13px;
+    color: #475569;
+    line-height: 1.7;
+  }
+
+  ul {
+    padding-left: 20px;
+    margin-bottom: 12px;
+  }
+
+  li { margin-bottom: 4px; }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0 20px;
+    font-size: 13px;
+  }
+
+  th {
+    background: #F1F5F9;
+    font-weight: 600;
+    color: #1E293B;
+    text-align: left;
+    padding: 10px 14px;
+    border: 1px solid #E2E8F0;
+  }
+
+  td {
+    padding: 9px 14px;
+    border: 1px solid #E2E8F0;
+    color: #475569;
+  }
+
+  tr:nth-child(even) td {
+    background: #FAFBFC;
+  }
+
+  .total-row td {
+    font-weight: 700;
+    color: #0E111B;
+    background: #EEF2FF !important;
+    font-size: 14px;
+  }
+
+  .price {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Option boxes */
+  .option-box {
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin: 16px 0;
+    background: #FAFBFC;
+  }
+
+  .option-box.featured {
+    border-color: #2563EB;
+    background: linear-gradient(135deg, #EEF2FF 0%, #F0FDFA 100%);
+  }
+
+  .option-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #0E111B;
+    margin-bottom: 4px;
+  }
+
+  .option-price {
+    font-size: 24px;
+    font-weight: 700;
+    color: #2563EB;
+    margin-bottom: 12px;
+  }
+
+  .option-price span {
+    font-size: 14px;
+    font-weight: 400;
+    color: #64748B;
+  }
+
+  .badge {
+    display: inline-block;
+    background: #2563EB;
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+
+  /* Provider table */
+  .provider-table {
+    margin-top: 8px;
+  }
+
+  .provider-table td {
+    padding: 6px 14px;
+    border: none;
+    border-bottom: 1px solid #F1F5F9;
+  }
+
+  .provider-table td:first-child {
+    font-weight: 500;
+    color: #1E293B;
+    width: 140px;
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 32px;
+    padding-top: 16px;
+    border-top: 1px solid #E2E8F0;
+    font-size: 11px;
+    color: #94A3B8;
+    text-align: center;
+  }
+
+  .small { font-size: 11px; color: #94A3B8; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <h1>Propuesta de Mantenimiento Web</h1>
+      <p>Colegio Oficial de Graduados Sociales de Madrid</p>
+    </div>
+    <div class="header-right">
+      <strong>Fecha:</strong> Abril 2026<br>
+      <strong>Ref:</strong> CGSM-MNT-2026-01<br>
+      <strong>Validez:</strong> 60 dias
+    </div>
+  </div>
+
+  <!-- Prestador -->
+  <h2>Datos del prestador</h2>
+  <table class="provider-table">
+    <tr><td>Nombre</td><td>Santiago Matias Brito Devoto</td></tr>
+    <tr><td>NIF</td><td>Y8142155P</td></tr>
+    <tr><td>Contacto</td><td>santiagobrito@gmail.com</td></tr>
+  </table>
+
+  <!-- Stack -->
+  <h2>Stack tecnologico del sitio</h2>
+  <table>
+    <tr><th>Componente</th><th>Tecnologia</th></tr>
+    <tr><td>Frontend</td><td>Next.js 15 (SSR/SSG)</td></tr>
+    <tr><td>CMS</td><td>WordPress headless (WPGraphQL)</td></tr>
+    <tr><td>Base de datos</td><td>MariaDB 11</td></tr>
+    <tr><td>Hosting</td><td>VPS dedicado + EasyPanel</td></tr>
+    <tr><td>SSL</td><td>Let's Encrypt (auto-renovacion)</td></tr>
+  </table>
+
+  <!-- Servicios comunes -->
+  <h2>Servicios incluidos en ambas opciones</h2>
+
+  <h3>Mantenimiento preventivo</h3>
+  <ul>
+    <li>Actualizaciones de WordPress core, plugins y tema headless</li>
+    <li>Actualizaciones de dependencias Next.js y patches de seguridad</li>
+    <li>Revision de logs de error y rendimiento</li>
+    <li>Monitorizacion de uptime y alertas</li>
+    <li>Certificado SSL: verificacion de renovacion automatica</li>
+  </ul>
+
+  <h3>Seguridad</h3>
+  <ul>
+    <li>Revision mensual de vulnerabilidades (plugins, dependencias npm)</li>
+    <li>Actualizaciones criticas de seguridad (aplicacion en &lt; 24h)</li>
+    <li>Hardening WordPress: cabeceras HTTP, XML-RPC desactivado, REST restringido</li>
+  </ul>
+
+  <h3>Soporte</h3>
+  <ul>
+    <li>Canal de comunicacion dedicado (email + chat)</li>
+    <li>Informe mensual de estado (uptime, actualizaciones, incidencias)</li>
+  </ul>
+
+  <h3>Bolsa de horas de desarrollo (5 horas/mes)</h3>
+  <ul>
+    <li>Ajustes de diseno, nuevas secciones, cambios de contenido</li>
+    <li>Mejoras funcionales, integraciones, importaciones de datos</li>
+    <li>Horas adicionales disponibles bajo demanda</li>
+  </ul>
+
+  <!-- Options -->
+  <h2>Opciones</h2>
+
+  <div class="option-box">
+    <div class="option-title">Opcion A — Solo mantenimiento</div>
+    <p style="color:#64748B; margin-bottom:12px;">El Colegio gestiona su propia infraestructura de hosting y backups. Nosotros nos encargamos del mantenimiento de la aplicacion.</p>
+    <div class="option-price">290 EUR <span>/mes</span></div>
+    <table>
+      <tr><th>Concepto</th><th class="price">Importe</th></tr>
+      <tr><td>Mantenimiento preventivo + seguridad + soporte</td><td class="price">120 EUR</td></tr>
+      <tr><td>Bolsa de 5 horas de desarrollo</td><td class="price">170 EUR</td></tr>
+      <tr class="total-row"><td>Total mensual</td><td class="price">290 EUR</td></tr>
+    </table>
+    <p class="small">Horas no consumidas no se acumulan. Hora adicional: 55 EUR/hora.<br>
+    Tiempo de respuesta ante incidencias criticas: &lt; 4 horas laborables.<br>
+    No incluye gestion del servidor ni backups (responsabilidad del Colegio o su proveedor de hosting).</p>
+  </div>
+
+  <div class="option-box featured">
+    <div class="option-title">Opcion B — Mantenimiento con hosting gestionado <span class="badge">Recomendada</span></div>
+    <p style="color:#64748B; margin-bottom:12px;">El Colegio contrata un servidor VPS en un proveedor como OVH o Arsys, segun nuestras especificaciones tecnicas. Nosotros nos encargamos de la instalacion, configuracion, mantenimiento, backups, seguridad y administracion completa del servidor y la aplicacion.</p>
+    <div class="option-price">450 EUR <span>/mes</span></div>
+    <table>
+      <tr><th>Concepto</th><th class="price">Importe</th></tr>
+      <tr><td>Gestion integral del servidor (instalacion, configuracion, administracion, CDN, staging)</td><td class="price">110 EUR</td></tr>
+      <tr><td>Mantenimiento preventivo + seguridad + soporte</td><td class="price">120 EUR</td></tr>
+      <tr><td>Bolsa de 5 horas de desarrollo</td><td class="price">170 EUR</td></tr>
+      <tr><td>SLA 99.5% + respuesta critica &lt; 1h</td><td class="price">50 EUR</td></tr>
+      <tr class="total-row"><td>Total mensual</td><td class="price">450 EUR</td></tr>
+    </table>
+    <p class="small">Horas no consumidas se acumulan hasta un maximo de 10h (2 meses). Hora adicional: 50 EUR/hora.<br>
+    Incluye entorno de staging para pruebas pre-produccion y backups diarios con retencion de 30 dias.<br>
+    El coste del servidor VPS (aprox. 15–30 EUR/mes) lo abona el Colegio directamente al proveedor.</p>
+  </div>
+
+  <!-- Requisitos del servidor -->
+  <h2>Especificaciones recomendadas del servidor (Opcion B)</h2>
+  <p style="color:#475569; margin-bottom:12px;">El Colegio contrata el VPS en un proveedor de su eleccion (recomendamos OVH o Arsys). Requisitos minimos:</p>
+  <table>
+    <tr><th>Recurso</th><th>Minimo recomendado</th></tr>
+    <tr><td>CPU</td><td>4 vCPU</td></tr>
+    <tr><td>RAM</td><td>8 GB</td></tr>
+    <tr><td>Almacenamiento</td><td>80 GB SSD NVMe</td></tr>
+    <tr><td>Sistema operativo</td><td>Ubuntu 22.04 / Debian 12</td></tr>
+    <tr><td>Red</td><td>IP publica fija, trafico ilimitado</td></tr>
+    <tr><td>Coste estimado</td><td>15 – 30 EUR/mes (pago directo del Colegio al proveedor)</td></tr>
+  </table>
+  <p class="small">Asesoramos en la eleccion del plan y proveedor mas adecuado. La contratacion y titularidad del servidor es del Colegio.</p>
+
+  <!-- Comparativa -->
+  <div class="page-break"></div>
+  <h2>Comparativa</h2>
+  <table>
+    <tr><th></th><th>Solo mantenimiento (A)</th><th>Hosting gestionado (B)</th></tr>
+    <tr><td>Precio mensual</td><td class="price">290 EUR</td><td class="price">450 EUR</td></tr>
+    <tr><td>Horas de desarrollo incluidas</td><td>5h</td><td>5h</td></tr>
+    <tr><td>Acumulacion de horas no usadas</td><td>No</td><td>Si (max 10h)</td></tr>
+    <tr><td>Hora adicional</td><td class="price">55 EUR</td><td class="price">50 EUR</td></tr>
+    <tr><td>Gestion del servidor</td><td>Responsabilidad del Colegio</td><td>Gestionado por nosotros</td></tr>
+    <tr><td>Contratacion del VPS</td><td>—</td><td>El Colegio (OVH, Arsys, etc.)</td></tr>
+    <tr><td>Backups</td><td>Responsabilidad del Colegio</td><td>Diarios (retencion 30 dias)</td></tr>
+    <tr><td>Entorno de staging</td><td>No</td><td>Si</td></tr>
+    <tr><td>SLA de uptime</td><td>—</td><td>99.5%</td></tr>
+    <tr><td>Respuesta incidencia critica</td><td>&lt; 4h laborables</td><td>&lt; 1h</td></tr>
+    <tr><td>Restauracion ante desastre</td><td>—</td><td>&lt; 2h</td></tr>
+  </table>
+
+  <!-- Ejemplos -->
+  <h2>Ejemplos de uso de la bolsa de horas</h2>
+  <table>
+    <tr><th>Tarea</th><th class="price">Horas est.</th></tr>
+    <tr><td>Cambiar textos o imagenes de una seccion</td><td class="price">0.5h</td></tr>
+    <tr><td>Anadir nueva pagina estatica</td><td class="price">1 – 2h</td></tr>
+    <tr><td>Crear nueva seccion con diseno personalizado</td><td class="price">2 – 3h</td></tr>
+    <tr><td>Importacion masiva de colegiados (CSV)</td><td class="price">1 – 2h</td></tr>
+    <tr><td>Ajustes de diseno responsive</td><td class="price">1h</td></tr>
+    <tr><td>Integracion con servicio externo (newsletter, CRM)</td><td class="price">3 – 5h</td></tr>
+    <tr><td>Nueva funcionalidad mayor (ej: gestion documental)</td><td class="price">Proyecto*</td></tr>
+  </table>
+  <p class="small">* Funcionalidades que excedan 10 horas se presupuestan como proyecto independiente.</p>
+
+  <!-- Exclusiones -->
+  <h2>No incluido</h2>
+  <ul>
+    <li>Redaccion de contenidos y copywriting</li>
+    <li>Campanas de Google Ads, SEO o marketing digital</li>
+    <li>Desarrollo de funcionalidades mayores (&gt; 10h) — se presupuestan como proyecto</li>
+    <li>Fotografia, video o produccion de contenido multimedia</li>
+    <li>Formacion a usuarios (disponible como servicio puntual)</li>
+  </ul>
+
+  <!-- Condiciones -->
+  <h2>Condiciones</h2>
+  <table class="provider-table">
+    <tr><td>Facturacion</td><td>Mensual, pago a 15 dias</td></tr>
+    <tr><td>Permanencia</td><td>Sin permanencia. Cancelacion con 30 dias de preaviso</td></tr>
+    <tr><td>Inicio</td><td>A partir de la puesta en produccion de la web</td></tr>
+    <tr><td>Revision de precios</td><td>Anual</td></tr>
+  </table>
+
+  <!-- Footer -->
+  <div class="footer">
+    Propuesta valida durante 60 dias desde la fecha de emision.<br>
+    Santiago Matias Brito Devoto · NIF Y8142155P
+  </div>
+
+</div>
+</body>
+</html>

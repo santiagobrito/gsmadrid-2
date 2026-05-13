@@ -1,0 +1,58 @@
+/* ── Header / Nav Principal CGSM ── */
+
+/* Items nivel padre */
+.elementor-nav-menu > li > a {
+    padding: 6px 14px !important;
+    border-radius: 6px !important;
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: #475569 !important;
+    transition: all 0.2s ease !important;
+}
+.elementor-nav-menu > li > a:hover {
+    color: #0F172A !important;
+    background: #F7F8FA !important;
+}
+.elementor-nav-menu > li.current-menu-item > a,
+.elementor-nav-menu > li.current-menu-ancestor > a {
+    color: #2563EB !important;
+}
+
+/* Flechita dropdown */
+.elementor-nav-menu .sub-arrow {
+    font-size: 10px !important;
+    color: inherit !important;
+    margin-left: 4px !important;
+    transition: transform 0.2s ease !important;
+}
+.elementor-nav-menu li:hover > a .sub-arrow {
+    transform: rotate(180deg) !important;
+}
+
+/* Dropdown panel */
+.elementor-nav-menu .sub-menu {
+    background: #FFFFFF !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 12px !important;
+    box-shadow: 0px 12px 32px rgba(15, 23, 42, 0.08) !important;
+    padding: 8px !important;
+    min-width: 200px !important;
+}
+
+/* Items del dropdown */
+.elementor-nav-menu .sub-menu li a {
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: #475569 !important;
+    padding: 8px 16px !important;
+    border-radius: 8px !important;
+    transition: all 0.2s ease !important;
+}
+.elementor-nav-menu .sub-menu li a:hover {
+    color: #0F172A !important;
+    background: #F7F8FA !important;
+}
+
+/*fin header*/
