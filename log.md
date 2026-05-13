@@ -4,6 +4,42 @@ Registro cronológico de acciones realizadas.
 
 ---
 
+## 2026-05-13 — Limpieza estructural del repo: line endings, gitignore allowlist, reorganización
+
+**Origen:** Mientras iba a commitear el fix de 404 detecté que git status mostraba 170 archivos modificados, mayoría ruido CRLF↔LF, pero también mezclados con 79 deletions sin stagear y 87 untracked. El user pidió revisar uno por uno; con clasificación automática agrupé en bloques accionables.
+
+**Auditoría inicial** (script de clasificación):
+- 87 M (modificados): 84 solo line-endings, 3 cambios reales (`CLAUDE.md`, `frontend/next-env.d.ts`, `log.md`)
+- 79 D (borrados sin stagear): 39 mocks + 17 del tema viejo (movido a /theme) + 5 scripts setup obsoletos + 5 reports + 5 logos + 6 root sueltos
+- 87 ?? (untracked): 77 scripts throwaway (payloads, builders) + 4 theme/ + 1 assets/ + 4 reports/ + informe incidente
+
+**Cambios (3 commits dedicados):**
+
+`d465178` — Normalize line endings + scripts/ allowlist in gitignore:
+- `.gitattributes` nuevo con `* text=auto eol=lf` + binarios explícitos
+- `.gitignore` ampliado: `scripts/*` + `!scripts/<3 tools allowlist>` (deploy-auth-update.js, enable-wordfence-2fa.js, import-colegiados.js)
+- Efecto inmediato: los 84 archivos de line-endings dejaron de aparecer modificados
+
+`506534f` — Repository cleanup: 79 deletions + 10 nuevos archivos:
+- Borrados: `Fotos-santi-mock/*` (39), `wordpress/theme/gsmadrid-headless/*` excepto `inc/auth.php` (17, tema movido a `/theme/`), 5 scripts setup obsoletos, 5 reports antiguos, 5 logos sueltos, 6 archivos root mock
+- Añadidos: `/theme/` (tema WP relocalizado), `/assets/` (logos colaboradores incl. Banco Sabadell), `informe-incidente-seguridad-20260414.md`, reports actuales (manual estilo, propuesta mantenimiento)
+- Renames detectados por git: `manual-estilo-web_2026-03-15.{html,md}` → `reports/`
+
+`3bd76b6` — Update CLAUDE.md, log, next-env:
+- `CLAUDE.md`: -253 +97 líneas, reemplaza versión inicial del scaffold por la operativa actual (datos, plataformas, stack, audiencias, agentes, reglas específicas)
+- `log.md`: entradas del día
+- `frontend/next-env.d.ts`: +1 línea autogen Next.js
+
+**Lecciones aprendidas:**
+- Al detectar diff masivo aparentemente "todo modificado", primero clasificar: comparar `git show HEAD:<file> | tr -d '\r'` vs `tr -d '\r' < <file>`. Si son iguales = solo line-endings = safe a renormalizar.
+- `git diff --name-only -w` NO filtra archivos: lista cualquier archivo con diff aunque sea solo whitespace. Para detectar diferencias reales hay que comparar contenido normalizado a mano.
+- `.gitattributes` con `eol=lf` no requiere convertir archivos en disco manualmente: git re-evalúa el status comparando contra contenido canonicalizado.
+- Para evitar arrastrar ruido CRLF en commits parciales: `git restore <file>` + re-aplicar edits = diff limpio del cambio real.
+
+**Deploy:** No requerido. Ninguno de los 5 commits cleanup toca código runtime del frontend (todo eran tooling/cleanup/docs).
+
+---
+
 ## 2026-05-13 — Fix 404 en Hazte Colegiado: consolidación de rutas ejercientes
 
 **Origen:** Santi reportó que `https://gsmadrid.uptomarketing.com/hazte-colegiado/ejercientes-libres` (y luego `/ejercientes-empresa`, `/no-ejercientes`) devolvían 404.
@@ -25,6 +61,10 @@ Registro cronológico de acciones realizadas.
 
 **Deploy:**
 - Commit `9cf8c7d` push a `main` → trigger manual vía `services.app.deployService` sobre `gsmadrid-2/web` (autoDeploy=false). Build ~2 min.
+
+**Iteración (mismo día):** El user pidió volver a 4 tarjetas con alturas iguales. Commit `f2a3aa1` revierte la consolidación a 2 tarjetas y restablece las 4 (Precolegiados, Ejercientes Libres, Ejercientes en Empresa, No Ejercientes). Para igualar alturas en el grid sm:grid-cols-2: `Link` ahora `group block h-full`, div interno `flex h-full flex-col`, y la línea "Ver requisitos" con `mt-auto pt-3` para anclarla al pie. Las 3 ejercientes apuntan a `/colegiados`, Precolegiados a su propia página. Deploy disparado y verificado.
+
+**Redirects 301 (commit `ba6b11e`):** Añadidos en `frontend/next.config.ts` con `permanent: true` (Next.js usa 308, equivalente SEO). Cubre el caso de Google/backlinks externos con las URLs viejas indexadas. Verificado: `/ejercientes-libres`, `/ejercientes-empresa`, `/no-ejercientes` → 308 → `/colegiados`.
 
 ---
 
