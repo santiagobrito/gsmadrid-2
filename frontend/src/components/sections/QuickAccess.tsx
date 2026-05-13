@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Users, Shield, GraduationCap, Briefcase, ArrowRight, CheckCircle } from 'lucide-react';
+import { Users, Shield, GraduationCap, Briefcase, BookOpen, Scale, ArrowRight, CheckCircle } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
@@ -48,17 +48,29 @@ const benefits = [
 
 const paths: { icon: typeof GraduationCap; title: string; subtitle: string; href: string; popular?: boolean }[] = [
   {
-    icon: Briefcase,
-    title: 'Colegiados',
-    subtitle: 'Profesionales titulados (ejercientes y no ejercientes)',
-    href: '/hazte-colegiado/colegiados',
-    popular: true,
-  },
-  {
     icon: GraduationCap,
     title: 'Precolegiados',
     subtitle: 'Estudiantes de Grado o Master',
     href: '/hazte-colegiado/precolegiados',
+  },
+  {
+    icon: Briefcase,
+    title: 'Ejercientes Libres',
+    subtitle: 'Profesionales por cuenta propia',
+    href: '/hazte-colegiado/colegiados',
+    popular: true,
+  },
+  {
+    icon: BookOpen,
+    title: 'Ejercientes en Empresa',
+    subtitle: 'Profesionales por cuenta ajena',
+    href: '/hazte-colegiado/colegiados',
+  },
+  {
+    icon: Scale,
+    title: 'No Ejercientes',
+    subtitle: 'Titulados sin ejercicio activo',
+    href: '/hazte-colegiado/colegiados',
   },
 ];
 
@@ -128,13 +140,13 @@ export function QuickAccess() {
               </div>
             </div>
 
-            {/* Right: 2 paths */}
+            {/* Right: 4 paths (equal-height cards via grid + h-full) */}
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               {paths.map((path) => {
                 const Icon = path.icon;
                 return (
-                  <Link key={path.title} href={path.href} className="group">
-                    <div className={`relative rounded-2xl border p-6 backdrop-blur-sm transition-all hover:bg-white/[0.08] ${path.popular ? 'border-[#2563EB]/40 bg-white/[0.06]' : 'border-white/10 bg-white/[0.04] hover:border-[#2563EB]/40'}`}>
+                  <Link key={path.title} href={path.href} className="group block h-full">
+                    <div className={`relative flex h-full flex-col rounded-2xl border p-6 backdrop-blur-sm transition-all hover:bg-white/[0.08] ${path.popular ? 'border-[#2563EB]/40 bg-white/[0.06]' : 'border-white/10 bg-white/[0.04] hover:border-[#2563EB]/40'}`}>
                       {path.popular && (
                         <span className="absolute -top-2.5 right-4 rounded-full bg-[#18B7B0] px-3 py-0.5 text-[10px] font-bold uppercase tracking-[0.08em] text-white">
                           Mas comun
@@ -145,7 +157,7 @@ export function QuickAccess() {
                       </div>
                       <h3 className="text-base font-bold text-white">{path.title}</h3>
                       <p className="mt-1 text-sm text-[#94A3B8]">{path.subtitle}</p>
-                      <div className="mt-3 flex items-center gap-1 text-xs font-semibold text-[#60A5FA] opacity-0 transition-opacity group-hover:opacity-100">
+                      <div className="mt-auto pt-3 flex items-center gap-1 text-xs font-semibold text-[#60A5FA] opacity-0 transition-opacity group-hover:opacity-100">
                         Ver requisitos <ArrowRight size={12} />
                       </div>
                     </div>
