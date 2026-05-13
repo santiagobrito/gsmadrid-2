@@ -38,3 +38,9 @@ wordpress/uploads/
 
 # Claude
 .claude/
+
+# Scripts: allowlist only the tools worth keeping; everything else is one-shot
+scripts/*
+!scripts/deploy-auth-update.js
+!scripts/enable-wordfence-2fa.js
+!scripts/import-colegiados.js
