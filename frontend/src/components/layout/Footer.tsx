@@ -31,7 +31,7 @@ const columns: { title: string; links: FooterLink[] }[] = [
     title: 'Colegiacion',
     links: [
       { label: 'Hazte Colegiado', href: '/hazte-colegiado' },
-      { label: 'Ejercientes Libres', href: '/hazte-colegiado/ejercientes-libres' },
+      { label: 'Colegiados', href: '/hazte-colegiado/colegiados' },
       { label: 'Precolegiados', href: '/hazte-colegiado/precolegiados' },
       { label: 'Area Privada', href: '/area-privada' },
     ],

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Users, Shield, GraduationCap, Briefcase, BookOpen, Scale, ArrowRight, CheckCircle } from 'lucide-react';
+import { Users, Shield, GraduationCap, Briefcase, ArrowRight, CheckCircle } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
@@ -48,29 +48,17 @@ const benefits = [
 
 const paths: { icon: typeof GraduationCap; title: string; subtitle: string; href: string; popular?: boolean }[] = [
   {
+    icon: Briefcase,
+    title: 'Colegiados',
+    subtitle: 'Profesionales titulados (ejercientes y no ejercientes)',
+    href: '/hazte-colegiado/colegiados',
+    popular: true,
+  },
+  {
     icon: GraduationCap,
     title: 'Precolegiados',
     subtitle: 'Estudiantes de Grado o Master',
     href: '/hazte-colegiado/precolegiados',
-  },
-  {
-    icon: Briefcase,
-    title: 'Ejercientes Libres',
-    subtitle: 'Profesionales por cuenta propia',
-    href: '/hazte-colegiado/ejercientes-libres',
-    popular: true,
-  },
-  {
-    icon: BookOpen,
-    title: 'Ejercientes en Empresa',
-    subtitle: 'Profesionales por cuenta ajena',
-    href: '/hazte-colegiado/ejercientes-empresa',
-  },
-  {
-    icon: Scale,
-    title: 'No Ejercientes',
-    subtitle: 'Titulados sin ejercicio activo',
-    href: '/hazte-colegiado/no-ejercientes',
   },
 ];
 
@@ -140,7 +128,7 @@ export function QuickAccess() {
               </div>
             </div>
 
-            {/* Right: 4 paths */}
+            {/* Right: 2 paths */}
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               {paths.map((path) => {
                 const Icon = path.icon;
