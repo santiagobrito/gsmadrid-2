@@ -4,6 +4,66 @@ Registro cronológico de acciones realizadas.
 
 ---
 
+## 2026-05-13 — Heroes de landing pages: reemplazo de 10 imágenes estáticas + optimización
+
+**Origen:** Santi quería renovar las imágenes hero de las landings de servicios. Pidió inventario primero, luego envió zip con 10 imágenes a reemplazar.
+
+**Inventario de imágenes del sitio** (referencia para futuro):
+- **Estáticas hardcoded** (en `frontend/public/images/`, 10 heroes + `teresa-silleras.jpg` + `logo.png`)
+- **Partners** (`frontend/public/partners/`, 4 logos usados solo en clinica-juridica)
+- **Editables vía WordPress** (miembro_junta featured, profesional ACF foto, post featured, formacion featured, evento featured) — NO tocar código, se editan en wp-admin
+- **Placeholders SVG** (`/placeholder-{evento,formacion,news}.svg`) — fallbacks
+- **Huérfanas detectadas**: `frontend/public/images/{hazte-colegiado-hero,precolegiados-hero}.jpg` (en disco, nadie las referencia — el código de `/hazte-colegiado/` y `/hazte-colegiado/precolegiados/` no monta hero image) + carpeta `frontend/public/junta/*` (~5 MB obsoleta, las fotos vienen de WP).
+
+**Iteración aspect ratio:**
+- Primer zip (`estaticas.zip`): 10 imágenes a 1200×675 (16:9). Pero las páginas usan `aspect-[4/3]` en el `<Image>` del hero → 16:9 se hubiera recortado. Avisé.
+- Segundo zip (`Estaticas-web (1600 x 1200 px).zip`): 1600×1200 (4:3 correcto, ratio 1.333). Total 12 MB.
+
+**Optimización con sharp:**
+- 12 MB original era exceso para uso web (sources al ~95 quality). Sharp + mozjpeg quality 82 progressive → **1.8 MB total (-84%)** sin pérdida visual perceptible al tamaño renderizado.
+- Comando: `sharp(src).jpeg({quality:82, mozjpeg:true, progressive:true}).toFile(dst)` — sharp viene en `frontend/node_modules/` por Next.js.
+- Cliente recibe ~80-150 KB (Next.js convierte a WebP/AVIF on-demand). Repo gana 10+ MB de espacio limpio.
+
+**Commit `4bfc752`:** Reemplazo de los 10 .jpg en `frontend/public/images/`. Trigger deploy. Verificado en producción (content-length: 191362 para colegiados-hero.jpg, last-modified de hoy).
+
+**Limpieza:** Los 2 zips procesados + 3 directorios tmp eliminados de `~/CLAUDE/uploads/` y `/tmp/`.
+
+---
+
+## 2026-05-13 — Foto de Manuel Rodriguez Noguera no se actualizaba: diagnóstico WP vs frontend cache
+
+**Reporte de Santi:** "Cambié la foto de Manuel desde el backend pero en frontend sigue la antigua".
+
+**Diagnóstico** (patrón útil para futuros casos similares):
+1. **Primero verificar qué devuelve la API WP**, no asumir caché frontend:
+   ```bash
+   curl -sS "<wp-domain>/wp-json/wp/v2/<cpt>?search=<nombre>&_embed" | python3 -m json.tool
+   ```
+2. Para Manuel (CPT `miembro_junta` ID 137): API devolvió `featured_media: 291` apuntando a la foto VIEJA de marzo. `post.modified: 2026-03-21` (no se modificó hoy).
+3. Confirmé en `wp/v2/media` ordenado por fecha desc: única subida del día era **Javier Cerrajero**, no Manuel. Tampoco existía media nueva con "manuel" en el filename.
+4. Headers de la imagen: `Last-Modified: 21 Mar 2026` → el archivo nunca fue sobreescrito en uploads.
+
+**Conclusión:** No era caché del frontend ni de Next.js. El cambio nunca se guardó en WP. Posibles causas: olvido del botón "Actualizar", confusión de persona, o falló silenciosamente algún plugin.
+
+**Lección:** Antes de tirarse al frontend buscando caché o problemas de fetch GraphQL, validar la fuente de verdad (WP REST API). Si la API ya devuelve el valor viejo, el problema está en WP, no en el frontend.
+
+**Resolución:** Santi verificó en wp-admin que efectivamente no había guardado. Re-actualizó el campo. Frontend lo recogió en el siguiente revalidate (60s).
+
+---
+
+## 2026-05-13 — Alineación de tamaño de fotos en /el-colegio/junta-de-gobierno
+
+**Reporte:** Las fotos de Vocales Ejercientes y No Ejercientes se veían demasiado pequeñas vs las de Equipo Directivo.
+
+**Cambio (`687d45f`):** En `frontend/src/app/el-colegio/junta-de-gobierno/page.tsx`, en las secciones de Vocales (ejercientes + no ejercientes), igualar dimensiones:
+- `<Image width={56} height={56}>` → `width={80} height={80}` (igual que Equipo Directivo)
+- `className="h-14 w-14 ..."` → `"h-20 w-20 ..."`
+- `<AvatarPlaceholder size="sm">` → `size="md"`
+
+Deploy disparado. Verificación: 13 avatares en producción a 80×80 (1 presidenta + 3 directivos + 5 vocales ejercientes + 4 vocales no ejercientes).
+
+---
+
 ## 2026-05-13 — Limpieza estructural del repo: line endings, gitignore allowlist, reorganización
 
 **Origen:** Mientras iba a commitear el fix de 404 detecté que git status mostraba 170 archivos modificados, mayoría ruido CRLF↔LF, pero también mezclados con 79 deletions sin stagear y 87 untracked. El user pidió revisar uno por uno; con clasificación automática agrupé en bloques accionables.
