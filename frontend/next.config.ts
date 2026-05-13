@@ -14,6 +14,25 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/hazte-colegiado/ejercientes-libres',
+        destination: '/hazte-colegiado/colegiados',
+        permanent: true,
+      },
+      {
+        source: '/hazte-colegiado/ejercientes-empresa',
+        destination: '/hazte-colegiado/colegiados',
+        permanent: true,
+      },
+      {
+        source: '/hazte-colegiado/no-ejercientes',
+        destination: '/hazte-colegiado/colegiados',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
