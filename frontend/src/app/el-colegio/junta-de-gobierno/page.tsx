@@ -305,9 +305,9 @@ export default async function JuntaDeGobiernoPage() {
             {vocalesEjercientes.map((m) => (
               <Card key={m.nombre} className="flex items-center gap-4 py-5">
                 {m.foto ? (
-                  <Image src={m.foto} alt={m.nombre} width={56} height={56} className="h-14 w-14 flex-shrink-0 rounded-full object-cover" />
+                  <Image src={m.foto} alt={m.nombre} width={80} height={80} className="h-20 w-20 flex-shrink-0 rounded-full object-cover" />
                 ) : (
-                  <AvatarPlaceholder initials={m.initials} size="sm" />
+                  <AvatarPlaceholder initials={m.initials} size="md" />
                 )}
                 <div className="flex-1 min-w-0">
                   <h3 className="text-sm font-bold text-text">{m.nombre}</h3>
@@ -337,9 +337,9 @@ export default async function JuntaDeGobiernoPage() {
             {vocalesNoEjercientes.map((m) => (
               <Card key={m.nombre} className="flex items-center gap-4 py-5">
                 {m.foto ? (
-                  <Image src={m.foto} alt={m.nombre} width={56} height={56} className="h-14 w-14 flex-shrink-0 rounded-full object-cover" />
+                  <Image src={m.foto} alt={m.nombre} width={80} height={80} className="h-20 w-20 flex-shrink-0 rounded-full object-cover" />
                 ) : (
-                  <AvatarPlaceholder initials={m.initials} size="sm" />
+                  <AvatarPlaceholder initials={m.initials} size="md" />
                 )}
                 <div className="flex-1 min-w-0">
                   <h3 className="text-sm font-bold text-text">{m.nombre}</h3>
