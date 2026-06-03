@@ -197,7 +197,7 @@ export default function HazteColegiadoPage() {
             {/* Stats */}
             <div className="mt-12 flex items-center justify-center gap-8 sm:gap-12">
               <div>
-                <p className="text-3xl font-extrabold text-[#2563EB]">1.100+</p>
+                <p className="text-3xl font-extrabold text-[#2563EB]">+1.100</p>
                 <p className="text-xs text-[#6B7280]">Colegiados</p>
               </div>
               <div className="h-10 w-px bg-[#E2E8F0]" />

@@ -151,7 +151,7 @@ export function Hero({ slides = defaultSlides }: HeroProps) {
             {/* Social proof counter */}
             <div className="mt-6 flex items-center gap-6">
               <div>
-                <p className="text-2xl font-extrabold text-primary">1.100+</p>
+                <p className="text-2xl font-extrabold text-primary">+1.100</p>
                 <p className="text-xs text-text-tertiary">Colegiados activos</p>
               </div>
               <div className="h-8 w-px bg-border" />
