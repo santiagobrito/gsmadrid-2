@@ -20,16 +20,16 @@ import { createMetadata } from '@/lib/seo/metadata';
 export const metadata: Metadata = createMetadata({
   title: 'Transparencia',
   description:
-    'Memorias anuales, presupuestos, actas, estatutos, codigo deontologico y normativa del Colegio Oficial de Graduados Sociales de Madrid.',
+    'Memoria y cuentas anuales, presupuestos, actas, estatutos, codigo deontologico y normativa del Colegio Oficial de Graduados Sociales de Madrid.',
   path: '/el-colegio/transparencia',
 });
 
 const areas = [
   {
     icon: FileText,
-    title: 'Memorias Anuales',
+    title: 'Memoria y Cuentas Anuales',
     description:
-      'Resumen de actividades, datos de colegiacion, formacion impartida y resultados del ejercicio.',
+      'Memoria de actividades, cuentas anuales aprobadas y resultados del ejercicio del Colegio.',
     note: 'Disponible para colegiados',
   },
   {

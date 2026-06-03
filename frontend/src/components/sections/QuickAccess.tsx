@@ -38,7 +38,7 @@ const benefits = [
   'Bolsa de empleo exclusiva para colegiados',
   'Sala de Togas en Juzgados de lo Social',
   'Turno de Oficio y mediacion laboral',
-  'Red profesional de mas de 3.000 colegiados',
+  'Red profesional de mas de 1.100 colegiados',
   'Asesoramiento juridico y tecnico',
 ];
 
@@ -119,7 +119,7 @@ export function QuickAccess() {
 
               <p className="mt-5 text-lg font-light leading-relaxed text-[#94A3B8]">
                 Unete a la comunidad profesional mas grande de Graduados Sociales de Madrid.
-                Mas de 3.000 profesionales confian en nosotros.
+                Mas de 1.100 profesionales confian en nosotros.
               </p>
 
               {/* Benefits */}

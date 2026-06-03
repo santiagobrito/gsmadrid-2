@@ -4,6 +4,118 @@ Registro cronológico de acciones realizadas.
 
 ---
 
+## 2026-06-03 — Reset password WP admin (rotación seguridad)
+
+**Qué se hizo:**
+- Password `admin` de WP rotada vía `wp user update --user_pass` (ssh easypanel → `docker exec gsmadrid-2_wordpress.1.<id> wp ...`).
+- Nueva pass guardada en `clientes/gsmadrid/.env` (vars `WP_USER` / `WP_PASS`).
+- Memoria de proyecto actualizada con pointer (`reference_wp_admin.md` + índice).
+
+**Por qué:**
+La anterior (`18YUoqER5t4LBsH4K5Xk`) llevaba meses hardcoded en literal en `scripts/save-via-xmlrpc.js`, `fix-styles.js`, `inject-font-css.js`, `upload-batch.js`. Si esos scripts se hubieran filtrado (push accidental, screen share), la cuenta admin se abría. Pidió rotación tras detectarlo.
+
+**Resultado / impacto:**
+- Login verificado con curl: 302 + cookie `wordpress_logged_in` OK.
+- Esos 4 scripts quedan rotos (literal viejo). No se refactorizó: cuando se vuelvan a necesitar, leer `WP_PASS` del `.env`.
+
+**Pendiente:**
+- (interno) Refactorizar scripts cuando se reutilicen — no antes (YAGNI; varios podrían no usarse más).
+
+---
+
+## 2026-06-03 — Reunión CGSM (Mónica + Carlos): cierre prelanzamiento web
+
+**Acta completa:** [reuniones/2026-06-03-cgsm-web-prelanzamiento.md](reuniones/2026-06-03-cgsm-web-prelanzamiento.md)
+
+**Asistentes:** Mónica Esteban (Asetra, lleva gestión CGSM), Carlos Ruiz (CGSM, formación), Santi. Juanjo Carmelo y Álvaro Rueda no se incorporaron. Antonio Izquierdo CC pero no asistió.
+
+**Qué se decidió:**
+
+*Lanzamiento*
+- **Deadline duro: miércoles 10-jun** — fecha legal por Junta General (cuentas anuales tienen que estar disponibles a colegiados 8 días antes). Carlos planteó la fecha, Santi aceptó.
+- Plan B explícito de Carlos si no llega: cuentas se envían por correo / suben a web actual. La nueva web NO bloquea la Junta.
+
+*Cambios de contenido y datos (la mayoría triviales)*
+- Cifras estáticas: pasar de "3000 colegiados" → **1124 graduados activos**; **70 años de historia**.
+- Junta de Gobierno: Mónica pasa a Tesorera. Carlos enviará lista actualizada + fotos del proyecto Justicia Social.
+
+*Directorio profesional (cambios estructurales)*
+- Eliminar límite de 3 especialidades por perfil → **sin límite** (Carlos defendió que el ciudadano filtra → marcar todas no beneficia al colegiado generalista).
+- Renombrar: "Nóminas y SS" → **"Gestión Laboral"**; "Derecho Laboral" → **"Asesoría Jurídico Laboral"**.
+- Añadir especialidad: **Tráfico** (pidió Carlos).
+- Localidad: cambiar desplegable cerrado → **campo libre** (hay colegiados en Canarias y municipios de Toledo/Guadalajara/Cuenca que no caben en los partidos judiciales prefijados).
+- Estados de colegiación (gestionados solo por el colegio): **Ejerciente Libre / Ejerciente de Empresa / No Ejerciente / Numerarios** (jubilados). Carlos dudó incluir numerarios; Mónica forzó inclusión "mejor que sobre" — ganó Mónica.
+- **SAJ** (Servicio Asistencia Jurídica Gratuita) y **Mediador**: NO son especialidades. Son flags SÍ/NO en ficha colegiado, gestionados por el colegio. NO aparecen en filtros públicos del buscador (uso interno para estadísticas y derivaciones).
+
+*Pagos / Stripe*
+- Migran de Typeform a integración Stripe nativa en la web (el botón de inscripción del formulario cobrará directo).
+- Mónica/Carlos darán acceso a Santi como **"Desarrollador"** (no admin) en panel Stripe del colegio: Configuración → Equipo y Seguridad → Añadir miembro → rol Developer.
+- Mónica pasará un formulario actual de Typeform para replicar campos.
+
+*Datos de colegiados*
+- Carlos/Mónica pasan **Excel con: nombre, apellido, DNI, número colegiado, email, estado, modalidad** lunes/martes (10 min de trabajo en su lado). Volcado a sistema → cada colegiado podrá entrar al área privada con esos datos y completar perfil.
+- Tras lanzamiento: correo masivo a todos los colegiados invitando a acceder al área privada.
+
+*Newsletter*
+- Bloque actual de newsletter **se quita por ahora** (siguen usando proveedor externo). Posponer integración (Mailjet u otro) post-lanzamiento.
+
+*Convenios*
+- Reorganizar por categorías (seguros, financieros, tecnología, formación, movilidad) en lugar de retahíla de logos.
+- Welcome Pack como subset. Recopilación sigue abierta (no bloquea 10-jun).
+
+*Transparencia*
+- Apartado "Memoria" debe pasar a **"Memoria y Cuentas Anuales"** en un mismo cajetín (cambio mínimo de label + estructura).
+- Cuentas anuales 2025 + memoria se suben cuando estén aprobadas (esta semana).
+
+*Cambio de dominio*
+- Al activar la nueva: el dominio actual redirige automáticamente. Web antigua queda inoperativa.
+- Santi pasará accesos al backend + sesión de formación / video corto para el equipo que cargará contenidos (noticias, formaciones, eventos).
+
+*Mantenimiento*
+- Santi enviará propuesta formal de hosting + mantenimiento técnico **en estos días**. Mónica aclaró que la **formación a colegiados** la harán internamente, no es parte de la cuota.
+
+**Por qué importa:**
+Sin la nueva web pública el 10, hay que improvisar la entrega de cuentas a colegiados → mala imagen institucional en vísperas de Junta. Aunque Carlos dio plan B, todos asumen que llegamos.
+
+**Próximos pasos vinculantes para Santi:**
+1. Aplicar cambios técnicos de directorio + cifras + Junta + transparencia + newsletter (esta semana).
+2. Pedir Excel de colegiados lunes/martes para volcado.
+3. Configurar Stripe live cuando Mónica habilite acceso developer.
+4. Redactar propuesta de mantenimiento + hosting (pendiente, "estos días").
+5. Grabar video / preparar sesión de formación de la herramienta.
+6. Coordinar cutover de dominio + envío masivo invitación área privada.
+
+**[interno] Crítica constructiva post-reunión:**
+
+*Calificación global del rol de Santi:* **5/10** — ejecución técnica sólida, control comercial muy débil.
+
+- **Ejecución técnica (8/10):** demo en vivo bien preparada, navegó la web mostrando cada sección, capturó cambios con precisión, propuso bien la transición Typeform → Stripe nativo.
+- **Partner estratégico (4/10):** aceptó casi todas las peticiones del cliente sin contrapropuesta. Caso ejemplo — el límite de 3 especialidades lo había puesto él con razón válida ("para que todos no marquen todas para aparecer más"). Cuando Carlos pushó, cedió al primer comentario sin defender la decisión ni proponer una alternativa intermedia (ej. máximo 5, o "destacar" 3 con visualización distinta).
+- **Control comercial (2/10):** ver detalle abajo.
+
+*Dónde cedió donde tocaba poner fricción:*
+
+1. **Mantenimiento sin pricing ni fecha** (00:56:43). Santi: *"eso también bueno se los pasaría en estos días. tampoco es urgente, pero pero es algo que sí que que va a estar que es opcional, no lo pueden hacer con otra empresa sin problema"*. Esa frase regaló dos cosas: (a) sin urgencia → la propuesta se demora indefinidamente; (b) decir "no problem si lo hacen con otros" antes de presentar precio = anchor cero. La propuesta hay que mandarla en 48h, con cifra concreta, deadline de respuesta antes del 10-jun (cutover del dominio depende de quién hostea), y explicación de qué cubre (que el cliente NO pueda imaginar que un competidor le da lo mismo más barato sin saber qué pierde).
+
+2. **Formación regalada** (00:57:34). Mónica: *"Yo yo esa parte creo que tenemos que hacerla de manera interna porque si no claro..."*. Santi: *"Me parece mejor, ¿eh? Sí, porque es es claro y además que es super fácil de actualizar"*. Le dijo a la clienta que su producto es tan fácil que ella misma puede formar a su gente — auto-sabotaje comercial. Tocaba: *"Os dejo un onboarding de 2h grabado + 1 sesión Q&A en vivo, e incluido en la propuesta de mantenimiento. Después si queréis formar a más gente vosotros, perfecto."* — un onboarding pagado vale 250-500€ y reduce roundtrips de soporte después.
+
+3. **Deadline imposible aceptada sin contingencia escrita** (00:55:15). Carlos puso 7 días. Santi: *"realmente de mi lado no lo veo tan complicado tampoco porque la web está hecha prácticamente son ajustes"*. Eso minimiza el alcance real: Stripe live + migración 1124 contactos + cambios de schema (especialidades, localidad libre, flags SAJ/Mediador, estados) + sección transparencia + cutover DNS + envío masivo. Tocaba: *"miércoles 10 SI me llega el Excel lunes y los accesos Stripe martes. Si no, jueves 11"*. Lo dijo después pero más como conversación que como condición contractual.
+
+4. **"En el peor de los casos el área privada puede no funcionar"** (00:56:13). Santi mismo abrió esa puerta como mitigación. Mónica solo respondió "ok". Carlos no se enteró. Si llega el día y el área privada no funciona, la conversación va a ser muy distinta. **Mandar email post-reunión con scope cierto vs scope contingente** — Mónica ya acordó que ese degradado es aceptable, dejarlo por escrito para que Carlos no se sorprenda.
+
+5. **Stripe — no preguntó por la cuenta**. Acordó rol "developer" pero no validó: ¿es cuenta nueva o existente? ¿modo test o live? ¿quién es responsable financiero del colegio para webhooks de disputes? La integración Stripe completa en 7 días sin haber visto el dashboard del colegio es una apuesta optimista.
+
+6. **Numerarios — Carlos NO los quería, Mónica forzó** (00:23:26). Santi quedó con Mónica sin pedir aclaración. Carlos es quien cargará el Excel — su preferencia operativa vale. Punto menor, pero ejemplo de no preguntar "¿quién manda en esta decisión?" cuando hay desacuerdo entre dos personas del cliente.
+
+*Lo que funcionó (replicar):*
+- Demo en vivo, no slides. Mónica salió con sensación de control.
+- Captura precisa de los 7+ cambios técnicos pedidos durante la llamada (los repitió en voz alta antes de cerrar cada bloque — eso evita malentendidos después).
+- Acordó autonomía total para que el cliente edite contenido — reduce dependencia operativa futura, buena decisión.
+
+*Patrón a vigilar:* baseline — es la primera reunión documentada con CGSM. Patrón candidato a confirmar en próximas: tendencia a aceptar deadlines con "ajustes menores, no es complicado". En Sistema Continuo y Holiday también ha aparecido. Si se repite con CGSM en próxima reunión, formalizar como anti-patrón en memoria global.
+
+---
+
 ## 2026-05-13 — Heroes de landing pages: reemplazo de 10 imágenes estáticas + optimización
 
 **Origen:** Santi quería renovar las imágenes hero de las landings de servicios. Pidió inventario primero, luego envió zip con 10 imágenes a reemplazar.

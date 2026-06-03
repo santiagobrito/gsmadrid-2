@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Plus_Jakarta_Sans } from 'next/font/google';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
-import { Newsletter } from '@/components/sections/Newsletter';
 import { CookieBanner } from '@/components/layout/CookieBanner';
 import '@/styles/globals.css';
 
@@ -41,7 +40,6 @@ export default function RootLayout({
         </a>
         <Header />
         <main id="main-content" className="flex-1">{children}</main>
-        <Newsletter />
         <Footer />
         <CookieBanner />
       </body>

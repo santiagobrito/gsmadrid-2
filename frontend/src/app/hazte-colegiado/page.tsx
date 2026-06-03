@@ -182,7 +182,7 @@ export default function HazteColegiadoPage() {
             <p className="mt-6 text-lg font-light leading-relaxed text-[#475569]">
               Unete al Colegio Oficial de Graduados Sociales de Madrid.
               Asegura tu ejercicio profesional, accede a Lexnet y forma parte
-              de la red de mas de 3.000 expertos en Justicia Social.
+              de la red de mas de 1.100 expertos en Justicia Social.
             </p>
 
             <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
@@ -197,12 +197,12 @@ export default function HazteColegiadoPage() {
             {/* Stats */}
             <div className="mt-12 flex items-center justify-center gap-8 sm:gap-12">
               <div>
-                <p className="text-3xl font-extrabold text-[#2563EB]">3.000+</p>
+                <p className="text-3xl font-extrabold text-[#2563EB]">1.100+</p>
                 <p className="text-xs text-[#6B7280]">Colegiados</p>
               </div>
               <div className="h-10 w-px bg-[#E2E8F0]" />
               <div>
-                <p className="text-3xl font-extrabold text-[#2563EB]">50+</p>
+                <p className="text-3xl font-extrabold text-[#2563EB]">70+</p>
                 <p className="text-xs text-[#6B7280]">Anos de historia</p>
               </div>
               <div className="h-10 w-px bg-[#E2E8F0]" />

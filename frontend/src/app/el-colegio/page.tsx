@@ -33,7 +33,7 @@ const navCards = [
     icon: Eye,
     title: 'Transparencia',
     description:
-      'Memorias, presupuestos, actas, estatutos y normativa. Nuestro compromiso con el buen gobierno.',
+      'Memoria y cuentas anuales, presupuestos, actas, estatutos y normativa. Nuestro compromiso con el buen gobierno.',
     href: '/el-colegio/transparencia',
   },
   {

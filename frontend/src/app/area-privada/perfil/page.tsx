@@ -352,12 +352,12 @@ export default function PerfilPage() {
               <Card hover={false}>
                 <h2 className="mb-4 text-lg font-bold text-text">Especialidades y localidades</h2>
                 <p className="mb-4 text-xs text-text-tertiary">
-                  Selecciona hasta 3 especialidades y 3 localidades. Se mostraran en tu ficha del directorio.
+                  Marca tus especialidades y localidades. Se mostraran en tu ficha del directorio publico.
                 </p>
 
                 <div className="space-y-4">
                   <div>
-                    <label className={labelClass}>Especialidades (max. 3)</label>
+                    <label className={labelClass}>Especialidades</label>
                     <div className="flex flex-wrap gap-2 mb-2">
                       {especialidades.map((e) => (
                         <span
@@ -375,7 +375,7 @@ export default function PerfilPage() {
                         </span>
                       ))}
                     </div>
-                    {especialidades.length < 3 && allEspecialidades.filter((t) => !especialidades.includes(t)).length > 0 && (
+                    {allEspecialidades.filter((t) => !especialidades.includes(t)).length > 0 && (
                       <select
                         value=""
                         onChange={(ev) => {

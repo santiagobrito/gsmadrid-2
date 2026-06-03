@@ -39,6 +39,9 @@ wordpress/uploads/
 # Claude
 .claude/
 
+# Actas y notas internas de reuniones (info sensible y críticas internas)
+reuniones/
+
 # Scripts: allowlist only the tools worth keeping; everything else is one-shot
 scripts/*
 !scripts/deploy-auth-update.js
