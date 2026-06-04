@@ -4,6 +4,55 @@ Registro cronológico de acciones realizadas.
 
 ---
 
+## 2026-06-04 — Import de colegiados: curado CSV + auditoría WP + script
+
+**Qué se hizo:**
+
+*Curado del censo*
+- Recibido Excel "COLEGIADOS ACTUALIZADO JUNIO 2026" (1.138 graduados) de CGSM, convertido a CSV.
+- Auditoría de calidad: 1.040 emails válidos, 19 inválidos (texto basura), 77 vacíos, 2 corporativos compartidos → 98 placeholders `col-{N}@gsmadrid.local`. 0 duplicados de nº colegiado/DNI.
+- CSV curado generado: `data/clean/colegiados_clean.csv` (1.138 cuentas listas para import). Title case español con partículas (`de`, `del`, etc.) en minúscula, San/Santa en mayúscula, apellidos con guión correctos. Sin acentos (CSV original no los traía; el colegiado los corrige en onboarding).
+- Lista `data/clean/colegiados_accion_manual.csv` (98 casos a contactar offline).
+- Informe completo: `reports/colegiados_auditoria_2026-06-04.md`.
+
+*Modalidades confirmadas por CGSM:*
+- EL = Ejerciente Libre · EE = Ejerciente Empresa · NE = No Ejerciente · NU = Numerario (jubilado) · UN = typo de NU.
+- Derivación `ejerciente` (ACF bool): EL/EE → true; NE/NU → false.
+
+*Auditoría WP gsmadrid-2*
+- WP 7.0, ACF Pro 6.7, WPGraphQL 2.13 (update 2.15 disponible), tema custom `gsmadrid-headless` v1.0.0.
+- Modelo `profesional` ya montado: rol `profesional` + CPT con 18 campos ACF + vinculación bidireccional user↔CPT via meta `_profesional_post_id` / `_profesional_user_id`.
+- Hook `gsmadrid_link_user_profesional` crea CPT en `draft` automáticamente al `user_register`. Hace split del display_name (split por primer espacio) — bug que sortearemos sobreescribiendo ACF después.
+- Email de bienvenida (`gsmadrid_email_bienvenida_colegiado`) se dispara solo al pasar CPT a `publish`. Como nace en draft, **el import NO manda 1.138 emails**.
+- Sistema auth tokens custom (`_gsmadrid_auth_token`, base64 userID:timestamp:hash, 7d expiry, rate-limit 5/5min) + 5 endpoints REST en `/wp-json/gsmadrid/v1/`.
+- Snapshot del tema en `data/wp-theme-snapshot/` (no se commiteará).
+
+*Backup ACF Field Groups (BD-only)*
+- ACF JSON sync deshabilitado en `inc/acf.php`, carpeta `acf-json/` vacía → field groups solo en BD del WP. Si se reconstruye container sin restore SQL, se pierden.
+- Exportados los 5 grupos via `scripts/import/export_acf.php` (usa `acf_prepare_field_group_for_export()` con env var ACF_OUT_DIR): `group_profesional` (18 campos), `group_formacion` (27), `group_evento` (14), `group_miembro_junta` (9), `group_post_extra` (4). Guardados en `data/wp-theme-snapshot/acf-json/`. Restorable via WP Admin → ACF → Tools → Import.
+
+*Script de import*
+- Anterior `scripts/import-colegiados.js` archivado como `.old` (renombrado y con API key limpiada — antes hardcoded; problemas: username=email, output a `/code/import-result.txt` accesible por HTTP público con passwords en plano, sin tracking meta, sin log estructurado).
+- Nuevo en `scripts/import/`:
+  - `import_colegiados.py` (orquestador local): dry-run por defecto, `--apply` y `--limit N`, idempotente por `user_login=col-{nº}`.
+  - `worker.php` (corre dentro container): suprime emails (filtros + remove_action), crea user role `profesional`, espera CPT creado por hook, sobreescribe ACF con valores correctos del CSV, setea user meta de tracking (`gsmadrid_modalidad_original`, `gsmadrid_email_estado`, `gsmadrid_import_batch`, `gsmadrid_perfil_completado`).
+- Dry-run verificado: 1.138 filas a crear, 0 conflictos.
+
+**Por qué:**
+La web está a punto de lanzarse. CGSM quiere que el censo de 1.138 colegiados quede importado como cuentas latentes en WP — sin directorio público todavía, sin notificar a nadie. Tras lanzamiento se hará una campaña dedicada para que cada colegiado active su cuenta y complete su perfil (foto, despacho, etc.).
+
+**Resultado / impacto:**
+- Tooling completo y reusable. Próxima sesión basta con `python3 scripts/import/import_colegiados.py --apply --limit 5` para test, luego sin `--limit` para batch completo.
+- Backup ACF resuelve riesgo de pérdida si se reconstruye el container.
+- `.gitignore` actualizado: `data/` bloqueado (datos personales no van a Git), `scripts/import/` añadido a allowlist.
+
+**Pendiente / próximos pasos:**
+- [interno] Ejecutar `--apply --limit 5` y validar a ojo en wp-admin: user existe, CPT en draft, ACF correctos, sin email enviado. Después batch completo.
+- [interno] Confirmar formato definitivo del nº colegiado con CGSM ("85" puro vs "GD-85" como tenían los usuarios test). Asumido formato puro del censo.
+- Diseñar flow de la campaña de invitación post-lanzamiento (no urge — semanas después del go-live).
+
+---
+
 ## 2026-06-03 — Reset password WP admin (rotación seguridad)
 
 **Qué se hizo:**

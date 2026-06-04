@@ -36,6 +36,12 @@ npm-debug.log*
 # WordPress uploads (managed in production)
 wordpress/uploads/
 
+# Datos sensibles del cliente (DNI, teléfonos, emails de colegiados,
+# snapshots de tema con info técnica, logs de imports).
+# Para backup persistente: viven en el server `claude` (disco persistente),
+# fuera del repo, sin riesgo de leak en push accidental.
+data/
+
 # Claude
 .claude/
 
@@ -46,4 +52,4 @@ reuniones/
 scripts/*
 !scripts/deploy-auth-update.js
 !scripts/enable-wordfence-2fa.js
-!scripts/import-colegiados.js
+!scripts/import/
