@@ -84,10 +84,13 @@ export const GET_PROFESIONAL_BY_SLUG = gql`
 `;
 
 export const GET_PROFESIONAL_SLUGS = gql`
-  query GetProfesionalSlugs($first: Int = 100) {
+  query GetProfesionalSlugs($first: Int = 2000) {
     profesionales(first: $first) {
       nodes {
         slug
+        profesionalFields {
+          visibleDirectorio
+        }
       }
     }
   }

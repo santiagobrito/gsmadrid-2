@@ -35,12 +35,14 @@ interface ProfesionalBySlugResponse {
 }
 
 interface ProfesionalSlugsResponse {
-  profesionales: { nodes: { slug: string }[] };
+  profesionales: { nodes: { slug: string; profesionalFields: { visibleDirectorio: boolean } }[] };
 }
 
 async function getProfesional(slug: string): Promise<Profesional | null> {
   try {
     const data = await fetchGraphQL<ProfesionalBySlugResponse>(GET_PROFESIONAL_BY_SLUG, { slug });
+    // Only expose perfiles que han optado por el directorio público (RGPD)
+    if (!data.profesional?.profesionalFields?.visibleDirectorio) return null;
     return data.profesional;
   } catch {
     return null;
@@ -64,7 +66,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export async function generateStaticParams() {
   try {
     const data = await fetchGraphQL<ProfesionalSlugsResponse>(GET_PROFESIONAL_SLUGS);
-    return data.profesionales.nodes.map((p) => ({ slug: p.slug }));
+    return data.profesionales.nodes
+      .filter((p) => p.profesionalFields?.visibleDirectorio)
+      .map((p) => ({ slug: p.slug }));
   } catch {
     return [];
   }
