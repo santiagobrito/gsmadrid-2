@@ -312,6 +312,7 @@ export default async function FormacionDetailPage({ params }: PageProps) {
                   precioPrecolegiado={prices.precolegiado}
                   precioExterno={prices.externo}
                   modalidadesDisponibles={modalidadesDisponibles}
+                  stripePublishableKey={process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}
                 />
 
                 <ShareButtons title={formacion.title} />
