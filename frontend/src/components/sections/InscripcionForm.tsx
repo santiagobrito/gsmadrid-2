@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
-import { CheckCircle, Lock, ChevronRight, ChevronLeft, CreditCard, User, MapPin } from 'lucide-react';
+import { CheckCircle, Lock, ChevronRight, ChevronLeft, CreditCard, User, MapPin, AlertCircle, X } from 'lucide-react';
 
 // ============================================================
 // Types
@@ -79,6 +79,12 @@ export function InscripcionForm({
   const [error, setError] = useState<string | null>(null);
   const [plazasRestantes, setPlazasRestantes] = useState<number | null>(plazas ?? null);
 
+  // Retry-pago state (cuando el usuario vuelve de Stripe con ?pago=cancelado)
+  const [pagoCancelado, setPagoCancelado] = useState(false);
+  const [retryEmail, setRetryEmail] = useState('');
+  const [retrying, setRetrying] = useState(false);
+  const [retryError, setRetryError] = useState<string | null>(null);
+
   // Fetch real-time seat availability
   useEffect(() => {
     if (!formacionSlug) return;
@@ -87,6 +93,52 @@ export function InscripcionForm({
       .then(d => { if (d.success && d.restantes !== null) setPlazasRestantes(d.restantes); })
       .catch(() => {});
   }, [formacionSlug]);
+
+  // Detectar retorno de cancelación de Stripe via querystring
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('pago') === 'cancelado') {
+      setPagoCancelado(true);
+      const emailFromUrl = params.get('email') || '';
+      if (emailFromUrl) setRetryEmail(emailFromUrl);
+    }
+  }, []);
+
+  function dismissCancelBanner() {
+    setPagoCancelado(false);
+    setRetryError(null);
+    // Limpiar querystring para no re-mostrar al recargar
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href);
+      url.searchParams.delete('pago');
+      url.searchParams.delete('email');
+      window.history.replaceState({}, '', url.toString());
+    }
+  }
+
+  async function handleRetryPago() {
+    if (!retryEmail || !formacionSlug || retrying) return;
+    setRetrying(true);
+    setRetryError(null);
+    try {
+      const res = await fetch(`${WP_API}/wp-json/gsmadrid/v1/stripe/retry-session`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ formacion_slug: formacionSlug, email: retryEmail }),
+      });
+      const data = await res.json();
+      if (data.success && data.checkout_url) {
+        window.location.href = data.checkout_url;
+        return;
+      }
+      setRetryError(data.message || 'No pudimos retomar tu pago.');
+    } catch {
+      setRetryError('Error de conexion. Intentalo de nuevo.');
+    } finally {
+      setRetrying(false);
+    }
+  }
 
   // Derived state
   const isPast = fechaFin ? new Date(fechaFin) < new Date() : estado === 'Finalizada';
@@ -218,6 +270,50 @@ export function InscripcionForm({
           </Badge>
         )}
       </div>
+
+      {/* Banner: pago cancelado en Stripe (volviste con ?pago=cancelado) */}
+      {pagoCancelado && (
+        <div className="mb-4 rounded-xl border border-warning/30 bg-warning/5 p-3 relative">
+          <button
+            type="button"
+            onClick={dismissCancelBanner}
+            className="absolute top-2 right-2 text-text-tertiary hover:text-text"
+            aria-label="Cerrar"
+          >
+            <X size={16} />
+          </button>
+          <div className="flex items-start gap-2 pr-6">
+            <AlertCircle size={18} className="text-warning mt-0.5 flex-shrink-0" />
+            <div className="flex-1">
+              <p className="text-sm font-semibold text-text">Tu pago fue cancelado</p>
+              <p className="mt-1 text-xs text-text-secondary">
+                Tu inscripcion sigue reservada pero pendiente de pago. Introduce tu email para
+                retomar el pago donde lo dejaste. Si prefieres usar otro email, cierra este aviso
+                y completa el formulario debajo.
+              </p>
+              <div className="mt-3 flex flex-col gap-2 sm:flex-row">
+                <input
+                  type="email"
+                  value={retryEmail}
+                  onChange={e => setRetryEmail(e.target.value)}
+                  placeholder="tu@email.com"
+                  className="flex-1 rounded-lg border border-border bg-white px-3 py-2 text-sm text-text placeholder:text-text-tertiary focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                />
+                <Button
+                  variant="gradient"
+                  onClick={handleRetryPago}
+                  disabled={!retryEmail || retrying}
+                >
+                  {retrying ? 'Procesando...' : 'Reintentar pago'}
+                </Button>
+              </div>
+              {retryError && (
+                <p className="mt-2 text-xs text-red-600">{retryError}</p>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Step indicators */}
       <div className="mb-4 flex items-center justify-between">
