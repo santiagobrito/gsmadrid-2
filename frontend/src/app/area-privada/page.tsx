@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/Badge';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { login, isAuthenticated, getStoredUser, logout } from '@/lib/auth';
 import type { AuthUser } from '@/lib/auth';
-import { User, Settings, Eye, LogOut, BookOpen, FileText, Lock, GraduationCap, ArrowRight } from 'lucide-react';
+import { User, Eye, LogOut, BookOpen, FileText, Lock, GraduationCap, ArrowRight } from 'lucide-react';
 
 export default function AreaPrivadaPage() {
   const [user, setUser] = useState<AuthUser | null>(null);
@@ -135,18 +135,6 @@ export default function AreaPrivadaPage() {
                 <Button variant="outline" href="/el-colegio/transparencia" className="self-start text-sm">
                   Ver documentos
                 </Button>
-              </Card>
-
-              {/* Settings */}
-              <Card className="flex flex-col">
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-bg-alt">
-                  <Settings size={24} className="text-text-secondary" strokeWidth={1.5} />
-                </div>
-                <h3 className="mb-2 text-lg font-bold text-text">Configuracion</h3>
-                <p className="mb-4 flex-1 text-sm font-light text-text-secondary">
-                  Cambia tu contrasena, email y preferencias de comunicacion.
-                </p>
-                <Badge color="institutional">Proximamente</Badge>
               </Card>
 
               {/* CTA Colegiarse — solo precolegiados */}

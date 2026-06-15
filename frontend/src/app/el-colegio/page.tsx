@@ -116,12 +116,6 @@ export default function ElColegioPage() {
           </p>
         </div>
 
-        {/* Image placeholder */}
-        <div className="mt-12 flex aspect-video items-center justify-center rounded-2xl bg-[#F7F8FA] border border-[#E2E8F0]">
-          <p className="text-sm font-medium text-[#6B7280]">
-            Imagen de la nueva sede
-          </p>
-        </div>
         </Container>
       </section>
     </>

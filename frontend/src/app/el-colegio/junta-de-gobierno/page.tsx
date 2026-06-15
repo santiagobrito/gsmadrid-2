@@ -184,6 +184,19 @@ export default async function JuntaDeGobiernoPage() {
         </Container>
       </section>
 
+      {/* Empty state — si GraphQL no devuelve datos */}
+      {miembros.length === 0 && (
+        <section className="py-16">
+          <Container narrow>
+            <div className="rounded-2xl border border-border bg-bg-alt py-16 text-center">
+              <p className="text-text-tertiary">
+                Información de la Junta en preparación. Vuelve a consultarnos en unos días.
+              </p>
+            </div>
+          </Container>
+        </section>
+      )}
+
       {/* Presidenta — Featured */}
       {presidenta && (
         <section className="bg-bg-alt py-16">

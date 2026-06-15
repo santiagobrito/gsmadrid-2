@@ -144,7 +144,9 @@ export function FilteredFormaciones({ formaciones, title = 'Formacion y Eventos'
         ) : (
           <div className="py-16 text-center">
             <p className="text-text-tertiary">
-              No hay formaciones que coincidan con el filtro seleccionado.
+              {abiertas.length === 0
+                ? 'Actualmente no hay formaciones programadas. Vuelve a consultarnos en unos días.'
+                : 'No hay formaciones que coincidan con el filtro seleccionado.'}
             </p>
           </div>
         )}

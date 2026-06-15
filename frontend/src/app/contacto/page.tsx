@@ -167,7 +167,7 @@ export default function ContactoPage() {
           {/* Map */}
           <div className="mt-8 overflow-hidden rounded-xl border border-[#E2E8F0]">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3036.4!2d-3.6936!3d40.4367!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd42289c4a0a4f5d%3A0x1!2sC.%20de%20Jos%C3%A9%20Abascal%2C%2044%2C%2028003%20Madrid!5e0!3m2!1ses!2ses"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1500!2d-3.6944380!3d40.4380519!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sC.%20de%20Jos%C3%A9%20Abascal%2C%2044%2C%2028003%20Madrid!5e0!3m2!1ses!2ses"
               width="100%"
               height="300"
               style={{ border: 0 }}

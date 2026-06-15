@@ -144,7 +144,11 @@ export function FilteredEventos({ eventos }: FilteredEventosProps) {
           </div>
         ) : (
           <div className="py-16 text-center">
-            <p className="text-text-tertiary">No hay eventos para este filtro.</p>
+            <p className="text-text-tertiary">
+              {activos.length === 0
+                ? 'Actualmente no hay eventos programados. Vuelve a consultarnos en unos días.'
+                : 'No hay eventos para este filtro.'}
+            </p>
           </div>
         )}
 

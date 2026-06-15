@@ -1,4 +1,4 @@
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://gsmadrid.com';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://gsmadrid.uptomarketing.com';
 const SITE_NAME = 'Colegio Oficial de Graduados Sociales de Madrid';
 
 export function organizationSchema() {
@@ -21,13 +21,9 @@ export function organizationSchema() {
     email: 'admon@graduadosocialmadrid.org',
     geo: {
       '@type': 'GeoCoordinates',
-      latitude: 40.4367,
-      longitude: -3.6936,
+      latitude: 40.4380519,
+      longitude: -3.6944380,
     },
-    sameAs: [
-      'https://twitter.com/GSMadrid',
-      'https://www.linkedin.com/company/colegio-graduados-sociales-madrid',
-    ],
   };
 }
 
