@@ -54,6 +54,7 @@ export const FORMACION_FIELDS = gql`
       programa
       urlInscripcion
       estado
+      esDestacada
     }
   }
 `;

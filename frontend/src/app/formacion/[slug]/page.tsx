@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
-import { Calendar, Clock, MapPin, Users, ArrowLeft, BookOpen, Award } from 'lucide-react';
+import { Calendar, Clock, MapPin, Users, ArrowLeft, BookOpen } from 'lucide-react';
 import { PonentesGrid } from '@/components/sections/PonentesGrid';
 import { ShareButtons } from '@/components/sections/ShareButtons';
 import { Container } from '@/components/ui/Container';
@@ -233,18 +233,6 @@ export default async function FormacionDetailPage({ params }: PageProps) {
                     </div>
                   </div>
                 )}
-                {f.diploma?.emiteDiploma && (
-                  <div className="flex items-center gap-3">
-                    <Award size={20} strokeWidth={1.5} className="text-primary" />
-                    <div>
-                      <p className="text-xs font-semibold uppercase text-text-tertiary">Certificado</p>
-                      <p className="text-sm font-medium text-text">
-                        {f.diploma.entidadEmisora || 'Diploma del Colegio'}
-                        {f.diploma.horasConvalidables ? ` (${f.diploma.horasConvalidables}h)` : ''}
-                      </p>
-                    </div>
-                  </div>
-                )}
               </div>
 
               {formacion.featuredImage ? (
@@ -303,17 +291,31 @@ export default async function FormacionDetailPage({ params }: PageProps) {
             {/* Sidebar */}
             <div className="lg:col-span-1">
               <div className="sticky top-[102px] space-y-6">
-                <InscripcionForm
-                  formacionSlug={slug}
-                  estado={estado}
-                  plazas={f.plazas || 0}
-                  fechaFin={f.fechaFin || f.fechaInicio}
-                  precioColegiado={prices.colegiado}
-                  precioPrecolegiado={prices.precolegiado}
-                  precioExterno={prices.externo}
-                  modalidadesDisponibles={modalidadesDisponibles}
-                  stripePublishableKey={process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}
-                />
+                {f.urlInscripcion ? (
+                  <div className="rounded-2xl border border-primary/20 bg-primary/[0.02] p-6">
+                    <h3 className="mb-3 text-lg font-bold text-text">Inscripción</h3>
+                    <p className="mb-4 text-sm font-light text-text-secondary">
+                      La inscripción a esta formación se gestiona en una plataforma externa.
+                    </p>
+                    <a href={f.urlInscripcion} target="_blank" rel="noopener noreferrer">
+                      <Button variant="gradient" className="w-full">
+                        Inscribirse
+                      </Button>
+                    </a>
+                  </div>
+                ) : (
+                  <InscripcionForm
+                    formacionSlug={slug}
+                    estado={estado}
+                    plazas={f.plazas || 0}
+                    fechaFin={f.fechaFin || f.fechaInicio}
+                    precioColegiado={prices.colegiado}
+                    precioPrecolegiado={prices.precolegiado}
+                    precioExterno={prices.externo}
+                    modalidadesDisponibles={modalidadesDisponibles}
+                    stripePublishableKey={process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}
+                  />
+                )}
 
                 <ShareButtons title={formacion.title} />
               </div>

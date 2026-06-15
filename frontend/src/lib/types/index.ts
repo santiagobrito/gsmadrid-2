@@ -50,13 +50,6 @@ export interface Precio {
   nota?: string;
 }
 
-// Diploma fields
-export interface DiplomaFields {
-  emiteDiploma: boolean;
-  entidadEmisora?: string;
-  horasConvalidables?: number;
-}
-
 // Formacion fields
 export interface FormacionFields {
   fechaInicio: string;
@@ -72,7 +65,7 @@ export interface FormacionFields {
   programa?: string;
   urlInscripcion?: string;
   estado?: 'abierta' | 'cerrada' | 'completa' | 'cancelada';
-  diploma?: DiplomaFields;
+  esDestacada?: boolean;
 }
 
 // Formacion (evento formativo)
@@ -105,11 +98,19 @@ export interface ProfesionalFields {
   linkedin?: string;
   bio?: string;
   ejerciente: boolean;
+  modalidad?: 'ejerciente_libre' | 'ejerciente_empresa' | 'no_ejerciente' | 'numerario' | null;
   idiomas?: string[];
   aceptaTurnoOficio: boolean;
   mediadorRegistrado: boolean;
   visibleDirectorio: boolean;
 }
+
+export const MODALIDAD_LABEL: Record<NonNullable<ProfesionalFields['modalidad']>, string> = {
+  ejerciente_libre: 'Ejerciente Libre',
+  ejerciente_empresa: 'Ejerciente Empresa',
+  no_ejerciente: 'No Ejerciente',
+  numerario: 'Numerario',
+};
 
 // Profesional
 export interface Profesional extends WPNode {

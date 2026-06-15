@@ -293,9 +293,9 @@ export default async function EventoDetailPage({ params }: PageProps) {
                           </Button>
                         </a>
                       ) : (
-                        <Button variant="gradient" className="w-full">
-                          Inscribirse al evento
-                        </Button>
+                        <div className="rounded-lg border border-border bg-bg-alt px-4 py-3 text-center text-sm font-medium text-text-secondary">
+                          Inscripción próximamente
+                        </div>
                       )}
                     </>
                   ) : (

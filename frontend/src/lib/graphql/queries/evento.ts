@@ -40,6 +40,7 @@ export const EVENTO_FIELDS = gql`
         }
       }
       soloColegiados
+      esDestacada
     }
   }
 `;
