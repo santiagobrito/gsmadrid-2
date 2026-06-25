@@ -114,7 +114,7 @@ export default async function FormacionPage() {
         formaciones={formaciones}
         title="Formacion"
         subtitle="Jornadas, seminarios y talleres organizados por el Colegio. Inscripcion abierta para colegiados y publico general."
-        slugPrefix="/formacion"
+        slugPrefix="/formacion-eventos"
       />
     </>
   );
