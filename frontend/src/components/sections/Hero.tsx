@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
 import { ArrowRight, ChevronLeft, ChevronRight, Calendar, Megaphone, Pin } from 'lucide-react';
+import { COLEGIADOS_COUNT_DISPLAY, COLEGIADOS_COUNT_FRASE } from '@/lib/config/colegio';
 
 export interface HeroSlide {
   id: string;
@@ -20,47 +21,6 @@ export interface HeroSlide {
   image?: string;
 }
 
-// Placeholder slides — will be replaced with GraphQL data
-const defaultSlides: HeroSlide[] = [
-  {
-    id: '1',
-    type: 'destacado',
-    title: 'Jornada de Actualizacion Laboral 2026',
-    excerpt: 'Cambios clave en legislacion laboral y Seguridad Social para el ejercicio profesional.',
-    href: '/formacion-eventos/jornada-actualizacion-laboral-2026',
-    date: '28 Mar 2026',
-    pinned: true,
-    image: '/placeholder-news.svg',
-  },
-  {
-    id: '2',
-    type: 'noticia',
-    title: 'Nueva sede del Colegio en C/ Flora 1',
-    excerpt: 'El Colegio estrena nuevas instalaciones con sala de togas, biblioteca y espacios de coworking.',
-    href: '/actualidad/nueva-sede-colegio',
-    date: '20 Mar 2026',
-    image: '/placeholder-news.svg',
-  },
-  {
-    id: '3',
-    type: 'evento',
-    title: 'Webinar: Novedades en Seguridad Social',
-    excerpt: 'Repaso completo a las ultimas reformas y su impacto en el ambito laboral.',
-    href: '/formacion-eventos/webinar-seguridad-social',
-    date: '2 Abr 2026',
-    image: '/placeholder-news.svg',
-  },
-  {
-    id: '4',
-    type: 'noticia',
-    title: 'Convenio con la Universidad Complutense',
-    excerpt: 'Acuerdo de colaboracion para practicas y formacion continua de graduados sociales.',
-    href: '/actualidad/convenio-ucm',
-    date: '15 Mar 2026',
-    image: '/placeholder-news.svg',
-  },
-];
-
 const typeConfig = {
   noticia: { badge: 'institutional' as const, label: 'Noticia', icon: Megaphone },
   evento: { badge: 'eventos' as const, label: 'Evento', icon: Calendar },
@@ -72,16 +32,16 @@ interface HeroProps {
   slides?: HeroSlide[];
 }
 
-export function Hero({ slides = defaultSlides }: HeroProps) {
+export function Hero({ slides = [] }: HeroProps) {
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
 
-  // Sort: pinned first, then by date
   const sortedSlides = [...slides].sort((a, b) => {
     if (a.pinned && !b.pinned) return -1;
     if (!a.pinned && b.pinned) return 1;
     return 0;
   });
+  const hasSlides = sortedSlides.length > 0;
 
   const next = useCallback(() => {
     setCurrent((c) => (c + 1) % sortedSlides.length);
@@ -132,7 +92,7 @@ export function Hero({ slides = defaultSlides }: HeroProps) {
       />
 
       <Container className="relative flex min-h-[88vh] items-center py-20">
-        <div className="grid w-full grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
+        <div className={`grid w-full grid-cols-1 items-center gap-12 ${hasSlides ? 'lg:grid-cols-2 lg:gap-16' : ''}`}>
           {/* Left: Static content */}
           <div>
             <Badge color="colegio" className="mb-6 bg-[rgba(37,99,235,0.08)] text-primary">
@@ -144,14 +104,14 @@ export function Hero({ slides = defaultSlides }: HeroProps) {
             </h1>
 
             <p className="mt-6 max-w-[520px] text-lg font-light text-text-secondary">
-              Mas de 1.100 profesionales del ambito laboral confian en nosotros.
+              {COLEGIADOS_COUNT_FRASE.charAt(0).toUpperCase() + COLEGIADOS_COUNT_FRASE.slice(1)} profesionales del ambito laboral confian en nosotros.
               Formacion, empleo, asesoramiento y comunidad para impulsar tu carrera.
             </p>
 
             {/* Social proof counter */}
             <div className="mt-6 flex items-center gap-6">
               <div>
-                <p className="text-2xl font-extrabold text-primary">+1.100</p>
+                <p className="text-2xl font-extrabold text-primary">{COLEGIADOS_COUNT_DISPLAY}</p>
                 <p className="text-xs text-text-tertiary">Colegiados activos</p>
               </div>
               <div className="h-8 w-px bg-border" />
@@ -177,6 +137,7 @@ export function Hero({ slides = defaultSlides }: HeroProps) {
           </div>
 
           {/* Right: Dynamic slider */}
+          {hasSlides && (
           <div
             className="relative select-none"
             onMouseEnter={() => setPaused(true)}
@@ -290,6 +251,7 @@ export function Hero({ slides = defaultSlides }: HeroProps) {
               </div>
             )}
           </div>
+          )}
         </div>
       </Container>
     </section>

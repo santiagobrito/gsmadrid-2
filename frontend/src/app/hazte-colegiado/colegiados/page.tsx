@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/Button';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { ColegiacionForm } from '@/components/sections/ColegiacionForm';
 import { createMetadata } from '@/lib/seo/metadata';
+import { COLEGIADOS_COUNT_FRASE } from '@/lib/config/colegio';
 
 export const metadata = createMetadata({
   title: 'Colegiados — Modalidades de colegiacion',
@@ -72,7 +73,7 @@ const modalidades = [
     textColor: 'text-[#7C3AED]',
     highlights: [
       'Formacion especializada bonificada',
-      'Red profesional de mas de 1.100 colegiados',
+      `Red profesional de ${COLEGIADOS_COUNT_FRASE} colegiados`,
       'Asesoria juridico-tecnica',
       'Bolsa de empleo y oportunidades',
       'Sin obligacion de seguro de RC',
@@ -175,7 +176,7 @@ export default function ColegiadosPage() {
                   </div>
                   <div className="flex items-center gap-3">
                     <CheckCircle size={16} className="shrink-0 text-[#2563EB]" />
-                    <span className="text-sm text-[#475569]">Red de mas de 1.100 profesionales</span>
+                    <span className="text-sm text-[#475569]">Red de {COLEGIADOS_COUNT_FRASE} profesionales</span>
                   </div>
                 </div>
               </div>

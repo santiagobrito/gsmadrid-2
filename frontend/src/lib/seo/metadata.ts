@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 const SITE_NAME = 'Colegio Oficial de Graduados Sociales de Madrid';
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://gsmadrid.com';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://gsmadrid.uptomarketing.com';
 
 interface MetadataOptions {
   title: string;

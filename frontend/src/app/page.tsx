@@ -114,7 +114,7 @@ export default async function HomePage() {
     title: f.title,
     time: f.formacionFields?.horario || '',
     location: f.formacionFields?.lugar || '',
-    href: `/formacion/${f.slug}`,
+    href: `/formacion-eventos/${f.slug}`,
     type: 'formacion' as const,
   }));
 
@@ -142,7 +142,7 @@ export default async function HomePage() {
       time: f.formacionFields?.horario || '',
       location: f.formacionFields?.lugar || '',
       type: 'formacion',
-      href: `/formacion/${f.slug}`,
+      href: `/formacion-eventos/${f.slug}`,
       imageUrl: f.featuredImage?.node?.sourceUrl,
       sticky: false,
     })),
@@ -211,7 +211,7 @@ export default async function HomePage() {
       type: isHighlighted ? 'destacado' : 'formacion',
       title: f.title,
       excerpt: `${f.formacionFields?.horario || ''} · ${f.formacionFields?.lugar || 'Sede del Colegio'}`,
-      href: `/formacion/${f.slug}`,
+      href: `/formacion-eventos/${f.slug}`,
       date: fecha ? formatDate(fecha) : '',
       sortDate: fecha || f.date || '',
       image: f.featuredImage?.node?.sourceUrl,
@@ -272,7 +272,7 @@ export default async function HomePage() {
           __html: JSON.stringify(organizationSchema()),
         }}
       />
-      <Hero slides={heroSlides.length > 0 ? heroSlides : undefined} />
+      <Hero slides={heroSlides} />
       <QuickAccess />
 
       {/* Upcoming events — formaciones + eventos combined */}

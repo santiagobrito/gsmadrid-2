@@ -59,7 +59,6 @@ export interface FormacionFields {
   ponentes?: Ponente[];
   lugar?: string;
   plazas?: number;
-  tipoAcceso?: string;
   esGratuito: boolean;
   precios?: Precio[];
   programa?: string;
@@ -87,7 +86,6 @@ export interface ProfesionalFields {
   numeroColegiado: string;
   nombreCompleto: string;
   apellidos?: string;
-  dniNie?: string;
   foto?: FeaturedImage;
   despacho?: string;
   direccion?: string;

@@ -13,7 +13,6 @@ export const PROFESIONAL_FIELDS = gql`
       numeroColegiado
       nombreCompleto
       apellidos
-      dniNie
       foto {
         node {
           sourceUrl
@@ -33,6 +32,7 @@ export const PROFESIONAL_FIELDS = gql`
       linkedin
       bio
       ejerciente
+      modalidad
       idiomas
       aceptaTurnoOficio
       mediadorRegistrado

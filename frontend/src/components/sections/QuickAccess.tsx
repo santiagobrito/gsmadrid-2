@@ -3,6 +3,7 @@ import { Users, Shield, GraduationCap, Briefcase, BookOpen, Scale, ArrowRight, C
 import { Container } from '@/components/ui/Container';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
+import { COLEGIADOS_COUNT_FRASE } from '@/lib/config/colegio';
 
 // ============================================================
 // Top row: 3 quick-access cards (keep existing)
@@ -38,7 +39,7 @@ const benefits = [
   'Bolsa de empleo exclusiva para colegiados',
   'Sala de Togas en Juzgados de lo Social',
   'Turno de Oficio y mediacion laboral',
-  'Red profesional de mas de 1.100 colegiados',
+  `Red profesional de ${COLEGIADOS_COUNT_FRASE} colegiados`,
   'Asesoramiento juridico y tecnico',
 ];
 
@@ -119,7 +120,7 @@ export function QuickAccess() {
 
               <p className="mt-5 text-lg font-light leading-relaxed text-[#94A3B8]">
                 Unete a la comunidad profesional mas grande de Graduados Sociales de Madrid.
-                Mas de 1.100 profesionales confian en nosotros.
+                {' '}{COLEGIADOS_COUNT_FRASE.charAt(0).toUpperCase() + COLEGIADOS_COUNT_FRASE.slice(1)} profesionales confian en nosotros.
               </p>
 
               {/* Benefits */}

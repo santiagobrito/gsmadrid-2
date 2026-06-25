@@ -7,7 +7,7 @@ import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
-import { isAuthenticated, getStoredUser, fetchMe, updateProfile, uploadProfilePhoto } from '@/lib/auth';
+import { isAuthenticated, getStoredUser, fetchMe, updateProfile, uploadProfilePhoto, MODALIDAD_LABEL } from '@/lib/auth';
 import type { AuthUser, ProfesionalProfile } from '@/lib/auth';
 import Image from 'next/image';
 import { Save, ArrowLeft, Eye, EyeOff, CheckCircle, Camera, Loader2 } from 'lucide-react';
@@ -481,9 +481,9 @@ export default function PerfilPage() {
                 <h3 className="mb-3 text-base font-bold text-text">Estado</h3>
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-text-secondary">Ejerciente</span>
+                    <span className="text-sm text-text-secondary">Modalidad</span>
                     <Badge color={profile.ejerciente ? 'activo' : 'institutional'}>
-                      {profile.ejerciente ? 'Si' : 'No'}
+                      {profile.modalidad ? MODALIDAD_LABEL[profile.modalidad] : '—'}
                     </Badge>
                   </div>
                   <div className="flex items-center justify-between">

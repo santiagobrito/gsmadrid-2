@@ -26,11 +26,19 @@ export interface ProfesionalProfile {
   linkedin: string;
   bio: string;
   ejerciente: boolean;
+  modalidad: 'ejerciente_libre' | 'ejerciente_empresa' | 'no_ejerciente' | 'numerario' | null;
   idiomas: string;
   acepta_turno_oficio: boolean;
   mediador_registrado: boolean;
   visible_directorio: boolean;
 }
+
+export const MODALIDAD_LABEL = {
+  ejerciente_libre: 'Ejerciente Libre',
+  ejerciente_empresa: 'Ejerciente Empresa',
+  no_ejerciente: 'No Ejerciente',
+  numerario: 'Numerario',
+} as const;
 
 export interface LoginResponse {
   success: boolean;

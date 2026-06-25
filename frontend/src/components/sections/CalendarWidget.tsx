@@ -28,38 +28,6 @@ interface CalendarEvent {
   type?: 'formacion' | 'evento';
 }
 
-// Placeholder events — used as fallback if no data from GraphQL
-const fallbackEvents: CalendarEvent[] = [
-  {
-    date: '2026-03-28',
-    title: 'Jornada de Actualizacion Laboral',
-    time: '10:00-14:00',
-    location: 'Sede del Colegio',
-    href: '/formacion-eventos/jornada-actualizacion-laboral-2026',
-  },
-  {
-    date: '2026-04-02',
-    title: 'Webinar: Seguridad Social',
-    time: '17:00-19:00',
-    location: 'Online',
-    href: '/formacion-eventos/webinar-seguridad-social',
-  },
-  {
-    date: '2026-04-07',
-    title: 'Taller Mediacion y Arbitraje',
-    time: '09:00-14:00',
-    location: 'Sede del Colegio',
-    href: '/formacion-eventos/taller-mediacion-arbitraje',
-  },
-  {
-    date: '2026-04-15',
-    title: 'Taller IA Laboral',
-    time: '16:00-20:00',
-    location: 'Online',
-    href: '/formacion-eventos/taller-inteligencia-artificial-laboral',
-  },
-];
-
 const WEEKDAYS = ['L', 'M', 'X', 'J', 'V', 'S', 'D'];
 
 interface CalendarWidgetProps {
@@ -67,8 +35,8 @@ interface CalendarWidgetProps {
 }
 
 export function CalendarWidget({ events: eventsProp }: CalendarWidgetProps) {
-  const events = eventsProp && eventsProp.length > 0 ? eventsProp : fallbackEvents;
-  const [currentMonth, setCurrentMonth] = useState(new Date(2026, 2, 1)); // March 2026
+  const events = eventsProp ?? [];
+  const [currentMonth, setCurrentMonth] = useState(() => startOfMonth(new Date()));
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   const calendarDays = useMemo(() => {

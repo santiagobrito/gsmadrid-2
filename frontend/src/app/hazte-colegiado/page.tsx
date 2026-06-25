@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { createMetadata } from '@/lib/seo/metadata';
+import { COLEGIADOS_COUNT_DISPLAY, COLEGIADOS_COUNT_FRASE } from '@/lib/config/colegio';
 
 export const metadata = createMetadata({
   title: 'Hazte Colegiado — Inscripcion de Colegiados',
@@ -182,7 +183,7 @@ export default function HazteColegiadoPage() {
             <p className="mt-6 text-lg font-light leading-relaxed text-[#475569]">
               Unete al Colegio Oficial de Graduados Sociales de Madrid.
               Asegura tu ejercicio profesional, accede a Lexnet y forma parte
-              de la red de mas de 1.100 expertos en Justicia Social.
+              de la red de {COLEGIADOS_COUNT_FRASE} expertos en Justicia Social.
             </p>
 
             <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
@@ -197,7 +198,7 @@ export default function HazteColegiadoPage() {
             {/* Stats */}
             <div className="mt-12 flex items-center justify-center gap-8 sm:gap-12">
               <div>
-                <p className="text-3xl font-extrabold text-[#2563EB]">+1.100</p>
+                <p className="text-3xl font-extrabold text-[#2563EB]">{COLEGIADOS_COUNT_DISPLAY}</p>
                 <p className="text-xs text-[#6B7280]">Colegiados</p>
               </div>
               <div className="h-10 w-px bg-[#E2E8F0]" />

@@ -145,11 +145,11 @@ export default async function FormacionEventosPage() {
           estado,
           imageUrl: f.featuredImage?.node?.sourceUrl || undefined,
           extra: fields.esGratuito ? 'Gratuito' : fields.plazas ? `${fields.plazas} plazas` : undefined,
-          href: `/formacion/${f.slug}`,
+          href: `/formacion-eventos/${f.slug}`,
         };
         items.push(item);
         if (fechaInicio) {
-          calendarEvents.push({ date: toCalendarDate(fechaInicio), title: f.title, time: fields.horario || '', location: fields.lugar || 'Sede del Colegio', href: `/formacion/${f.slug}`, type: 'formacion' });
+          calendarEvents.push({ date: toCalendarDate(fechaInicio), title: f.title, time: fields.horario || '', location: fields.lugar || 'Sede del Colegio', href: `/formacion-eventos/${f.slug}`, type: 'formacion' });
         }
       }
     }

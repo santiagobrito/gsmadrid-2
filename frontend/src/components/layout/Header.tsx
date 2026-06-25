@@ -78,11 +78,6 @@ const MENU: MenuGroup[] = [
   {
     label: 'Actualidad',
     href: '/actualidad',
-    children: [
-      { label: 'Blog del Colegiado', href: '/actualidad' },
-      { label: 'Novedades Colegiales', href: '/actualidad' },
-      { label: 'Revista El Graduado', href: '/actualidad/revista' },
-    ],
   },
 ];
 

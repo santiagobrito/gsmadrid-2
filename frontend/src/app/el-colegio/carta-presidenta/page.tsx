@@ -115,7 +115,7 @@ export default function CartaPresidentaPage() {
                 <h2 className="text-2xl font-bold tracking-tight text-text sm:text-3xl">
                   Un Colegio a la altura de los tiempos
                 </h2>
-                <p className="mt-2 text-sm text-text-tertiary">Madrid, marzo de 2026</p>
+                <p className="mt-2 text-sm text-text-tertiary">Madrid, junio de 2026</p>
 
                 <p className="mt-6 italic text-text-secondary">
                   Estimados companeras y companeros:
