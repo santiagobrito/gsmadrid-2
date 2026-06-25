@@ -106,11 +106,12 @@ export function FilteredFormaciones({ formaciones, title = 'Formacion y Eventos'
                   </div>
 
                   <div className="flex flex-wrap items-center gap-2 mb-3">
+                    {f.estado === 'Finalizada' && <Badge color="institutional">Formación finalizada</Badge>}
                     <Badge color={f.modalidad === 'Online' ? 'eventos' : 'formacion'}>
                       {f.modalidad}
                     </Badge>
                     {f.esGratuito && <Badge color="activo">Gratuito</Badge>}
-                    {f.plazas > 0 && f.plazas <= 10 && (
+                    {f.estado !== 'Finalizada' && f.plazas > 0 && f.plazas <= 10 && (
                       <Badge color="pendiente">Ultimas plazas</Badge>
                     )}
                   </div>

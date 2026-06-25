@@ -82,7 +82,19 @@ export default async function FormacionPage() {
   try {
     const data = await fetchGraphQL<FormacionesResponse>(FORMACIONES_QUERY);
     if (data.formaciones?.nodes?.length > 0) {
-      formaciones = data.formaciones.nodes.map((f) => {
+      // Ordenar por la fecha REAL de la formación (no por la fecha de publicación del post):
+      // próximas primero (la más cercana arriba), finalizadas al final.
+      const now = Date.now();
+      const ts = (n: WpFormacionNode) =>
+        n.formacionFields?.fechaInicio ? new Date(n.formacionFields.fechaInicio).getTime() : 0;
+      const ordenadas = [...data.formaciones.nodes].sort((a, b) => {
+        const da = ts(a), db = ts(b);
+        const aPast = da > 0 && da < now, bPast = db > 0 && db < now;
+        if (aPast !== bPast) return aPast ? 1 : -1;       // próximas antes que pasadas
+        if (!aPast) return da - db;                        // próximas: la más cercana primero
+        return db - da;                                    // pasadas: la más reciente primero
+      });
+      formaciones = ordenadas.map((f) => {
         const fields = f.formacionFields || {} as NonNullable<WpFormacionNode['formacionFields']>;
         const fechaInicio = fields.fechaInicio || null;
         const lugar = fields.lugar || '';
