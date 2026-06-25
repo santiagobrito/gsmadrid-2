@@ -29,10 +29,28 @@ export const EVENTO_FIELDS = gql`
       tipoEvento
       estado
       plazas
+      horasLectivas
       requiereInscripcion
       urlInscripcion
       organizador
       programa
+      esGratuito
+      ponentes {
+        nombre
+        cargo
+        bio
+        foto {
+          node {
+            sourceUrl
+          }
+        }
+        linkedin
+      }
+      precios {
+        concepto
+        importe
+        nota
+      }
       documento {
         node {
           mediaItemUrl

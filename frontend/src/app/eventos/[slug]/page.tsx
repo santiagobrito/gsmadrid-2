@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
-import { Calendar, Clock, MapPin, Users, ArrowLeft, FileText } from 'lucide-react';
+import { Calendar, Clock, MapPin, Users, ArrowLeft, FileText, BookOpen } from 'lucide-react';
 import { PonentesGrid } from '@/components/sections/PonentesGrid';
 import { ShareButtons } from '@/components/sections/ShareButtons';
 import { Container } from '@/components/ui/Container';
@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
+import { InscripcionForm } from '@/components/sections/InscripcionForm';
 import { createMetadata } from '@/lib/seo/metadata';
 import { fetchGraphQL } from '@/lib/graphql/client';
 import { GET_EVENTO_BY_SLUG, GET_EVENTO_SLUGS } from '@/lib/graphql/queries/evento';
@@ -39,10 +40,12 @@ interface EventoNode {
     tipoEvento: string | string[] | null;
     estado: string | string[] | null;
     plazas: number | null;
+    horasLectivas: number | null;
     requiereInscripcion: boolean | null;
     urlInscripcion: string | null;
     organizador: string | null;
     programa: string | null;
+    esGratuito: boolean | null;
     documento: string | null;
     soloColegiados: boolean | null;
     ponentes?: {
@@ -52,6 +55,7 @@ interface EventoNode {
       foto?: { node: { sourceUrl: string } } | null;
       linkedin?: string;
     }[] | null;
+    precios?: { concepto: string; importe: number; nota?: string }[] | null;
   } | null;
 }
 
@@ -75,6 +79,48 @@ async function getEvento(slug: string): Promise<EventoNode | null> {
 function extractSelectValue(val: string | string[] | null): string {
   if (!val) return '';
   return Array.isArray(val) ? val[0] : val;
+}
+
+type InscripcionEstado = 'Abierta' | 'Completa' | 'Cancelada' | 'Finalizada';
+
+function mapEventoEstado(estadoRaw: string, isPast: boolean): InscripcionEstado {
+  if (isPast) return 'Finalizada';
+  const e = estadoRaw.toLowerCase();
+  if (e.includes('completo') || e.includes('completa')) return 'Completa';
+  if (e.includes('cancelado') || e.includes('cancelada')) return 'Cancelada';
+  if (e.includes('finalizado') || e.includes('finalizada')) return 'Finalizada';
+  return 'Abierta';
+}
+
+// Mismo criterio que formaciones: deriva precio por perfil desde el repeater ACF.
+// Los eventos no tienen modalidad (taxonomía propia de formaciones) → todo a 'presencial'.
+function extractPrices(precios?: { concepto: string; importe: number; nota?: string }[] | null) {
+  const zero = { presencial: 0, online: 0, hibrido: 0 };
+  if (!precios || precios.length === 0) return { colegiado: zero, precolegiado: zero, externo: zero };
+
+  function findPrice(profile: string): number | null {
+    const aliases: string[] = profile === 'externo'
+      ? ['externo', 'general', 'no colegiado']
+      : profile === 'precolegiado'
+        ? ['precolegiado', 'pre-colegiado', 'pre colegiado']
+        : ['colegiado'];
+    for (const alias of aliases) {
+      const match = precios!.find((pr) => (pr.concepto?.toLowerCase() || '').includes(alias));
+      if (match) return match.importe ?? 0;
+    }
+    return null;
+  }
+
+  function profilePrices(profile: string) {
+    const p = findPrice(profile) ?? 0;
+    return { presencial: p, online: p, hibrido: p };
+  }
+
+  return {
+    colegiado: profilePrices('colegiado'),
+    precolegiado: profilePrices('precolegiado'),
+    externo: profilePrices('externo'),
+  };
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -121,6 +167,9 @@ export default async function EventoDetailPage({ params }: PageProps) {
   const soloColegiados = f.soloColegiados || false;
   const requiereInscripcion = f.requiereInscripcion || false;
   const organizador = f.organizador || 'Colegio Oficial de Graduados Sociales de Madrid';
+  const esGratuito = f.esGratuito || false;
+  const prices = extractPrices(f.precios);
+  const inscripcionEstado = mapEventoEstado(estadoRaw, isPast);
 
   return (
     <>
@@ -146,6 +195,7 @@ export default async function EventoDetailPage({ params }: PageProps) {
                     <Users size={10} className="mr-1" /> Solo colegiados
                   </Badge>
                 )}
+                {esGratuito && <Badge color="eventos">Gratuito</Badge>}
               </div>
 
               <h1 className="text-3xl font-extrabold tracking-tight text-text sm:text-4xl">
@@ -187,6 +237,15 @@ export default async function EventoDetailPage({ params }: PageProps) {
                     <div>
                       <p className="text-xs font-semibold uppercase text-text-tertiary">Aforo</p>
                       <p className="text-sm font-medium text-text">{f.plazas} personas</p>
+                    </div>
+                  </div>
+                )}
+                {f.horasLectivas != null && f.horasLectivas > 0 && (
+                  <div className="flex items-center gap-3">
+                    <BookOpen size={20} strokeWidth={1.5} className="text-primary" />
+                    <div>
+                      <p className="text-xs font-semibold uppercase text-text-tertiary">Duracion</p>
+                      <p className="text-sm font-medium text-text">{f.horasLectivas} horas lectivas</p>
                     </div>
                   </div>
                 )}
@@ -268,45 +327,50 @@ export default async function EventoDetailPage({ params }: PageProps) {
             <div className="lg:col-span-1">
               <div className="sticky top-[102px] space-y-6">
                 {/* Registration / Status */}
-                <Card hover={false} className={isPast ? 'border-border bg-bg-alt' : 'border-primary/20 bg-primary/[0.02]'}>
-                  {isPast ? (
-                    <>
-                      <div className="mb-3 flex items-center gap-2">
-                        <Badge color="institutional">Evento finalizado</Badge>
-                      </div>
-                      <p className="text-sm font-light text-text-tertiary">
-                        Este evento ya ha tenido lugar.
-                      </p>
-                    </>
-                  ) : requiereInscripcion ? (
-                    <>
-                      <h3 className="mb-3 text-lg font-bold text-text">Inscripcion</h3>
-                      <p className="mb-4 text-sm font-light text-text-secondary">
-                        {soloColegiados
-                          ? 'Evento exclusivo para colegiados del CGSM.'
-                          : 'Abierto a colegiados y publico general.'}
-                      </p>
-                      {f.urlInscripcion ? (
-                        <a href={f.urlInscripcion} target="_blank" rel="noopener noreferrer">
-                          <Button variant="gradient" className="w-full">
-                            Inscribirse al evento
-                          </Button>
-                        </a>
-                      ) : (
-                        <div className="rounded-lg border border-border bg-bg-alt px-4 py-3 text-center text-sm font-medium text-text-secondary">
-                          Inscripción próximamente
-                        </div>
-                      )}
-                    </>
-                  ) : (
-                    <>
-                      <h3 className="mb-3 text-lg font-bold text-text">Evento abierto</h3>
-                      <p className="text-sm font-light text-text-secondary">
-                        No requiere inscripcion previa. Acceso libre hasta completar aforo.
-                      </p>
-                    </>
-                  )}
-                </Card>
+                {isPast ? (
+                  <Card hover={false} className="border-border bg-bg-alt">
+                    <div className="mb-3 flex items-center gap-2">
+                      <Badge color="institutional">Evento finalizado</Badge>
+                    </div>
+                    <p className="text-sm font-light text-text-tertiary">
+                      Este evento ya ha tenido lugar.
+                    </p>
+                  </Card>
+                ) : requiereInscripcion && !f.urlInscripcion ? (
+                  /* Inscripción por web (con pago Stripe si tiene precio), igual que formaciones */
+                  <InscripcionForm
+                    formacionSlug={slug}
+                    estado={inscripcionEstado}
+                    plazas={f.plazas || 0}
+                    fechaFin={f.fechaFin || f.fechaInicio || undefined}
+                    precioColegiado={prices.colegiado}
+                    precioPrecolegiado={prices.precolegiado}
+                    precioExterno={prices.externo}
+                    modalidadesDisponibles={['presencial']}
+                    stripePublishableKey={process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}
+                  />
+                ) : requiereInscripcion && f.urlInscripcion ? (
+                  <Card hover={false} className="border-primary/20 bg-primary/[0.02]">
+                    <h3 className="mb-3 text-lg font-bold text-text">Inscripcion</h3>
+                    <p className="mb-4 text-sm font-light text-text-secondary">
+                      {soloColegiados
+                        ? 'Evento exclusivo para colegiados del CGSM.'
+                        : 'Abierto a colegiados y publico general.'}
+                    </p>
+                    <a href={f.urlInscripcion} target="_blank" rel="noopener noreferrer">
+                      <Button variant="gradient" className="w-full">
+                        Inscribirse al evento
+                      </Button>
+                    </a>
+                  </Card>
+                ) : (
+                  <Card hover={false} className="border-primary/20 bg-primary/[0.02]">
+                    <h3 className="mb-3 text-lg font-bold text-text">Evento abierto</h3>
+                    <p className="text-sm font-light text-text-secondary">
+                      No requiere inscripcion previa. Acceso libre hasta completar aforo.
+                    </p>
+                  </Card>
+                )}
 
                 {/* Organizer */}
                 <Card hover={false}>
