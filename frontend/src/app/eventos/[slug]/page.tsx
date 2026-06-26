@@ -45,7 +45,6 @@ interface EventoNode {
     urlInscripcion: string | null;
     organizador: string | null;
     programa: string | null;
-    esGratuito: boolean | null;
     documento: string | null;
     soloColegiados: boolean | null;
     ponentes?: {
@@ -144,7 +143,8 @@ export default async function EventoDetailPage({ params }: PageProps) {
   const soloColegiados = f.soloColegiados || false;
   const requiereInscripcion = f.requiereInscripcion || false;
   const organizador = f.organizador || 'Colegio Oficial de Graduados Sociales de Madrid';
-  const esGratuito = f.esGratuito || false;
+  // Gratis = los 3 precios en 0 (ya no hay toggle "es gratuito").
+  const esGratuito = !(Number(f.precioColegiado) || 0) && !(Number(f.precioPrecolegiado) || 0) && !(Number(f.precioExterno) || 0);
   const prices = {
     colegiado: toModalidades(f.precioColegiado),
     precolegiado: toModalidades(f.precioPrecolegiado),

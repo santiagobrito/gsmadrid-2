@@ -59,7 +59,6 @@ export interface FormacionFields {
   ponentes?: Ponente[];
   lugar?: string;
   plazas?: number;
-  esGratuito: boolean;
   precioColegiado?: number | null;
   precioPrecolegiado?: number | null;
   precioExterno?: number | null;

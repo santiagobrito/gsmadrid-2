@@ -44,7 +44,6 @@ export const FORMACION_FIELDS = gql`
       }
       lugar
       plazas
-      esGratuito
       precioColegiado
       precioPrecolegiado
       precioExterno

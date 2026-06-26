@@ -111,6 +111,8 @@ export default async function FormacionDetailPage({ params }: PageProps) {
     precolegiado: toModalidades(f.precioPrecolegiado),
     externo: toModalidades(f.precioExterno),
   };
+  // Gratis = los 3 precios en 0 (ya no hay toggle "es gratuito").
+  const esGratuito = !prices.colegiado.presencial && !prices.precolegiado.presencial && !prices.externo.presencial;
   const isPast = estado === 'Finalizada' || estado === 'Completa' || estado === 'Cancelada';
 
   const fechaDisplay = f.fechaInicio
@@ -139,7 +141,7 @@ export default async function FormacionDetailPage({ params }: PageProps) {
                 <Badge color={isPast ? 'pendiente' : 'activo'}>
                   {estado}
                 </Badge>
-                {f.esGratuito && <Badge color="eventos">Gratuito</Badge>}
+                {esGratuito && <Badge color="eventos">Gratuito</Badge>}
               </div>
 
               <h1 className="text-3xl font-extrabold tracking-tight text-text sm:text-4xl">

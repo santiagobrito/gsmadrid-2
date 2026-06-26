@@ -28,7 +28,9 @@ const FORMACIONES_QUERY = `{
         horario
         lugar
         plazas
-        esGratuito
+        precioColegiado
+        precioPrecolegiado
+        precioExterno
         estado
       }
     }
@@ -67,7 +69,9 @@ interface WpFormacionNode {
     horario: string | null;
     lugar: string | null;
     plazas: number | null;
-    esGratuito: boolean | null;
+    precioColegiado: number | null;
+    precioPrecolegiado: number | null;
+    precioExterno: number | null;
     estado: string | string[] | null;
   } | null;
 }
@@ -110,7 +114,7 @@ export default async function FormacionPage() {
           modalidad: determineModalidad(lugar),
           estado: determineEstado(fields.estado, fechaInicio),
           plazas: fields.plazas || 0,
-          esGratuito: fields.esGratuito || false,
+          esGratuito: !(Number(fields.precioColegiado) || 0) && !(Number(fields.precioPrecolegiado) || 0) && !(Number(fields.precioExterno) || 0),
           imageUrl: f.featuredImage?.node?.sourceUrl || undefined,
         };
       });

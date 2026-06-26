@@ -31,7 +31,9 @@ const AGENDA_QUERY = `{
         horario
         lugar
         plazas
-        esGratuito
+        precioColegiado
+        precioPrecolegiado
+        precioExterno
         estado
       }
     }
@@ -76,7 +78,9 @@ interface WpFormacionNode {
     horario: string | null;
     lugar: string | null;
     plazas: number | null;
-    esGratuito: boolean | null;
+    precioColegiado: number | null;
+    precioPrecolegiado: number | null;
+    precioExterno: number | null;
     estado: string | null;
   } | null;
 }
@@ -144,7 +148,7 @@ export default async function FormacionEventosPage() {
           type: 'formacion',
           estado,
           imageUrl: f.featuredImage?.node?.sourceUrl || undefined,
-          extra: fields.esGratuito ? 'Gratuito' : fields.plazas ? `${fields.plazas} plazas` : undefined,
+          extra: (!(Number(fields.precioColegiado) || 0) && !(Number(fields.precioPrecolegiado) || 0) && !(Number(fields.precioExterno) || 0)) ? 'Gratuito' : fields.plazas ? `${fields.plazas} plazas` : undefined,
           href: `/formacion-eventos/${f.slug}`,
         };
         items.push(item);

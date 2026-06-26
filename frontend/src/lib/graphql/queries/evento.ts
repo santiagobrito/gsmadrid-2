@@ -34,7 +34,6 @@ export const EVENTO_FIELDS = gql`
       urlInscripcion
       organizador
       programa
-      esGratuito
       ponentes {
         nombre
         cargo
