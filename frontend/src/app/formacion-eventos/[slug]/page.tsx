@@ -90,49 +90,10 @@ function determineEstado(estado?: string | null, fechaInicio?: string | null): F
   return 'Abierta';
 }
 
-function extractPrices(precios?: { concepto: string; importe: number; nota?: string }[] | null) {
-  const defaults = { presencial: 0, online: 0, hibrido: 0 };
-  if (!precios || precios.length === 0) return { colegiado: defaults, precolegiado: defaults, externo: defaults };
-
-  function findPrice(profile: string, modality: string): number | null {
-    const profileAliases: string[] = profile === 'externo'
-      ? ['externo', 'general', 'no colegiado']
-      : profile === 'precolegiado'
-        ? ['precolegiado', 'pre-colegiado', 'pre colegiado']
-        : [profile];
-
-    for (const alias of profileAliases) {
-      const exact = precios!.find((pr) => {
-        const c = pr.concepto?.toLowerCase() || '';
-        return c.includes(alias) && c.includes(modality);
-      });
-      if (exact) return exact.importe ?? 0;
-    }
-
-    for (const alias of profileAliases) {
-      const fallback = precios!.find((pr) => {
-        const c = pr.concepto?.toLowerCase() || '';
-        return c.includes(alias) && !c.includes('presencial') && !c.includes('online') && !c.includes('híbrido') && !c.includes('hibrido');
-      });
-      if (fallback) return fallback.importe ?? 0;
-    }
-
-    return null;
-  }
-
-  function profilePrices(profile: string) {
-    return {
-      presencial: findPrice(profile, 'presencial') ?? findPrice(profile, '') ?? 0,
-      online: findPrice(profile, 'online') ?? findPrice(profile, '') ?? 0,
-      hibrido: findPrice(profile, 'híbrido') ?? findPrice(profile, 'hibrido') ?? findPrice(profile, '') ?? 0,
-    };
-  }
-
-  return {
-    colegiado: profilePrices('colegiado'),
-    precolegiado: profilePrices('precolegiado'),
-    externo: profilePrices('externo'),
-  };
+// Precio fijo por perfil (mismo importe para todas las modalidades).
+function toModalidades(v?: number | null) {
+  const n = Number(v) || 0;
+  return { presencial: n, online: n, hibrido: n };
 }
 
 export default async function FormacionDetailPage({ params }: PageProps) {
@@ -145,7 +106,11 @@ export default async function FormacionDetailPage({ params }: PageProps) {
   const modalidadNames = getModalidades(formacion.modalidades?.nodes);
   const modalidadesDisponibles = getModalidadesDisponibles(formacion.modalidades?.nodes);
   const estado = determineEstado(f.estado, f.fechaInicio);
-  const prices = extractPrices(f.precios);
+  const prices = {
+    colegiado: toModalidades(f.precioColegiado),
+    precolegiado: toModalidades(f.precioPrecolegiado),
+    externo: toModalidades(f.precioExterno),
+  };
   const isPast = estado === 'Finalizada' || estado === 'Completa' || estado === 'Cancelada';
 
   const fechaDisplay = f.fechaInicio

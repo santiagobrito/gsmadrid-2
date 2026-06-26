@@ -60,7 +60,9 @@ export interface FormacionFields {
   lugar?: string;
   plazas?: number;
   esGratuito: boolean;
-  precios?: Precio[];
+  precioColegiado?: number | null;
+  precioPrecolegiado?: number | null;
+  precioExterno?: number | null;
   programa?: string;
   urlInscripcion?: string;
   estado?: 'abierta' | 'cerrada' | 'completa' | 'cancelada';

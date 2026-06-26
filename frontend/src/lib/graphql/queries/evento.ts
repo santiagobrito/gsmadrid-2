@@ -46,11 +46,9 @@ export const EVENTO_FIELDS = gql`
         }
         linkedin
       }
-      precios {
-        concepto
-        importe
-        nota
-      }
+      precioColegiado
+      precioPrecolegiado
+      precioExterno
       documento {
         node {
           mediaItemUrl

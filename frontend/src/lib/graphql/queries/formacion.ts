@@ -45,11 +45,9 @@ export const FORMACION_FIELDS = gql`
       lugar
       plazas
       esGratuito
-      precios {
-        concepto
-        importe
-        nota
-      }
+      precioColegiado
+      precioPrecolegiado
+      precioExterno
       programa
       urlInscripcion
       estado

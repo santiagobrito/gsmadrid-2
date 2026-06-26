@@ -55,7 +55,9 @@ interface EventoNode {
       foto?: { node: { sourceUrl: string } } | null;
       linkedin?: string;
     }[] | null;
-    precios?: { concepto: string; importe: number; nota?: string }[] | null;
+    precioColegiado?: number | null;
+    precioPrecolegiado?: number | null;
+    precioExterno?: number | null;
   } | null;
 }
 
@@ -92,35 +94,10 @@ function mapEventoEstado(estadoRaw: string, isPast: boolean): InscripcionEstado 
   return 'Abierta';
 }
 
-// Mismo criterio que formaciones: deriva precio por perfil desde el repeater ACF.
-// Los eventos no tienen modalidad (taxonomía propia de formaciones) → todo a 'presencial'.
-function extractPrices(precios?: { concepto: string; importe: number; nota?: string }[] | null) {
-  const zero = { presencial: 0, online: 0, hibrido: 0 };
-  if (!precios || precios.length === 0) return { colegiado: zero, precolegiado: zero, externo: zero };
-
-  function findPrice(profile: string): number | null {
-    const aliases: string[] = profile === 'externo'
-      ? ['externo', 'general', 'no colegiado']
-      : profile === 'precolegiado'
-        ? ['precolegiado', 'pre-colegiado', 'pre colegiado']
-        : ['colegiado'];
-    for (const alias of aliases) {
-      const match = precios!.find((pr) => (pr.concepto?.toLowerCase() || '').includes(alias));
-      if (match) return match.importe ?? 0;
-    }
-    return null;
-  }
-
-  function profilePrices(profile: string) {
-    const p = findPrice(profile) ?? 0;
-    return { presencial: p, online: p, hibrido: p };
-  }
-
-  return {
-    colegiado: profilePrices('colegiado'),
-    precolegiado: profilePrices('precolegiado'),
-    externo: profilePrices('externo'),
-  };
+// Precio fijo por perfil (mismo importe para todas las modalidades).
+function toModalidades(v?: number | null) {
+  const n = Number(v) || 0;
+  return { presencial: n, online: n, hibrido: n };
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -168,7 +145,11 @@ export default async function EventoDetailPage({ params }: PageProps) {
   const requiereInscripcion = f.requiereInscripcion || false;
   const organizador = f.organizador || 'Colegio Oficial de Graduados Sociales de Madrid';
   const esGratuito = f.esGratuito || false;
-  const prices = extractPrices(f.precios);
+  const prices = {
+    colegiado: toModalidades(f.precioColegiado),
+    precolegiado: toModalidades(f.precioPrecolegiado),
+    externo: toModalidades(f.precioExterno),
+  };
   const inscripcionEstado = mapEventoEstado(estadoRaw, isPast);
 
   return (
